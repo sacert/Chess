@@ -9,7 +9,7 @@ public class Main {
             {" "," "," "," "," "," "," "," "},
             {" "," "," "," "," "," "," "," "},
             {" "," "," "," "," "," "," "," "},
-            {" "," "," "," "," "," "," "," "},
+            {" "," "," ","A"," "," "," "," "},
             {"P","P","P","P","P","P","P","P"},
             {"R","k","B","Q","A","B","K","R"}};
    
@@ -92,16 +92,17 @@ public class Main {
         		try {
 	        		if(Character.isLowerCase(chessBoard[r-1+j/3][c-1+j%3].charAt(0)) || " ".equals(chessBoard[r-1+j/3][c-1+j%3])) {
 	        			oldPiece = chessBoard[r-1+j/3][c-1+j%3];
-	        			chessBoard[r][c] = "";
-	        			chessBoard[r-1+j/3][c-1+j%3] = "A";
+	        			// dont think these do anything
+	        			//chessBoard[r][c] = "";
+	        			//chessBoard[r-1+j/3][c-1+j%3] = "A";
 	        			kingPositionC = i+(j/3) * 8 + j%3 - 9;
 	        			int kingTemp = kingPositionC;
 	        			if(kingsSafe()) {
 	        				System.out.println(r + " " + c + " " +  (r-1+j/3) + " " + (c-1+j%3) + " " + oldPiece);
 	        				list = list + r + c + (r-1+j/3) + (c-1+j%3) + oldPiece;
 	        			}
-	        			chessBoard[r][c] = "A";
-	        			chessBoard[r-1+j/3][c-1+j%3] = oldPiece;
+	        			//chessBoard[r][c] = "A";
+	        			//chessBoard[r-1+j/3][c-1+j%3] = oldPiece;
 	        			kingPositionC = kingTemp;
 	        		}
         		} catch(Exception e) {}
