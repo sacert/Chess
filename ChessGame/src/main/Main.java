@@ -110,7 +110,8 @@ public class Main {
         String list = "";
         return list;
     }
-
+    
+    // can change the for loop to be two-dimensional to make it look nicer 
     public static String possibleR(int i) {
         String list = "";
         int r = i/8, c = i%8;
