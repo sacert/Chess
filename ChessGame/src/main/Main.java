@@ -9,7 +9,7 @@ public class Main {
             {" "," "," "," "," "," "," "," "},
             {" "," "," "," "," "," "," "," "},
             {" "," "," "," "," "," "," "," "},
-            {" "," "," ","A"," "," "," "," "},
+            {" "," "," "," "," "," "," "," "},
             {"P","P","P","P","P","P","P","P"},
             {"R","k","B","Q","A","B","K","R"}};
    
@@ -19,7 +19,7 @@ public class Main {
     	
     	System.out.println(possibleMoves());
         displayBoard(chessBoard);
-        makeMove("5040 ");
+        makeMove("6040 ");
         displayBoard(chessBoard);
     }
     
@@ -60,6 +60,49 @@ public class Main {
 
     public static String possibleP(int i) {
         String list = "";
+        int r = i/8, c = i%8;
+        
+        // for all possible moves, move up one unity (two if starting), 'attack' on the top right or top left position
+        for(int j= 0; j < 3; j++) {
+        	
+        	// possibility for when just moving forward
+        	if(j == 1) {
+        		
+        		// at the starting position of the white pawns
+        		if(r == 6) {
+        			try {
+        				
+        				// may move two spaces forward
+		        		if(" ".equals(chessBoard[r-2+j/3][c-1+j%3])){
+	        				list = list + r + c + (r-2+j/3) + (c-1+j%3) + " ";
+		        		}
+		        		
+		        		// or one space forward
+		        		if(" ".equals(chessBoard[r-1+j/3][c-1+j%3])){
+	        				list = list + r + c + (r-1+j/3) + (c-1+j%3) + " ";
+        				}
+        			} catch(Exception e) {}
+        		}
+        		else { // when not in starting position
+        			try {
+        				
+        				// one space forward
+        				if(" ".equals(chessBoard[r-1+j/3][c-1+j%3])){
+	        				list = list + r + c + (r-1+j/3) + (c-1+j%3) + " ";
+        				}
+	        		} catch(Exception e) {}
+        		}
+        	}
+        	else { // j = 0 or 2 ('attacking')
+        		try {
+        			
+        			// if black piece, take it
+	        		if(Character.isLowerCase(chessBoard[r-1+j/3][c-1+j%3].charAt(0))) {
+	        			list = list + r + c + (r-1+j/3) + (c-1+j%3) + " ";
+	        		}
+        		} catch(Exception e) {}
+        	}
+        }
         return list;
     }
 
@@ -79,7 +122,39 @@ public class Main {
     }
 
     public static String possibleQ(int i) {
-        String list = "";
+    	String list = "", oldPiece;
+        int r = i/8, c = i%8;
+        int temp = 1;
+        for(int j = -1; j <= 1; j++) {
+        	for(int k = -1; k <= 1; k++) {
+        		try {
+        			while(" ".equals(chessBoard[r+temp*j][c+temp*k])) {
+        				oldPiece = chessBoard[r+temp*j][c+temp*k];
+        				chessBoard[r][c] = " ";
+        				chessBoard[r+temp*j][c+temp*k] = "Q";
+        				if(kingsSafe()) {
+	        				//System.out.println(r + " " + c + " " +  (r-1+j/3) + " " + (c-1+j%3) + " " + oldPiece);
+	        				list = list + r + c + (r+temp*j) + (c+temp*k) + " ";
+	        			}
+        				chessBoard[r][c] = "Q";
+        				chessBoard[r+temp*j][c+temp*k] = oldPiece;
+        				temp++;
+        			}
+        			if(Character.isLowerCase(chessBoard[r+temp*j][c+temp*k].charAt(0))) {
+        				oldPiece = chessBoard[r+temp*j][c+temp*k];
+        				chessBoard[r][c] = " ";
+        				chessBoard[r+temp*j][c+temp*k] = "Q";
+        				if(kingsSafe()) {
+	        				//System.out.println(r + " " + c + " " +  (r-1+j/3) + " " + (c-1+j%3) + " " + oldPiece);
+	        				list = list + r + c + (r+temp*j) + (c+temp*k) + " ";
+	        			}
+        				chessBoard[r][c] = "Q";
+        				chessBoard[r+temp*j][c+temp*k] = oldPiece;
+        			}
+        		} catch(Exception e) {} 
+        		temp = 1;
+        	}
+        }
         return list;
     }
     
@@ -98,7 +173,7 @@ public class Main {
 	        			kingPositionC = i+(j/3) * 8 + j%3 - 9;
 	        			int kingTemp = kingPositionC;
 	        			if(kingsSafe()) {
-	        				System.out.println(r + " " + c + " " +  (r-1+j/3) + " " + (c-1+j%3) + " " + oldPiece);
+	        				//System.out.println(r + " " + c + " " +  (r-1+j/3) + " " + (c-1+j%3) + " " + oldPiece);
 	        				list = list + r + c + (r-1+j/3) + (c-1+j%3) + oldPiece;
 	        			}
 	        			//chessBoard[r][c] = "A";
