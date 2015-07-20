@@ -8,10 +8,10 @@ public class Main {
             {"p","p","p","p","p","p","p","p"},
             {" "," "," "," "," "," "," "," "},
             {" "," "," "," "," "," "," "," "},
+            {" "," ","B"," "," "," "," "," "},
             {" "," "," "," "," "," "," "," "},
-            {" "," "," "," "," "," "," "," "},
-            {"P","P","P","P","P","P","P","P"},
-            {"R","k","B","Q","A","B","K","R"}};
+            {"K"," "," "," ","K","K","K","K"},
+            {"R","K","K","K","K","B","K","R"}};
    
    static int kingPositionC, kingPositionL;
    
@@ -113,11 +113,78 @@ public class Main {
 
     public static String possibleR(int i) {
         String list = "";
+        int r = i/8, c = i%8;
+        int temp = 1;
+        for(int j = -1; j <= 1; j++) {
+    		try {
+    			// get all movable locations in the x axis that have nothing on them
+    			while(" ".equals(chessBoard[r+temp*j][c])) {
+        			list = list + r + c + (r+temp*j) + (c) + " ";
+    				temp++;
+    			}
+    			// if there is a black piece
+    			if(Character.isLowerCase(chessBoard[r+temp*j][c].charAt(0))) {
+    				list = list + r + c + (r+temp*j) + (c) + " ";
+    			}
+    			temp = 1;
+    			// get all movable locations in the y axis that have nothing on them
+    			while(" ".equals(chessBoard[r][c+temp*j])) {
+        			list = list + r + c + (r) + (c+temp*j) + " ";
+    				temp++;
+    			}
+    			// if there is a black piece
+    			if(Character.isLowerCase(chessBoard[r][c+temp*j].charAt(0))) {
+    				list = list + r + c + (r) + (c+temp*j) + " ";
+    			}
+    			
+    		} catch(Exception e) {} 
+    		// reset temp for change in direction
+    		temp = 1;
+    	}
         return list;
     }
 
     public static String possibleB(int i) {
-        String list = "";
+    	String list = "";
+        int r = i/8, c = i%8;
+        int temp = 1;
+        for(int j = -1; j <= 1; j++) {
+    		try {
+    			if( j != 0) {
+	    			// get all movable locations in the left angle
+	    			while(" ".equals(chessBoard[r+temp*j][c+temp*j])) {
+	        			list = list + r + c + (r+temp*j) + (c+temp*j) + " ";
+	    				temp++;
+	    			}
+	    			// if there is a black piece
+	    			if(Character.isLowerCase(chessBoard[r+temp*j][c+temp*j].charAt(0))) {
+	    				list = list + r + c + (r+temp*j) + (c+temp*j) + " ";
+	    			}
+	    			temp = 1;
+	    			// get all movable locations in the top right angle
+	    			while(" ".equals(chessBoard[r-temp*j][c+temp*j])) {
+	        			list = list + r + c + (r-temp*j) + (c+temp*j) + " ";
+	    				temp++;
+	    			}
+	    			// if there is a black piece
+	    			if(Character.isLowerCase(chessBoard[r-temp*j][c+temp*j].charAt(0))) {
+	    				list = list + r + c + (r-temp*j) + (c+temp*j) + " ";
+	    			}
+	    			temp = 1;
+	    			// get all movable locations in the bottom right angle
+	    			while(" ".equals(chessBoard[r+temp*j][c-temp*j])) {
+	        			list = list + r + c + (r+temp*j) + (c-temp*j) + " ";
+	    				temp++;
+	    			}
+	    			// if there is a black piece
+	    			if(Character.isLowerCase(chessBoard[r+temp*j][c-temp*j].charAt(0))) {
+	    				list = list + r + c + (r+temp*j) + (c-temp*j) + " ";
+	    			}
+    			}
+    		} catch(Exception e) {} 
+    		// reset temp for change in direction
+    		temp = 1;
+    	}
         return list;
     }
 
