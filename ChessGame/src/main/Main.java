@@ -1,4 +1,6 @@
 package main;
+import player.*;
+import units.*;
 
 public class Main {
 
@@ -21,6 +23,14 @@ public class Main {
         displayBoard(chessBoard);
         makeMove("6040 ");
         displayBoard(chessBoard);
+        
+        
+        // Duji's test to make sure functions work
+        Player black = new Player();
+        Player white = new Player();
+        Knight blackKnight1 = new Knight(black);
+        System.out.println(Knight.isMovePossible("test", "test"));
+        System.out.println(blackKnight1.allPossibleMoves(chessBoard));
     }
     
     public static void makeMove(String move) {
