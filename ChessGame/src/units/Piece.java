@@ -1,24 +1,39 @@
 package units;
 
 import player.Player;
+import constants.Constants;;
 
-public abstract class Piece {
+public class Piece implements Constants {
 	
-	private Player player;
+	public byte type;	// for the type of piece
+	public boolean isWhite;
 	
-	public Piece(Player player) {
-		this.player = player;
+	public Piece(byte type, boolean white) {
+		isWhite = white;
+		this.type = type;
 	}
 	
-	public static boolean isMovePossible(String start, String destination){
-		return false; // each class must implement this, otherwise it returns false.
-	}
 	
-	public abstract String allPossibleMoves(String[][] chessBoard);
-
-	public Player getPlayer() {
-		return player;
-	}
+	
+//	
+//	public void setType(byte type) {
+//		this.type = type;
+//	}
+//	private Player player;
+//	
+//	public Piece(Player player) {
+//		this.player = player;
+//	}
+//	
+//	public static boolean isMovePossible(String start, String destination){
+//		return false; // each class must implement this, otherwise it returns false.
+//	}
+//	
+//	public abstract String allPossibleMoves(String[][] chessBoard);
+//
+//	public Player getPlayer() {
+//		return player;
+//	}
 	
 
 }

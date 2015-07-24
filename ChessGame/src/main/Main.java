@@ -2,6 +2,10 @@ package main;
 import player.*;
 import units.*;
 
+import java.util.Scanner;
+
+import board.*;
+
 public class Main {
 
     // create the chess board as an array of strings
@@ -19,18 +23,41 @@ public class Main {
    
     public static void main(String[] args) {
     	
-    	System.out.println(possibleMoves());
-        displayBoard(chessBoard);
-        makeMove("6040 ");
-        displayBoard(chessBoard);
+    	boolean valid = false;
+    	Board boardtest = new Board();
+    	boardtest.printBoard();
+    	
+    	// get user input on which piece to move
+    	Scanner user_input = new Scanner(System.in);
+    	int xCoord;
+    	int yCoord;
+    	
+    	while(!valid) {
+	    	System.out.print("Which piece to move: ");
+	    	xCoord = user_input.nextInt();
+	    	yCoord = user_input.nextInt();
+	    	if(boardtest.board[yCoord][xCoord] != null) {
+	    		boardtest.movePiece(xCoord, yCoord);
+	    		valid = true;
+	    	}
+	    	else {
+	    		System.out.println("Invalid!");
+	    	}
+	    	
+    	}
+    	
+    	//System.out.println(possibleMoves());
+        //displayBoard(chessBoard);
+        //makeMove("6040 ");
+        //displayBoard(chessBoard);
         
         
         // Duji's test to make sure functions work
         Player black = new Player();
         Player white = new Player();
-        Knight blackKnight1 = new Knight(black);
-        System.out.println(Knight.isMovePossible("test", "test"));
-        System.out.println(blackKnight1.allPossibleMoves(chessBoard));
+        //Knight blackKnight1 = new Knight(black);
+        //System.out.println(Knight.isMovePossible("test", "test"));
+        //System.out.println(blackKnight1.allPossibleMoves(chessBoard));
     }
     
     public static void makeMove(String move) {
