@@ -34,10 +34,10 @@ public class Main {
     	
     	while(!valid) {
 	    	System.out.print("Which piece to move: ");
-	    	xCoord = user_input.nextInt();
 	    	yCoord = user_input.nextInt();
+	    	xCoord = user_input.nextInt();
 	    	if(boardtest.board[yCoord][xCoord] != null) {
-	    		boardtest.movePiece(xCoord, yCoord);
+	    		boardtest.movePiece(yCoord, xCoord);
 	    		valid = true;
 	    	}
 	    	else {

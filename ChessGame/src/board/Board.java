@@ -40,6 +40,9 @@ public class Board implements Constants {
 		board[7][2] = board[7][5] = new Piece(BISHOP, true);
 		board[7][3] = new Piece(QUEEN, true);
 		board[7][4] = new Piece(KING, true);
+		
+		// delete after, testing purposes
+		board[4][2] = new Piece(ROOK, false);
 	
 	}
 	
@@ -59,7 +62,8 @@ public class Board implements Constants {
 		}
 	}
 	
-	// put this into another class later
+	// put this into another class later - one for algorithms
+	// pawn moves algorithm
 	private Vector pawn(int y, int x) {
 		Vector moves = new Vector(); // store the possible moves in here
 		
@@ -107,7 +111,124 @@ public class Board implements Constants {
 			}
 		}
 		return moves;
+	}
+	
+	// rook moves algorithm
+	private Vector rook(int y, int x) {
+		Vector moves = new Vector(); // store the possible moves in here
+		int counter = 1;
 		
+		// if - for white pieces moving
+		// else - for black pieces moving
+		
+		// top
+		if(board[y][x].isWhite) {
+			while((y-counter) >= 0) {
+				if(board[y-counter][x] != null && board[y-counter][x].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y-counter,x)); // add all moves 
+				if(board[y-counter][x] != null && !board[y-counter][x].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		} else { // for black pieces moving
+			counter = 1;
+			while((y-counter) >= 0) {
+				if(board[y-counter][x] != null && !board[y-counter][x].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y-counter,x)); // add all moves 
+				if(board[y-counter][x] != null && board[y-counter][x].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		}
+		
+		// bottom
+		counter = 1;
+		if(board[y][x].isWhite) {
+			while((y+counter) <= 7) {
+				if(board[y+counter][x] != null && board[y+counter][x].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y+counter,x)); // add all moves 
+				if(board[y+counter][x] != null && !board[y+counter][x].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		} else { // for black pieces moving
+			counter = 1;
+			while((y+counter) <= 7) {
+				if(board[y+counter][x] != null && !board[y+counter][x].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y+counter,x)); // add all moves 
+				if(board[y+counter][x] != null && board[y+counter][x].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		}
+		
+		// right
+		counter = 1;
+		if(board[y][x].isWhite) {
+			while((x+counter) <= 7) {
+				if(board[y][x+counter] != null && board[y][x+counter].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y,x+counter)); // add all moves 
+				if(board[y][x+counter] != null && !board[y][x+counter].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		} else { // for black pieces moving
+			counter = 1;
+			while((x+counter) <= 7) {
+				if(board[y][x+counter] != null && !board[y][x+counter].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y,x+counter)); // add all moves 
+				if(board[y][x+counter] != null && board[y][x+counter].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		}
+		
+		// left
+		counter = 1;
+		if(board[y][x].isWhite) {
+			while((x-counter) >= 0) {
+				if(board[y][x-counter] != null && board[y][x-counter].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y,x-counter)); // add all moves 
+				if(board[y][x-counter] != null && !board[y][x-counter].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		} else { // for black pieces moving
+			counter = 1;
+			while((x-counter) >= 0) {
+				if(board[y][x-counter] != null && board[y][x-counter].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y,x-counter)); // add all moves 
+				if(board[y][x-counter] != null && !board[y][x-counter].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		}
+		
+		return moves;
 	}
 	
 	// this is pretty useless
@@ -134,29 +255,37 @@ public class Board implements Constants {
 		boolean valid = false;
 		int validInt = 0;
 		Move mm;
+		
 		// probably use a switch statement
-		if(board[y][x].type == PAWN) {
-			moves = pawn(y,x);
+//		if(board[y][x].type == PAWN) {
+//			moves = pawn(y,x);
+//		}
+		if(board[y][x].type == ROOK) {
+			moves = rook(y,x);
 		}
 		
+		// print out the pieces possile moves
 		System.out.print("Options: ");
 		for( int i = 0; i < moves.size(); i++) {
 			mm = (Move) moves.elementAt(i);
 			if(moves.size()-1 == i) {
-				System.out.print(mm.x2 + "," + mm.y2 + " " );
+				System.out.print(mm.y2 + "," + mm.x2 + " " );
 				//System.out.print(mm.toString());
 			}
 			else {
-				System.out.print(mm.x2 + "," + mm.y2 + " | " );
+				System.out.print(mm.y2 + "," + mm.x2 + " | " );
 				//System.out.print(mm.toString());
 			}
 		} 
 		
 		while(!valid) {
+			// get the position of the user's input in the form of y and then x
+			// NOTE * can swap these to make it in the format of x and y
 			System.out.print("\nMove to: ");
-			xCoord = user_input.nextInt();
 			yCoord = user_input.nextInt();
+			xCoord = user_input.nextInt();
 			
+			// find if that move the user is requesting is part of the possible moves
 			for( int i = 0; i < moves.size(); i++) {
 				mm = (Move) moves.elementAt(i);
 				if(xCoord == mm.x2 && yCoord == mm.y2) {
@@ -165,11 +294,12 @@ public class Board implements Constants {
 					break;
 				}
 			}
+			// if not, display an error message and let them try again
 			if(!valid)
 				System.out.println("Invalid!");
 		}
-		
 		if(valid) {
+			// if the move is in the set of possible moves, perform that move
 			mm = (Move) moves.elementAt(validInt);
 			mm.movePiece(board);
 		}
