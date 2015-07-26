@@ -99,7 +99,7 @@ public class PieceAlgorithms {
 		
 		// if - for white pieces moving
 		// else - for black pieces moving
-		
+
 		// top
 		if(board[y][x].isWhite) {
 			while((y-counter) >= 0) {
@@ -217,8 +217,6 @@ public class PieceAlgorithms {
 		
 		// if - for white pieces moving
 		// else - for black pieces moving
-		
-		System.out.println("asd");
 		
 		// top left
 		if(board[y][x].isWhite) {
@@ -468,16 +466,6 @@ public class PieceAlgorithms {
 				}
 			}
 		}
-//		else { // for black pieces moving
-//			if(board[y+1][x] == null) { // check if the piece above it is free
-//				if(y == 1) { // if it is in the starting position, can move 1 or 2 spaces
-//					moves.add(new Move(y,x,y+2,x));
-//					moves.add(new Move(y,x,y+1,x));
-//				}
-//				else // else only move one
-//					moves.add(new Move(y,x,y+1,x));
-//			}
-//		}
 
 		return moves;
 	}

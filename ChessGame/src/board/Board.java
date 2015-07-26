@@ -44,7 +44,7 @@ public class Board implements Constants {
 		board[7][4] = new Piece(KING, true);
 		
 		// delete after, testing purposes
-//		board[4][2] = new Piece(KING, true);
+		board[4][2] = new Piece(QUEEN, true);
 	
 	}
 	
@@ -63,19 +63,6 @@ public class Board implements Constants {
 			System.out.println();
 		}
 	}
-
-
-	// this is pretty useless
-//	public Vector moves(int y, int x) {
-//		
-//		Vector moves = new Vector();
-//		
-//		moves = pawn(y,x);
-//		
-//		System.out.println(moves);
-//		
-//		return moves;
-//	}
 	
 	public void movePiece(int y, int x) {
 		
@@ -89,23 +76,29 @@ public class Board implements Constants {
 		boolean valid = false;
 		int validInt = 0;
 		Move mm;
-		
+			
 		switch(board[y][x].type){
 		case PAWN:
 			moves = PieceAlgorithms.pawn(board,y,x);
+			break;
 		case ROOK:
 			moves = PieceAlgorithms.rook(board,y,x);
+			break;
 		case BISHOP:
 			moves = PieceAlgorithms.bishop(board,y,x);
+			break;
 		case QUEEN:
 			moves = PieceAlgorithms.queen(board,y,x);
+			break;
 		case KING:
 			moves = PieceAlgorithms.king(board,y,x);
+			break;
 		case KNIGHT:
 			moves = PieceAlgorithms.knight(board,y,x);
+			break;
 		}
 		
-		// print out the pieces possile moves
+		// print out the piece's possible moves
 		System.out.print("Options: ");
 		for( int i = 0; i < moves.size(); i++) {
 			mm = (Move) moves.elementAt(i);
