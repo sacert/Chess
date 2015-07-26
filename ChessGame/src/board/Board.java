@@ -42,7 +42,7 @@ public class Board implements Constants {
 		board[7][4] = new Piece(KING, true);
 		
 		// delete after, testing purposes
-		board[4][2] = new Piece(ROOK, false);
+		board[4][2] = new Piece(KNIGHT, false);
 	
 	}
 	
@@ -231,6 +231,278 @@ public class Board implements Constants {
 		return moves;
 	}
 	
+	// rook bishop algorithm
+	private Vector bishop(int y, int x) {
+		Vector moves = new Vector(); // store the possible moves in here
+		int counter = 1;
+		
+		// if - for white pieces moving
+		// else - for black pieces moving
+		
+		System.out.println("asd");
+		
+		// top left
+		if(board[y][x].isWhite) {
+			while((y-counter) >= 0 && (x-counter) >= 0) {
+				if(board[y-counter][x-counter] != null && board[y-counter][x-counter].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y-counter,x-counter)); // add all moves 
+				if(board[y-counter][x-counter] != null && !board[y-counter][x-counter].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		} else { // for black pieces moving
+			counter = 1;
+			while((y-counter) >= 0 && (x-counter) >= 0) {
+				if(board[y-counter][x-counter] != null && !board[y-counter][x-counter].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y-counter,x-counter)); // add all moves 
+				if(board[y-counter][x-counter] != null && board[y-counter][x-counter].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		}
+		
+		// bottom right
+		counter = 1;
+		if(board[y][x].isWhite) {
+			while((y+counter) <= 7 && (x+counter) <= 7) {
+				if(board[y+counter][x+counter] != null && board[y+counter][x+counter].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y+counter,x+counter)); // add all moves 
+				if(board[y+counter][x+counter] != null && !board[y+counter][x+counter].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		} else { // for black pieces moving
+			counter = 1;
+			while((y+counter) <= 7 && (x+counter) <= 7) {
+				if(board[y+counter][x+counter] != null && !board[y+counter][x+counter].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y+counter,x+counter)); // add all moves 
+				if(board[y+counter][x+counter] != null && board[y+counter][x+counter].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		}
+		
+		// top right
+		counter = 1;
+		if(board[y][x].isWhite) {
+			while((y-counter) <= 7 && (x+counter) <= 7) {
+				if(board[y-counter][x+counter] != null && board[y-counter][x+counter].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y-counter,x+counter)); // add all moves 
+				if(board[y-counter][x+counter] != null && !board[y-counter][x+counter].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		} else { // for black pieces moving
+			counter = 1;
+			while((y-counter) <= 7 && (x+counter) <= 7) {
+				if(board[y-counter][x+counter] != null && !board[y-counter][x+counter].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y-counter,x+counter)); // add all moves 
+				if(board[y-counter][x+counter] != null && board[y-counter][x+counter].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		}
+		
+		// bottom left
+		counter = 1;
+		if(board[y][x].isWhite) {
+			while((x-counter) >= 0 && (y+counter) >= 0) {
+				if(board[y+counter][x-counter] != null && board[y+counter][x-counter].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y+counter,x-counter)); // add all moves 
+				if(board[y+counter][x-counter] != null && !board[y+counter][x-counter].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		} else { // for black pieces moving
+			counter = 1;
+			while((x-counter) >= 0 && (y+counter) >= 0) {
+				if(board[y+counter][x-counter] != null && !board[y+counter][x-counter].isWhite) {  // if it gets to a black piece, leave the while loop
+					break;
+				}
+				moves.add(new Move(y,x,y+counter,x-counter)); // add all moves 
+				if(board[y+counter][x-counter] != null && board[y+counter][x-counter].isWhite) {  // if it gets to a white piece, leave the while loop
+					break;
+				}
+				counter++;
+			}
+		}
+		
+		return moves;
+	}
+	
+	// pawn queen algorithm
+	private Vector queen(int y, int x) {
+		
+		// queen is just the combination of rook and bishop moves
+		
+		Vector moves = new Vector(); // store the possible moves in here
+		Vector bishop = new Vector(); // store bishop moves
+		Vector rook = new Vector(); // store rook moves
+		
+		bishop = bishop(y,x);
+		rook = rook(y,x);
+		
+		// add the moves from bishop to the queens moves
+		for(int i = 0; i < bishop.size(); i++) {
+			moves.add(bishop.elementAt(i));
+		}
+		// add the moves from rook to the queens moves
+		for(int i = 0; i < rook.size(); i++) {
+			moves.add(rook.elementAt(i));
+		}
+		
+		return moves;
+	}
+	
+	// knight moves algorithm
+	private Vector knight(int y, int x) {
+		Vector moves = new Vector(); // store the possible moves in here
+		
+
+		
+		// for white pieces moving
+		if(board[y][x].isWhite) {
+			// bottom options
+			if(y+2 <= 7) {  // check if it can move down on the board
+				if(x+1 <= 7) { // check if it can move to the right
+					if(board[y+2][x+1] == null || (board[y+2][x+1] != null && !board[y+2][x+1].isWhite)) {
+						moves.add(new Move(y,x,y+2,x+1));
+					}
+				}
+				if(x-1 >= 0) { // check if it can move to the left
+					if(board[y+2][x+1] == null || (board[y+2][x-1] != null && !board[y+2][x-1].isWhite)) {
+						moves.add(new Move(y,x,y+2,x-1));
+					}
+				}
+			}
+			// top options
+			if(y-2 >= 0) {  // check if it can move down on the board
+				if(x+1 <= 7) { // check if it can move to the right
+					if(board[y-2][x+1] == null || (board[y-2][x+1] != null && !board[y-2][x+1].isWhite)) {
+						moves.add(new Move(y,x,y-2,x+1));
+					}
+				}
+				if(x-1 >= 0) { // check if it can move to the left
+					if(board[y-2][x-1] == null || (board[y-2][x-1] != null && !board[y-2][x-1].isWhite)) {
+						moves.add(new Move(y,x,y-2,x-1));
+					}
+				}
+			}
+			// left options
+			if(x-2 >= 0) {  // check if it can move down on the board
+				if(y+1 <= 7) { // check if it can move to the right
+					if(board[y+1][x-2] == null || (board[y+1][x-2] != null && !board[y+1][x-2].isWhite)) {
+						moves.add(new Move(y,x,y+1,x-2));
+					}
+				}
+				if(y-1 >= 0) { // check if it can move to the left
+					if(board[y-1][x-2] == null || (board[y-1][x-2] != null && !board[y-1][x-2].isWhite)) {
+						moves.add(new Move(y,x,y-1,x-2));
+					}
+				}
+			}
+			// right options
+			if(x+2 >= 0) {  // check if it can move down on the board
+				if(y+1 <= 7) { // check if it can move to the right
+					if(board[y+1][x+2] == null || (board[y+1][x+2] != null && !board[y+1][x+2].isWhite)) {
+						moves.add(new Move(y,x,y+1,x+2));
+					}
+				}
+				if(y-1 >= 0) { // check if it can move to the left
+					if(board[y-1][x+2] == null || (board[y-1][x+2] != null && !board[y-1][x+2].isWhite)) {
+						moves.add(new Move(y,x,y-1,x+2));
+					}
+				}
+			}
+		} else {// for black pieces moving
+			// bottom options
+			if(y+2 <= 7) {  // check if it can move down on the board
+				if(x+1 <= 7) { // check if it can move to the right
+					if(board[y+2][x+1] == null || (board[y+2][x+1] != null && board[y+2][x+1].isWhite)) {
+						moves.add(new Move(y,x,y+2,x+1));
+					}
+				}
+				if(x-1 >= 0) { // check if it can move to the left
+					if(board[y+2][x+1] == null || (board[y+2][x-1] != null && board[y+2][x-1].isWhite)) {
+						moves.add(new Move(y,x,y+2,x-1));
+					}
+				}
+			}
+			// top options
+			if(y-2 >= 0) {  // check if it can move down on the board
+				if(x+1 <= 7) { // check if it can move to the right
+					if(board[y-2][x+1] == null || (board[y-2][x+1] != null && board[y-2][x+1].isWhite)) {
+						moves.add(new Move(y,x,y-2,x+1));
+					}
+				}
+				if(x-1 >= 0) { // check if it can move to the left
+					if(board[y-2][x-1] == null || (board[y-2][x-1] != null && board[y-2][x-1].isWhite)) {
+						moves.add(new Move(y,x,y-2,x-1));
+					}
+				}
+			}
+			// left options
+			if(x-2 >= 0) {  // check if it can move down on the board
+				if(y+1 <= 7) { // check if it can move to the right
+					if(board[y+1][x-2] == null || (board[y+1][x-2] != null && board[y+1][x-2].isWhite)) {
+						moves.add(new Move(y,x,y+1,x-2));
+					}
+				}
+				if(y-1 >= 0) { // check if it can move to the left
+					if(board[y-1][x-2] == null || (board[y-1][x-2] != null && board[y-1][x-2].isWhite)) {
+						moves.add(new Move(y,x,y-1,x-2));
+					}
+				}
+			}
+			// right options
+			if(x+2 >= 0) {  // check if it can move down on the board
+				if(y+1 <= 7) { // check if it can move to the right
+					if(board[y+1][x+2] == null || (board[y+1][x+2] != null && board[y+1][x+2].isWhite)) {
+						moves.add(new Move(y,x,y+1,x+2));
+					}
+				}
+				if(y-1 >= 0) { // check if it can move to the left
+					if(board[y-1][x+2] == null || (board[y-1][x+2] != null && board[y-1][x+2].isWhite)) {
+						moves.add(new Move(y,x,y-1,x+2));
+					}
+				}
+			}
+		}
+//		else { // for black pieces moving
+//			if(board[y+1][x] == null) { // check if the piece above it is free
+//				if(y == 1) { // if it is in the starting position, can move 1 or 2 spaces
+//					moves.add(new Move(y,x,y+2,x));
+//					moves.add(new Move(y,x,y+1,x));
+//				}
+//				else // else only move one
+//					moves.add(new Move(y,x,y+1,x));
+//			}
+//		}
+
+		return moves;
+	}
+	
 	// this is pretty useless
 	public Vector moves(int y, int x) {
 		
@@ -260,8 +532,17 @@ public class Board implements Constants {
 //		if(board[y][x].type == PAWN) {
 //			moves = pawn(y,x);
 //		}
-		if(board[y][x].type == ROOK) {
-			moves = rook(y,x);
+//		if(board[y][x].type == ROOK) {
+//			moves = rook(y,x);
+//		}
+//		if(board[y][x].type == BISHOP) {
+//			moves = bishop(y,x);
+//		}
+//		if(board[y][x].type == QUEEN) {
+//			moves = queen(y,x);
+//		}
+		if(board[y][x].type == KNIGHT) {
+			moves = knight(y,x);
 		}
 		
 		// print out the pieces possile moves
