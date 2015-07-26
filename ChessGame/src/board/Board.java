@@ -90,12 +90,11 @@ public class Board implements Constants {
 		return moves;
 	}
 	
-	
+
 	// put this into another class later - one for algorithms
 	// pawn moves algorithm
 	private Vector<Move> pawn(int y, int x) {
 		Vector<Move> moves = new Vector<Move>(); // store the possible moves in here
-		
 		// for white pieces moving
 		if(board[y][x].isWhite) {
 			if(board[y-1][x] == null) {  // check if the piece above it is free

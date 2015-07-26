@@ -10,14 +10,16 @@ public class Move implements Constants  {
 	public byte x2;
 	public byte y2;
 	
+	public Piece p = null;
+	
 	int type;
 	
 	// get locations of the current piece to where it is moving
 	public Move(byte a, byte b, byte c, byte d) {
-		x1 = a;
-		y1 = b;
-		x2 = c;
-		y2 = d;
+		y1 = a;
+		x1 = b;
+		y2 = c;
+		x2 = d;
 	}
 	
 	public Move(int a1, int b1, int a2, int b2) {
@@ -26,9 +28,9 @@ public class Move implements Constants  {
 	
 	// move the piece
 	public void movePiece(Piece[][] board) {
-		board[x2][y2] = board[x1][y1]; 	// set the target location to the moving piece	
-		board[x1][y1] = null;			// set the old location to null 
-		type = board[x1][y1].type;
+		type = board[y1][x1].type;
+		board[y2][x2] = board[y1][x1]; 	// set the target location to the moving piece	
+		board[y1][x1] = null;			// set the old location to null 
 	}
 	
 	public String toString() {
