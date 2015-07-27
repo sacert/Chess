@@ -21,7 +21,49 @@ public class Main {
    
    static int kingPositionC, kingPositionL;
    
+
+	// a8 -> 0,0. and a1 -> 0,7, h1 -> 7,7
+   public static Point convertStringToPoint(String input){
+	   final int middleNum = 4;
+	   int xCoord;
+	   int yCoord = input.charAt(0) - 97;
+	   if(input.charAt(1) - 48 <= middleNum){
+		   xCoord = Math.abs(input.charAt(1) - 48 - middleNum) + middleNum;
+	   } else {
+		   xCoord = Math.abs(input.charAt(1) - 48 - middleNum) - middleNum;
+	   }
+	   xCoord = Math.abs(xCoord);
+//	   System.out.println("      DEBUG: " + input + " translates to " + " [" + yCoord + "," + xCoord + "]");
+//	   return (new Point(yCoord, xCoord));
+	   
+	   System.out.println("      DEBUG: " + input + " translates to " + " [" + xCoord + "," + yCoord + "]");
+	   return (new Point(xCoord, yCoord));
+   }
+   
+   // 0,0 -> a8, 0,7 -> a1, 7,7 -> h1
+   public static String convertPointToString(Point p){
+	   String output = "";
+	   int tempY = p.getX() + 97;
+	   output += Character.toString((char)tempY);
+
+	   final int middleNum = 4;
+	   int tempX;
+	   if(p.getY() <= middleNum){
+		   tempX = Math.abs(p.getY() - middleNum) + middleNum;
+	   } else {
+		   tempX = Math.abs(p.getY() - middleNum) - middleNum;
+	   }
+	   output += Math.abs(tempX);
+	   
+
+	   return output;
+   }
+   
+   
     public static void main(String[] args) {
+    	
+//    	Point test = new Point(1,2);
+//    	System.out.println(convertPointToString(test));   	
     	
     	boolean valid = false;
     	Board boardtest = new Board();
@@ -34,8 +76,13 @@ public class Main {
     	
     	while(!valid) {
 	    	System.out.print("Which piece to move: ");
-	    	yCoord = user_input.nextInt();
-	    	xCoord = user_input.nextInt();
+	    	
+	    	String input =  user_input.nextLine();
+	    	
+	    	Point point = convertStringToPoint(input);
+	    	yCoord = point.getY();
+	    	xCoord = point.getX();
+
 	    	if(boardtest.board[yCoord][xCoord] != null) {
 	    		boardtest.movePiece(yCoord, xCoord);
 	    		valid = true;

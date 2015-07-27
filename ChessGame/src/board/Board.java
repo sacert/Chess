@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.util.Vector;
 
+import main.Main;
 import constants.Constants;
 import units.Piece;
 import units.PieceAlgorithms;
@@ -103,11 +104,20 @@ public class Board implements Constants {
 		for( int i = 0; i < moves.size(); i++) {
 			mm = (Move) moves.elementAt(i);
 			if(moves.size()-1 == i) {
-				System.out.print(mm.y2 + "," + mm.x2 + " " );
+				Point p = new Point(mm.y2, mm.x2);
+				String point = Main.convertPointToString(p);
+				System.out.print(point + " " );
+				
+				
+//				System.out.print(mm.y2 + "," + mm.x2 + " " );
 				//System.out.print(mm.toString());
 			}
 			else {
-				System.out.print(mm.y2 + "," + mm.x2 + " | " );
+				Point p = new Point(mm.y2, mm.x2);
+				String point = Main.convertPointToString(p);
+				System.out.print(point + " | " );
+				
+//				System.out.print(mm.y2 + "," + mm.x2 + " | " );
 				//System.out.print(mm.toString());
 			}
 		} 
@@ -116,9 +126,18 @@ public class Board implements Constants {
 			// get the position of the user's input in the form of y and then x
 			// NOTE * can swap these to make it in the format of x and y
 			System.out.print("\nMove to: ");
-			yCoord = user_input.nextInt();
-			xCoord = user_input.nextInt();
 			
+
+	    	String input =  user_input.nextLine();	
+			Point point = Main.convertStringToPoint(input);
+	    	yCoord = point.getY();
+	    	xCoord = point.getX();
+			
+			
+//			yCoord = user_input.nextInt();
+//			xCoord = user_input.nextInt();
+	    	
+	    	
 			// find if that move the user is requesting is part of the possible moves
 			for( int i = 0; i < moves.size(); i++) {
 				mm = (Move) moves.elementAt(i);
