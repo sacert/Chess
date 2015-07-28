@@ -52,17 +52,21 @@ public class Board implements Constants {
 	// print out the board
 	public void printBoard() {
 		Vector test;
-		//Board test1 = new Board();
+		
+		System.out.println("   a b c d e f g h");
+		System.out.println("  -----------------");
+		
 		for(int i = 0; i < 8; i++) {
+			System.out.print(8-i + "| ");
 			for(int j = 0; j < 8; j++) {
-				if(board[i][j] != null)
-					System.out.print(board[i][j].type + " ");
-				else {
+				if(board[i][j] != null) 
+					getBoardPiece(i,j);
+				else 
 					System.out.print("- ");
-				}
 			}
-			System.out.println();
+			System.out.println("|");
 		}
+		System.out.println("  -----------------");
 	}
 	
 	public void movePiece(int y, int x) {
@@ -105,7 +109,7 @@ public class Board implements Constants {
 			mm = (Move) moves.elementAt(i);
 			if(moves.size()-1 == i) {
 				Point p = new Point(mm.y2, mm.x2);
-				String point = Main.convertPointToString(p);
+				String point = Point.convertPointToString(p);
 				System.out.print(point + " " );
 				
 				
@@ -114,7 +118,7 @@ public class Board implements Constants {
 			}
 			else {
 				Point p = new Point(mm.y2, mm.x2);
-				String point = Main.convertPointToString(p);
+				String point = Point.convertPointToString(p);
 				System.out.print(point + " | " );
 				
 //				System.out.print(mm.y2 + "," + mm.x2 + " | " );
@@ -129,7 +133,7 @@ public class Board implements Constants {
 			
 
 	    	String input =  user_input.nextLine();	
-			Point point = Main.convertStringToPoint(input);
+			Point point = Point.convertStringToPoint(input);
 	    	yCoord = point.getY();
 	    	xCoord = point.getX();
 			
@@ -158,5 +162,52 @@ public class Board implements Constants {
 		}
 		
 		printBoard();
+	}
+	
+	private void getBoardPiece(int y, int x) {
+		// black pieces
+		if(!board[y][x].isWhite) {
+			switch(board[y][x].type){
+			case PAWN:
+				System.out.print("p ");
+				break;
+			case ROOK:
+				System.out.print("r ");
+				break;
+			case BISHOP:
+				System.out.print("b ");
+				break;
+			case QUEEN:
+				System.out.print("q ");
+				break;
+			case KING:
+				System.out.print("k ");
+				break;
+			case KNIGHT:
+				System.out.print("n ");
+				break;
+			}
+		} else { // white pieces
+			switch(board[y][x].type){
+			case PAWN:
+				System.out.print("P ");
+				break;
+			case ROOK:
+				System.out.print("R ");
+				break;
+			case BISHOP:
+				System.out.print("B ");
+				break;
+			case QUEEN:
+				System.out.print("Q ");
+				break;
+			case KING:
+				System.out.print("K ");
+				break;
+			case KNIGHT:
+				System.out.print("N ");
+				break;
+			}
+		}
 	}
 }
