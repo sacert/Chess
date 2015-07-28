@@ -14,8 +14,8 @@ public class Main {
     	boolean gameOver = false;
     	boolean isWhiteTurn = true;
     	boolean valid = false;
-    	Board boardtest = new Board();
-    	boardtest.printBoard();
+    	Board board = new Board();
+    	board.printBoard();
     	
     	// *Note add this into another class
     	
@@ -39,8 +39,8 @@ public class Main {
 		    	xCoord = point.getX();
 		    	
 		    	if(isWhiteTurn) {
-			    	if(boardtest.board[yCoord][xCoord] != null && boardtest.board[yCoord][xCoord].isWhite) {
-			    		boardtest.movePiece(yCoord, xCoord);
+			    	if(board.board[yCoord][xCoord] != null && board.board[yCoord][xCoord].isWhite) {
+			    		board.movePiece(yCoord, xCoord);
 			    		valid = true;
 			    		isWhiteTurn = false;
 			    	}
@@ -48,8 +48,8 @@ public class Main {
 			    		System.out.println("Invalid!");
 			    	}
 		    	} else {
-		    		if(boardtest.board[yCoord][xCoord] != null && !boardtest.board[yCoord][xCoord].isWhite) {
-			    		boardtest.movePiece(yCoord, xCoord);
+		    		if(board.board[yCoord][xCoord] != null && !board.board[yCoord][xCoord].isWhite) {
+			    		board.movePiece(yCoord, xCoord);
 			    		valid = true;
 			    		isWhiteTurn = true;
 			    	}
