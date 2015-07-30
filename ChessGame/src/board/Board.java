@@ -45,7 +45,7 @@ public class Board implements Constants {
 		board[7][4] = new Piece(KING, true);
 		
 		// delete after, testing purposes
-		board[4][2] = new Piece(QUEEN, true);
+//		board[4][2] = new Piece(QUEEN, true);
 	
 	}
 	
@@ -103,6 +103,14 @@ public class Board implements Constants {
 			break;
 		}
 		
+		if(moves.isEmpty()){
+			// doesn't do anything in regards to turns. maybe it should?
+			System.out.println("Nowhere to move.");
+			return;
+		}
+		
+		
+		
 		// print out the piece's possible moves
 		System.out.print("Options: ");
 		for( int i = 0; i < moves.size(); i++) {
@@ -140,30 +148,30 @@ public class Board implements Constants {
 			
 //			yCoord = user_input.nextInt();
 //			xCoord = user_input.nextInt();
-	    	
-	    	
-			// find if that move the user is requesting is part of the possible moves
-			for( int i = 0; i < moves.size(); i++) {
-				mm = (Move) moves.elementAt(i);
-				if(xCoord == mm.x2 && yCoord == mm.y2) {
-					valid = true;
-					validInt = i;
-					break;
-				}
-			}
-			// if not, display an error message and let them try again
-			if(!valid)
-				System.out.println("Invalid!");
+
+
+	    	// find if that move the user is requesting is part of the possible moves
+	    	for( int i = 0; i < moves.size(); i++) {
+	    		mm = (Move) moves.elementAt(i);
+	    		if(xCoord == mm.x2 && yCoord == mm.y2) {
+	    			valid = true;
+	    			validInt = i;
+	    			break;
+	    		}
+	    	}
+	    	// if not, display an error message and let them try again
+	    	if(!valid)
+	    		System.out.println("Invalid!");
 		}
 		if(valid) {
 			// if the move is in the set of possible moves, perform that move
 			mm = (Move) moves.elementAt(validInt);
 			mm.movePiece(board);
 		}
-		
+
 		printBoard();
 	}
-	
+
 	private void getBoardPiece(int y, int x) {
 		// black pieces
 		if(!board[y][x].isWhite) {
