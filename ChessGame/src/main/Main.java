@@ -7,12 +7,14 @@ import java.util.Scanner;
 import board.*;
 
 public class Main {  
+	
+	public static boolean isWhiteTurn = true;
+	
     public static void main(String[] args) {
     	
 //    	Point test = new Point(1,2);
 //    	System.out.println(convertPointToString(test));   	
     	boolean gameOver = false;
-    	boolean isWhiteTurn = true;
     	boolean valid = false;
     	Board board = new Board();
     	board.printBoard();
@@ -23,6 +25,7 @@ public class Main {
     	// *NOTE: create a king checker, if either one has died, game is over
     	// so check both kings and determine winner
     	while(!gameOver) {
+    		//getTurn(isWhiteTurn);
     		valid = false;
 	    	// get user input on which piece to move
 	    	Scanner user_input = new Scanner(System.in);
@@ -30,6 +33,11 @@ public class Main {
 	    	int yCoord;
     	
 	    	while(!valid) {
+	    		if(isWhiteTurn) {
+	    			System.out.println("White's turn");
+	    		} else {
+	    			System.out.println("Black's turn");
+	    		}
 		    	System.out.print("Which piece to move: ");
 		    	
 		    	String input =  user_input.nextLine();
@@ -59,5 +67,5 @@ public class Main {
 		    	}
 	    	}
     	}
-    }
+    } 
 }
