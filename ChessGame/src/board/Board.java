@@ -45,7 +45,8 @@ public class Board implements Constants {
 		board[7][4] = new Piece(KING, true);
 		
 		// delete after, testing purposes
-		board[4][2] = new Piece(QUEEN, true);
+		board[1][2] = new Piece(PAWN, true);
+		//board[6][2] = new Piece(PAWN, false);
 	
 	}
 	
@@ -151,6 +152,35 @@ public class Board implements Constants {
 					break;
 				}
 			}
+			
+			// MAKE SURE IT IS A PAWN
+			// pawn promotion
+			if(board[y][x].isWhite && board[y][x].type == PAWN) {
+				if(yCoord == 0) {
+					System.out.println("PAWN PROMOTION: Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
+					System.out.print(":");
+					input =  user_input.nextLine();
+					while(stringToByte(input) == -1) {
+						System.out.println("INVALID! Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
+						System.out.print(":");
+						input =  user_input.nextLine();
+					}
+					board[y][x].type = stringToByte(input);
+				}
+			}
+			else if (!board[y][x].isWhite && board[y][x].type == PAWN) {
+				if(yCoord == 7) {
+					System.out.println("PAWN PROMOTION: Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
+					System.out.print(":");
+					input =  user_input.nextLine();
+					while(stringToByte(input) == -1) {
+						System.out.println("INVALID! Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
+						System.out.print(":");
+						input =  user_input.nextLine();
+					}
+					board[y][x].type = stringToByte(input);
+				}
+			}
 			// if not, display an error message and let them try again
 			if(!valid)
 				System.out.println("Invalid!");
@@ -209,5 +239,31 @@ public class Board implements Constants {
 				break;
 			}
 		}
+	}
+	
+	// converts a string to a byte for the chess pieces
+	byte stringToByte(String input) {
+		byte value = -1; // set byte variable
+		switch(input){ // switch statement to for each string
+		case "PAWN":
+			value = 0;
+			break;
+		case "ROOK":
+			value = 1;
+			break;
+		case "BISHOP":
+			value = 3;
+			break;
+		case "QUEEN":
+			value = 4;
+			break;
+		case "KING":
+			value = 5;
+			break;
+		case "KNIGHT":
+			value = 2;
+			break;
+		}
+		return value;
 	}
 }
