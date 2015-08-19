@@ -108,6 +108,14 @@ public class Board implements Constants {
 			break;
 		}
 		
+		if(moves.isEmpty()){
+			// doesn't do anything in regards to turns. maybe it should?
+			System.out.println("Nowhere to move.");
+			return;
+		}
+		
+		
+		
 		// print out the piece's possible moves
 		System.out.print("Options: ");
 		for( int i = 0; i < moves.size(); i++) {

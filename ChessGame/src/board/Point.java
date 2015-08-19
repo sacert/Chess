@@ -29,10 +29,8 @@ public class Point {
 		   xCoord = Math.abs(input.charAt(1) - 48 - middleNum) - middleNum;
 	   }
 	   xCoord = Math.abs(xCoord);
-	   // System.out.println("      DEBUG: " + input + " translates to " + " [" + yCoord + "," + xCoord + "]");
-	   // return (new Point(yCoord, xCoord));
 	   
-	   System.out.println("      DEBUG: " + input + " translates to " + " [" + xCoord + "," + yCoord + "]");
+//	   System.out.println("      DEBUG: " + input + " translates to " + " [" + xCoord + "," + yCoord + "]");
 	   return (new Point(xCoord, yCoord));
    }
    
