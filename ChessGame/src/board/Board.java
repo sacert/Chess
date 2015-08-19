@@ -46,11 +46,11 @@ public class Board implements Constants {
 		board[7][4] = new Piece(KING, true);
 		
 		// delete after, testing purposes
-		board[4][5] = new Piece(KING, true);
-		board[4][3] = new Piece(PAWN, true);
-		board[3][4] = new Piece(PAWN, false);
-		board[3][2] = new Piece(PAWN, false);
-		board[2][5] = new Piece(BISHOP, true);
+		board[3][5] = new Piece(KING, false);
+		board[4][4] = new Piece(PAWN, false);
+		//board[3][4] = new Piece(PAWN, false);
+		//board[3][2] = new Piece(PAWN, false);
+		board[5][5] = new Piece(ROOK, true);
 	
 	}
 	
@@ -309,8 +309,9 @@ public class Board implements Constants {
 						for( int k = 0; k < moves.size(); k++) {
 							mm = (Move) moves.elementAt(k);
 							//System.out.println(mm.type);
-							if(board[mm.y2][mm.x2] != null && board[mm.y2][mm.x2].type == 5) {
-								System.out.println("KING");
+							if((board[mm.y2][mm.x2] != null && board[mm.y2][mm.x2].type == 5) && board[mm.y2][mm.x2].isWhite == false) {
+								System.out.println(i + " " + j);
+								System.out.println("Black in check");
 								check = true;
 							}
 						}
@@ -347,8 +348,8 @@ public class Board implements Constants {
 						for( int k = 0; k < moves.size(); k++) {
 							mm = (Move) moves.elementAt(k);
 							//System.out.println(mm.type);
-							if(board[mm.y2][mm.x2] != null && board[mm.y2][mm.x2].type == 5) {
-								System.out.println("KING");
+							if((board[mm.y2][mm.x2] != null && board[mm.y2][mm.x2].type == 5) && board[mm.y2][mm.x2].isWhite == true) {
+								System.out.println("White in check");
 								check = true;
 							}
 						}
@@ -358,53 +359,34 @@ public class Board implements Constants {
 		}
 		return check;
 	}
-		
+	
+	// determine if the move will cause the player to be in check
+	// output options that will remove the player from being in check
 	public static boolean whiteCheck(int x1, int y1, int x2, int y2, Piece[][] board) {
 		Main getTurn = new Main();
 		Vector moves = new Vector();
 		Move mm;
 		boolean check = false;
 		
-		Piece[][] boardCopy = new Piece[8][8];
+		Piece[][] boardCopy = new Piece[8][8]; // play the copy of the board in here
 		
+		// copy the board
 		for ( int k = 0; k < 8; k++) {
 			for ( int l = 0; l < 8; l++) {
 				if( board[k][l] != null) {
-					//System.out.println(board[k][l]);
 					boardCopy[k][l] = board[k][l];
 				}
 			}
 		}
 		
-	//	board[y2][x2].type = board[y1][x1].type;
-		//board[y2][x2] = board[y1][x1]; 	// set the target location to the moving piece	
-		//board[y1][x1] = null;			// set the old location to null 
-		//System.out.println(boardCopy[x1][y1]);
+		// within the copied board, imitate as if the move had been selected
 		boardCopy[x2][y2] = board[x1][y1];
 		boardCopy[x1][y1] = null;
 		
-		Vector test;
-		
-		System.out.println("   a b c d e f g h");
-		System.out.println("  -----------------");
-		
-		for(int i = 0; i < 8; i++) {
-			System.out.print(8-i + "| ");
-			for(int j = 0; j < 8; j++) {
-				if(boardCopy[i][j] != null) 
-					getBoardPiece(i,j,boardCopy);
-				else 
-					System.out.print("- ");
-			}
-			System.out.println("|");
-		}
-		System.out.println("  -----------------");
-		
+		// check if the move will cause the player to be in check
 		if(getTurn.isWhiteTurn == true) {
-			// test
 			for(int i = 0; i < 8; i++) {
 				for(int j = 0; j < 8; j++) {
-					// test
 					if(boardCopy[i][j] != null && !boardCopy[i][j].isWhite) {
 						switch(boardCopy[i][j].type){
 						case PAWN:
@@ -430,9 +412,7 @@ public class Board implements Constants {
 						// check if the possible moves are a king
 						for( int k = 0; k < moves.size(); k++) {
 							mm = (Move) moves.elementAt(k);
-							//System.out.println(mm.type);
 							if(boardCopy[mm.y2][mm.x2] != null && boardCopy[mm.y2][mm.x2].type == 5) {
-								System.out.println("KING");
 								check = true;
 							}
 						}
@@ -444,50 +424,68 @@ public class Board implements Constants {
 		return check;
 	}
 		
-	public static boolean blackCheck(int i, int j) {
-		Main getTurn = new Main();
-		Vector moves = new Vector();
-		Move mm;
-		boolean check = false;
-		
-		if(getTurn.isWhiteTurn == false) {
-			// test
-			if(board[i][j] != null && !board[i][j].isWhite) {
-				switch(board[i][j].type){
-				case PAWN:
-					moves = PieceAlgorithms.pawn(board,i,j);
-					break;
-				case ROOK:
-					moves = PieceAlgorithms.rook(board,i,j);
-					break;
-				case BISHOP:
-					moves = PieceAlgorithms.bishop(board,i,j);
-					break;
-				case QUEEN:
-					moves = PieceAlgorithms.queen(board,i,j);
-					break;
-				//case KING:
-					//moves = PieceAlgorithms.king(board,i,j);
-					//break;
-				case KNIGHT:
-					moves = PieceAlgorithms.knight(board,i,j);
-					break;
-				}
-				
-				// check if the possible moves are a king
-				for( int k = 0; k < moves.size(); k++) {
-					mm = (Move) moves.elementAt(k);
-					//System.out.println(mm.type);
-					if(board[mm.y2][mm.x2] != null && board[mm.y2][mm.x2].type == 5) {
-						System.out.println("KING");
-						check = true;
+	// determine if the move will cause the player to be in check
+		// output options that will remove the player from being in check
+		public static boolean blackCheck(int x1, int y1, int x2, int y2, Piece[][] board) {
+			Main getTurn = new Main();
+			Vector moves = new Vector();
+			Move mm;
+			boolean check = false;
+			
+			Piece[][] boardCopy = new Piece[8][8]; // play the copy of the board in here
+			
+			// copy the board
+			for ( int k = 0; k < 8; k++) {
+				for ( int l = 0; l < 8; l++) {
+					if( board[k][l] != null) {
+						boardCopy[k][l] = board[k][l];
 					}
 				}
 			}
+			
+			// within the copied board, imitate as if the move had been selected
+			boardCopy[x2][y2] = board[x1][y1];
+			boardCopy[x1][y1] = null;
+			
+			// check if the move will cause the player to be in check
+			if(getTurn.isWhiteTurn == false) {
+				for(int i = 0; i < 8; i++) {
+					for(int j = 0; j < 8; j++) {
+						if(boardCopy[i][j] != null && boardCopy[i][j].isWhite) {
+							switch(boardCopy[i][j].type){
+							case PAWN:
+								moves = PieceAlgorithms.pawn(boardCopy,i,j);
+								break;
+							case ROOK:
+								moves = PieceAlgorithms.rook(boardCopy,i,j);
+								break;
+							case BISHOP:
+								moves = PieceAlgorithms.bishop(boardCopy,i,j);
+								break;
+							case QUEEN:
+								moves = PieceAlgorithms.queen(boardCopy,i,j);
+								break;
+							//case KING:
+								//moves = PieceAlgorithms.king(boardCopy,i,j);
+								//break;
+							case KNIGHT:
+								moves = PieceAlgorithms.knight(boardCopy,i,j);
+								break;
+							}
+							
+							// check if the possible moves are a king
+							for( int k = 0; k < moves.size(); k++) {
+								mm = (Move) moves.elementAt(k);
+								if(boardCopy[mm.y2][mm.x2] != null && boardCopy[mm.y2][mm.x2].type == 5) {
+									check = true;
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			return check;
 		}
-		
-		return check;
-	}
-	
 	
 }
