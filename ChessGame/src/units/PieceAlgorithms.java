@@ -1,4 +1,3 @@
-
 package units;
 
 import java.util.Vector;
@@ -280,7 +279,7 @@ public class PieceAlgorithms {
 		} else { // for black pieces moving
 			counter = 1;
 			while((x-counter) >= 0) {
-				if(board[y][x-counter] != null && board[y][x-counter].isWhite) {  // if it gets to a black piece, leave the while loop
+				if(board[y][x-counter] != null && !board[y][x-counter].isWhite) {  // if it gets to a black piece, leave the while loop
 					break;
 				}
 				if(Board.checkTrue)	{
@@ -290,7 +289,7 @@ public class PieceAlgorithms {
 				} else {
 					moves.add(new Move(y,x,y,x-counter)); // add all moves
 				}  
-				if(board[y][x-counter] != null && !board[y][x-counter].isWhite) {  // if it gets to a white piece, leave the while loop
+				if(board[y][x-counter] != null && board[y][x-counter].isWhite) {  // if it gets to a white piece, leave the while loop
 					break;
 				}
 				counter++;

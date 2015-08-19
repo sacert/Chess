@@ -46,11 +46,12 @@ public class Board implements Constants {
 		board[7][4] = new Piece(KING, true);
 		
 		// delete after, testing purposes
-		board[3][5] = new Piece(KING, false);
-		board[4][4] = new Piece(PAWN, false);
-		//board[3][4] = new Piece(PAWN, false);
-		//board[3][2] = new Piece(PAWN, false);
-		board[5][5] = new Piece(ROOK, true);
+		//board[3][5] = new Piece(KING, false);
+		//board[3][5] = new Piece(ROOK, true);
+		board[4][0] = new Piece(KING, true);
+		board[5][1] = new Piece(QUEEN, true);
+		board[4][5] = new Piece(ROOK, false);
+		//board[2][2] = new Piece(BISHOP, false);
 	
 	}
 	
@@ -285,8 +286,8 @@ public class Board implements Constants {
 		Move mm;
 		boolean check = false;
 		
-		if(getTurn.isWhiteTurn == true) {
-			System.out.println("white");
+		//if(getTurn.isWhiteTurn == true) {
+			//System.out.println("white");
 			for(int i = 0; i < 8; i++) {
 				for(int j = 0; j < 8; j++) {
 					
@@ -325,7 +326,7 @@ public class Board implements Constants {
 					}
 				}
 			}
-		} else {
+		//} else {
 			for(int i = 0; i < 8; i++) {
 				for(int j = 0; j < 8; j++) {
 					// test
@@ -363,7 +364,7 @@ public class Board implements Constants {
 					}
 				}
 			}
-		}
+		//}
 		return check;
 	}
 	
@@ -374,6 +375,8 @@ public class Board implements Constants {
 		Vector moves = new Vector();
 		Move mm;
 		boolean check = false;
+		
+		System.out.println(Board.checkTrue);
 		
 		Piece[][] boardCopy = new Piece[8][8]; // play the copy of the board in here
 		

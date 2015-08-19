@@ -40,9 +40,7 @@ public class Main {
 	    			System.out.println("Black's turn");
 	    		}
 		    	System.out.print("Which piece to move: ");
-		    	
 		    	String input =  user_input.nextLine();
-		    	
 		    	Point point = Point.convertStringToPoint(input);
 		    	yCoord = point.getY();
 		    	xCoord = point.getX();
