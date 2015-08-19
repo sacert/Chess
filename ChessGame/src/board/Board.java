@@ -188,7 +188,7 @@ public class Board implements Constants {
 			mm = (Move) moves.elementAt(validInt);
 			mm.movePiece(board);
 			
-			//isCheck();
+			isCheck();
 		}
 		
 		printBoard();
@@ -297,9 +297,9 @@ public class Board implements Constants {
 						//case KING:
 							//moves = PieceAlgorithms.king(board,i,j);
 							//break;
-						//case KNIGHT:
-							//moves = PieceAlgorithms.knight(board,i,j);
-							//break;
+						case KNIGHT:
+							moves = PieceAlgorithms.knight(board,i,j);
+							break;
 						}
 						
 						// check if the possible moves are a king
@@ -332,12 +332,12 @@ public class Board implements Constants {
 						case QUEEN:
 							moves = PieceAlgorithms.queen(board,i,j);
 							break;
-						//case KING:
-							//moves = PieceAlgorithms.king(board,i,j);
-							//break;
-						//case KNIGHT:
-							//moves = PieceAlgorithms.knight(board,i,j);
-							//break;
+						case KING:
+							moves = PieceAlgorithms.king(board,i,j);
+							break;
+						case KNIGHT:
+							moves = PieceAlgorithms.knight(board,i,j);
+							break;
 						}
 						
 						// check if the possible moves are a king
