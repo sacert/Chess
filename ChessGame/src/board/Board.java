@@ -11,7 +11,8 @@ import units.PieceAlgorithms;
 
 public class Board implements Constants {
 
-	public Piece[][]board; // the board
+	public static Piece[][]board; // the board
+	public static boolean checkTrue = false;
 
 	public byte x1;
 	public byte y1;
@@ -45,13 +46,17 @@ public class Board implements Constants {
 		board[7][4] = new Piece(KING, true);
 		
 		// delete after, testing purposes
-		board[2][5] = new Piece(KING, true);
-		//board[6][2] = new Piece(PAWN, false);
+		board[4][5] = new Piece(KING, true);
+		board[4][3] = new Piece(PAWN, true);
+		board[3][4] = new Piece(PAWN, false);
+		board[3][2] = new Piece(PAWN, false);
+		board[2][5] = new Piece(BISHOP, true);
 	
 	}
 	
 	// print out the board
 	public void printBoard() {
+		//System.out.println("isCheck = " + isCheck());
 		Vector test;
 		
 		System.out.println("   a b c d e f g h");
@@ -61,7 +66,7 @@ public class Board implements Constants {
 			System.out.print(8-i + "| ");
 			for(int j = 0; j < 8; j++) {
 				if(board[i][j] != null) 
-					getBoardPiece(i,j);
+					getBoardPiece(i,j,board);
 				else 
 					System.out.print("- ");
 			}
@@ -187,14 +192,12 @@ public class Board implements Constants {
 			// if the move is in the set of possible moves, perform that move
 			mm = (Move) moves.elementAt(validInt);
 			mm.movePiece(board);
-			
-			isCheck();
 		}
 		
 		printBoard();
 	}
 	
-	private void getBoardPiece(int y, int x) {
+	private static void getBoardPiece(int y, int x, Piece[][] board) {
 		// black pieces
 		if(!board[y][x].isWhite) {
 			switch(board[y][x].type){
@@ -268,7 +271,7 @@ public class Board implements Constants {
 	}
 	
 	// determine whether the king is in check
-	boolean isCheck() {
+	public static boolean isCheck() {
 		Main getTurn = new Main();
 		Vector moves = new Vector();
 		Move mm;
@@ -332,9 +335,9 @@ public class Board implements Constants {
 						case QUEEN:
 							moves = PieceAlgorithms.queen(board,i,j);
 							break;
-						case KING:
-							moves = PieceAlgorithms.king(board,i,j);
-							break;
+						//case KING:
+							//moves = PieceAlgorithms.king(board,i,j);
+							//break;
 						case KNIGHT:
 							moves = PieceAlgorithms.knight(board,i,j);
 							break;
@@ -353,7 +356,138 @@ public class Board implements Constants {
 				}
 			}
 		}
+		return check;
+	}
+		
+	public static boolean whiteCheck(int x1, int y1, int x2, int y2, Piece[][] board) {
+		Main getTurn = new Main();
+		Vector moves = new Vector();
+		Move mm;
+		boolean check = false;
+		
+		Piece[][] boardCopy = new Piece[8][8];
+		
+		for ( int k = 0; k < 8; k++) {
+			for ( int l = 0; l < 8; l++) {
+				if( board[k][l] != null) {
+					//System.out.println(board[k][l]);
+					boardCopy[k][l] = board[k][l];
+				}
+			}
+		}
+		
+	//	board[y2][x2].type = board[y1][x1].type;
+		//board[y2][x2] = board[y1][x1]; 	// set the target location to the moving piece	
+		//board[y1][x1] = null;			// set the old location to null 
+		//System.out.println(boardCopy[x1][y1]);
+		boardCopy[x2][y2] = board[x1][y1];
+		boardCopy[x1][y1] = null;
+		
+		Vector test;
+		
+		System.out.println("   a b c d e f g h");
+		System.out.println("  -----------------");
+		
+		for(int i = 0; i < 8; i++) {
+			System.out.print(8-i + "| ");
+			for(int j = 0; j < 8; j++) {
+				if(boardCopy[i][j] != null) 
+					getBoardPiece(i,j,boardCopy);
+				else 
+					System.out.print("- ");
+			}
+			System.out.println("|");
+		}
+		System.out.println("  -----------------");
+		
+		if(getTurn.isWhiteTurn == true) {
+			// test
+			for(int i = 0; i < 8; i++) {
+				for(int j = 0; j < 8; j++) {
+					// test
+					if(boardCopy[i][j] != null && !boardCopy[i][j].isWhite) {
+						switch(boardCopy[i][j].type){
+						case PAWN:
+							moves = PieceAlgorithms.pawn(boardCopy,i,j);
+							break;
+						case ROOK:
+							moves = PieceAlgorithms.rook(boardCopy,i,j);
+							break;
+						case BISHOP:
+							moves = PieceAlgorithms.bishop(boardCopy,i,j);
+							break;
+						case QUEEN:
+							moves = PieceAlgorithms.queen(boardCopy,i,j);
+							break;
+						//case KING:
+							//moves = PieceAlgorithms.king(boardCopy,i,j);
+							//break;
+						case KNIGHT:
+							moves = PieceAlgorithms.knight(boardCopy,i,j);
+							break;
+						}
+						
+						// check if the possible moves are a king
+						for( int k = 0; k < moves.size(); k++) {
+							mm = (Move) moves.elementAt(k);
+							//System.out.println(mm.type);
+							if(boardCopy[mm.y2][mm.x2] != null && boardCopy[mm.y2][mm.x2].type == 5) {
+								System.out.println("KING");
+								check = true;
+							}
+						}
+					}
+				}
+			}
+		}
 		
 		return check;
 	}
+		
+	public static boolean blackCheck(int i, int j) {
+		Main getTurn = new Main();
+		Vector moves = new Vector();
+		Move mm;
+		boolean check = false;
+		
+		if(getTurn.isWhiteTurn == false) {
+			// test
+			if(board[i][j] != null && !board[i][j].isWhite) {
+				switch(board[i][j].type){
+				case PAWN:
+					moves = PieceAlgorithms.pawn(board,i,j);
+					break;
+				case ROOK:
+					moves = PieceAlgorithms.rook(board,i,j);
+					break;
+				case BISHOP:
+					moves = PieceAlgorithms.bishop(board,i,j);
+					break;
+				case QUEEN:
+					moves = PieceAlgorithms.queen(board,i,j);
+					break;
+				//case KING:
+					//moves = PieceAlgorithms.king(board,i,j);
+					//break;
+				case KNIGHT:
+					moves = PieceAlgorithms.knight(board,i,j);
+					break;
+				}
+				
+				// check if the possible moves are a king
+				for( int k = 0; k < moves.size(); k++) {
+					mm = (Move) moves.elementAt(k);
+					//System.out.println(mm.type);
+					if(board[mm.y2][mm.x2] != null && board[mm.y2][mm.x2].type == 5) {
+						System.out.println("KING");
+						check = true;
+					}
+				}
+			}
+		}
+		
+		return check;
+	}
+	
+	
 }
