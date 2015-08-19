@@ -48,8 +48,8 @@ public class Board implements Constants {
 		// delete after, testing purposes
 		//board[3][5] = new Piece(KING, false);
 		//board[3][5] = new Piece(ROOK, true);
-		board[4][0] = new Piece(KING, true);
-		board[5][1] = new Piece(QUEEN, true);
+		board[5][1] = new Piece(KING, false);
+		//board[5][1] = new Piece(QUEEN, true);
 		board[4][5] = new Piece(ROOK, false);
 		//board[2][2] = new Piece(BISHOP, false);
 	
@@ -317,9 +317,10 @@ public class Board implements Constants {
 						// check if the possible moves are a king
 						for( int k = 0; k < moves.size(); k++) {
 							mm = (Move) moves.elementAt(k);
-							//System.out.println(mm.type);
+							//System.out.println(i + " " + j);
 							if((board[mm.y2][mm.x2] != null && board[mm.y2][mm.x2].type == 5) && board[mm.y2][mm.x2].isWhite == false) {
 								System.out.println("Black in check");
+								System.out.println(i + " " + j);
 								check = true;
 							}
 						}
@@ -356,6 +357,7 @@ public class Board implements Constants {
 						for( int k = 0; k < moves.size(); k++) {
 							mm = (Move) moves.elementAt(k);
 							//System.out.println(mm.type);
+							//System.out.println(i + " " + j);
 							if((board[mm.y2][mm.x2] != null && board[mm.y2][mm.x2].type == 5) && board[mm.y2][mm.x2].isWhite == true) {
 								System.out.println("White in check");
 								check = true;
@@ -376,7 +378,7 @@ public class Board implements Constants {
 		Move mm;
 		boolean check = false;
 		
-		System.out.println(Board.checkTrue);
+		//System.out.println(Board.checkTrue);
 		
 		Piece[][] boardCopy = new Piece[8][8]; // play the copy of the board in here
 		

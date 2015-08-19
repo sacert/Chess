@@ -22,20 +22,66 @@ public class PieceAlgorithms {
 		for(int c = y-1; c <= y+1; c++){
 			for(int r = x-1; r <= x+1; r++){
 				Boolean outOfBounds = false;
-				if(c < 0 || r > 7){
+				if(c < 0 || c > 7){
 					outOfBounds = true;
 				}
+				if(r < 0 || r > 7){
+					outOfBounds = true;
+				}
+				
+				if(board[y][x].isWhite) {
+					if(!outOfBounds) {
+					if((board[c][r] == null || !board[c][r].isWhite)) {  // check if the piece above it is free
+						if(!(c == y && r == x))	{
+							if(Board.checkTrue) {
+									if(!Board.whiteCheck(y, x, c, r, board)) {
+										moves.add(new Move(y,x,c,r));
+									}
+								} else {
+									moves.add(new Move(y,x,c,r));
+								}
+						}
+						}
+					}
+				}
+				else { // for black pieces moving
+					if(!outOfBounds) {
+						if((board[c][r] == null || board[c][r].isWhite)) {  // check if the piece above it is free
+							if(!(c == y && r == x))	{
+								if(Board.checkTrue) {
+										if(!Board.blackCheck(y, x, c, r, board)) {
+											moves.add(new Move(y,x,c,r));
+										}
+									} else {
+										moves.add(new Move(y,x,c,r));
+									}
+							}
+					}
+				}
+				}
 
-				if(!(outOfBounds || (c == y && r == x))){ // if not the case that it's out of bounds or in the original position, then...
-					if(board[c][r] == null){ // if empty, move there.
-						moves.add(new Move(y,x,c,r));
-					} else {
-						Boolean isOtherPieceWhite = board[c][r].isWhite;
-						if(isMovingPieceWhite != isOtherPieceWhite){ // if the space is occupied by an enemy, we can go there, otherwise we can't
-							moves.add(new Move(y,x,c,r));
-						}								
-					}	
-				}	
+//				if(!(outOfBounds || (c == y && r == x))){ // if not the case that it's out of bounds or in the original position, then...
+//					if(board[c][r] == null){ // if empty, move there.
+//						if(Board.checkTrue) {
+//							if(!Board.whiteCheck(y, x, c, r, board)) {
+//								moves.add(new Move(y,x,c,r));
+//							}
+//						} else {
+//							moves.add(new Move(y,x,c,r));
+//						}
+//					} else {
+//						Boolean isOtherPieceWhite = board[c][r].isWhite;
+//						if(isMovingPieceWhite != isOtherPieceWhite){ // if the space is occupied by an enemy, we can go there, otherwise we can't
+//							if(Board.checkTrue) {
+//								if(!Board.whiteCheck(y, x, c, r, board)) {
+//									moves.add(new Move(y,x,c,r));
+//								}
+//							} else {
+//								moves.add(new Move(y,x,c,r));
+//							}
+//						}								
+//					}	
+//				}	
 			}	
 		}
 		
@@ -49,35 +95,78 @@ public class PieceAlgorithms {
 		Vector<Move> moves = new Vector<Move>(); // store the possible moves in here
 		// for white pieces moving
 		if(board[y][x].isWhite) {
-			if(board[y-1][x] == null) {  // check if the piece above it is free
+			//if(board[y-1][x] == null) {  // check if the piece above it is free
 				if(y == 6) { // if it is in the starting position, can move 1 or 2 spaces
-						moves.add(new Move(y,x,y-2,x));
-						moves.add(new Move(y,x,y-1,x));
+					if(board[y-2][x] == null) {
+						if(Board.checkTrue) {
+							if(!Board.whiteCheck(y, x, y-2, x, board)) {
+								if(board[y-2][x] == null)
+									moves.add(new Move(y,x,y-2,x));
+							}
+						} else {
+							if(board[y-2][x] == null)
+								moves.add(new Move(y,x,y-2,x));
+						}
+					}
+					if(board[y-1][x] == null) {
+						if(Board.checkTrue) {
+							if(!Board.whiteCheck(y, x, y-1, x, board)) {
+								if(board[y-1][x] == null)
+									moves.add(new Move(y,x,y-1,x));
+							}
+						} else {
+							if(board[y-1][x] == null)
+								moves.add(new Move(y,x,y-1,x));
+						}
+					}
 				}
 				else { // else only move one
 					if(Board.checkTrue) {
 						if(!Board.whiteCheck(y, x, y-1, x, board)) {
-							moves.add(new Move(y,x,y-1,x));
+							if(board[y-1][x] == null)
+								moves.add(new Move(y,x,y-1,x));
 						}
 					} else {
-						moves.add(new Move(y,x,y-1,x));
+						if(board[y-1][x] == null)
+							moves.add(new Move(y,x,y-1,x));
 					}
 				}
-			}
+			//}
 		}
 		else { // for black pieces moving
-			if(board[y+1][x] == null) { // check if the piece above it is free
+			//if(board[y+1][x] == null) { // check if the piece above it is free
 				if(y == 1) { // if it is in the starting position, can move 1 or 2 spaces
-						moves.add(new Move(y,x,y+2,x));
-						moves.add(new Move(y,x,y+1,x));
+						if(board[y+2][x] == null) {
+							if(Board.checkTrue) {
+								if(!Board.blackCheck(y, x, y+2, x, board)) {
+									if(board[y+2][x] == null)
+										moves.add(new Move(y,x,y+2,x));
+								}
+							} else {
+								if(board[y+2][x] == null)
+									moves.add(new Move(y,x,y+2,x));
+							}
+						}
+						if(board[y+1][x] == null) {
+							if(Board.checkTrue) {
+								if(!Board.blackCheck(y, x, y+1, x, board)) {
+									if(board[y+1][x] == null)
+										moves.add(new Move(y,x,y+1,x));
+								}
+							} else {
+								if(board[y+1][x] == null)
+									moves.add(new Move(y,x,y+1,x));
+							}
 				}
 				else { // else only move one
 					if(Board.checkTrue) {
 						if(!Board.blackCheck(y, x, y+1, x, board)) {
-							moves.add(new Move(y,x,y+1,x));
+							if(board[y+1][x] == null)
+								moves.add(new Move(y,x,y+1,x));
 						}
 					} else {
-						moves.add(new Move(y,x,y+1,x));
+						if(board[y+1][x] == null)
+							moves.add(new Move(y,x,y+1,x));
 					}	
 				}
 			}
