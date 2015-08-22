@@ -49,6 +49,7 @@ public class Main {
 			    	if(board.board[yCoord][xCoord] != null && board.board[yCoord][xCoord].isWhite) {
 			    		
 			    		if(!board.movePiece(yCoord, xCoord)){ // if the piece cannot move there, restart the loop.
+					    	System.out.println("***Select a new piece***");
 			    			continue;
 			    		}
 			    		
@@ -63,6 +64,7 @@ public class Main {
 		    		if(board.board[yCoord][xCoord] != null && !board.board[yCoord][xCoord].isWhite) {
 			    		
 			    		if(!board.movePiece(yCoord, xCoord)){ // if the piece cannot move there, restart the loop.
+					    	System.out.println("***Select a new piece***");
 			    			continue;
 			    		}
 			    		

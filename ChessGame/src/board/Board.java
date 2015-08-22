@@ -13,6 +13,7 @@ public class Board implements Constants {
 
 	public static Piece[][]board; // the board
 	public static boolean checkTrue = false;
+	private static final String undoPieceSelectionPrompt = "undo";
 
 	public byte x1;
 	public byte y1;
@@ -111,7 +112,7 @@ public class Board implements Constants {
 		
 		if(moves.isEmpty()){
 			// doesn't do anything in regards to turns. maybe it should?
-			System.out.println("Nowhere to move.");
+			System.out.println("     Nowhere to move.");
 			return false;
 		}
 		
@@ -139,14 +140,22 @@ public class Board implements Constants {
 				//System.out.print(mm.toString());
 			}
 		} 
+
+		System.out.print(" | undo" );
 		
 		while(!valid) {
 			// get the position of the user's input in the form of y and then x
 			// NOTE * can swap these to make it in the format of x and y
 			System.out.print("\nMove to: ");
 			
+			
 
-	    	String input =  user_input.nextLine();	
+	    	String input =  user_input.nextLine();
+	    	
+	    	if(input.equals(undoPieceSelectionPrompt)){
+	    		return false;
+	    	}
+	    	
 			Point point = Point.convertStringToPoint(input);
 	    	yCoord = point.getY();
 	    	xCoord = point.getX();
