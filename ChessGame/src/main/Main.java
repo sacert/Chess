@@ -47,7 +47,12 @@ public class Main {
 		    	
 		    	if(isWhiteTurn) {
 			    	if(board.board[yCoord][xCoord] != null && board.board[yCoord][xCoord].isWhite) {
-			    		board.movePiece(yCoord, xCoord);
+			    		
+			    		if(!board.movePiece(yCoord, xCoord)){ // if the piece cannot move there, restart the loop.
+			    			continue;
+			    		}
+			    		
+//			    		board.movePiece(yCoord, xCoord);
 			    		valid = true;
 			    		isWhiteTurn = false;
 			    	}
@@ -56,7 +61,12 @@ public class Main {
 			    	}
 		    	} else {
 		    		if(board.board[yCoord][xCoord] != null && !board.board[yCoord][xCoord].isWhite) {
-			    		board.movePiece(yCoord, xCoord);
+			    		
+			    		if(!board.movePiece(yCoord, xCoord)){ // if the piece cannot move there, restart the loop.
+			    			continue;
+			    		}
+			    		
+//			    		board.movePiece(yCoord, xCoord);
 			    		valid = true;
 			    		isWhiteTurn = true;
 			    	}

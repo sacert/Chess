@@ -76,9 +76,9 @@ public class Board implements Constants {
 		System.out.println("  -----------------");
 	}
 	
-	public void movePiece(int y, int x) {
+	public Boolean movePiece(int y, int x) {
 		if(board[y][x] == null) {
-			return;
+			return false;
 		}
 		Scanner user_input = new Scanner(System.in);
 		Vector moves = new Vector();
@@ -112,7 +112,7 @@ public class Board implements Constants {
 		if(moves.isEmpty()){
 			// doesn't do anything in regards to turns. maybe it should?
 			System.out.println("Nowhere to move.");
-			return;
+			return false;
 		}
 		
 		
@@ -204,6 +204,7 @@ public class Board implements Constants {
 		}
 		
 		printBoard();
+		return true;
 	}
 	
 	private static void getBoardPiece(int y, int x, Piece[][] board) {
