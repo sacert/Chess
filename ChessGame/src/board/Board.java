@@ -1,6 +1,8 @@
 package board;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -21,38 +23,93 @@ public class Board implements Constants {
 	public byte y2;
 	
 	public int type;
+
+	public List<Piece> whitePieces = new ArrayList<Piece>();
+	public List<Piece> blackPieces = new ArrayList<Piece>();
+	
 	
 	public Board() {
+
+		
 		
 		board = new Piece[8][8]; // initialize the size
 		
 		// set both the white and black pawns
 		for(int i = 0; i < 8; i++) {
-			board[1][i] = new Piece(PAWN,false); 	// for the black side
-			board[6][i] = new Piece(PAWN,true); 	// for the white side 
+			whitePieces.add(new Piece(PAWN,false));
+			board[1][i] = whitePieces.get(whitePieces.size()-1); 	// for the black side
+			
+			blackPieces.add(new Piece(PAWN,true));
+			board[6][i] = blackPieces.get(blackPieces.size()-1); 	// for the black side
+			
+//			board[1][i] = new Piece(PAWN,false); 	// for the black side
+//			board[6][i] = new Piece(PAWN,true); 	// for the white side 
 		}
 		
 		// black pieces
-		board[0][0] = board[0][7] = new Piece(ROOK, false);
-		board[0][1] = board[0][6] = new Piece(KNIGHT, false);
-		board[0][2] = board[0][5] = new Piece(BISHOP, false);
-		board[0][3] = new Piece(QUEEN, false);
-		board[0][4] = new Piece(KING, false);
+		blackPieces.add(new Piece(ROOK, false));
+		board[0][0] = blackPieces.get(blackPieces.size()-1);
+		blackPieces.add(new Piece(ROOK, false));
+		board[0][7] = blackPieces.get(blackPieces.size()-1);
+		
+
+		blackPieces.add(new Piece(KNIGHT, false));
+		board[0][1] = blackPieces.get(blackPieces.size()-1);
+		blackPieces.add(new Piece(KNIGHT, false));
+		board[0][6] = blackPieces.get(blackPieces.size()-1);
+
+		
+		blackPieces.add(new Piece(BISHOP, false));
+		board[0][2] = blackPieces.get(blackPieces.size()-1);
+		blackPieces.add(new Piece(BISHOP, false));
+		board[0][5] = blackPieces.get(blackPieces.size()-1);
+
+		
+		blackPieces.add(new Piece(QUEEN, false));
+		board[0][3] = blackPieces.get(blackPieces.size()-1);
+		
+		
+		blackPieces.add(new Piece(KING, false));
+		board[0][4] = blackPieces.get(blackPieces.size()-1);
+		
+		
 		
 		// white pieces
-		board[7][0] = board[7][7] = new Piece(ROOK, true);
-		board[7][1] = board[7][6] = new Piece(KNIGHT, true);
-		board[7][2] = board[7][5] = new Piece(BISHOP, true);
-		board[7][3] = new Piece(QUEEN, true);
-		board[7][4] = new Piece(KING, true);
+		whitePieces.add(new Piece(ROOK, true));
+		board[7][0] = whitePieces.get(whitePieces.size()-1);
+
+		whitePieces.add(new Piece(ROOK, true));
+		board[7][7] = whitePieces.get(whitePieces.size()-1);
+
+		whitePieces.add(new Piece(KNIGHT, true));
+		board[7][1] = whitePieces.get(whitePieces.size()-1);
+		
+		whitePieces.add(new Piece(KNIGHT, true));
+		board[7][6] = whitePieces.get(whitePieces.size()-1);
+		
+		
+		whitePieces.add(new Piece(BISHOP, true));
+		board[7][2] = whitePieces.get(whitePieces.size()-1);
+		
+
+		whitePieces.add(new Piece(BISHOP, true));
+		board[7][5] = whitePieces.get(whitePieces.size()-1);
+		
+		
+		
+		whitePieces.add(new Piece(QUEEN, true));
+		board[7][3] = whitePieces.get(whitePieces.size()-1);
+		
+		whitePieces.add(new Piece(KING, true));
+		board[7][4] = whitePieces.get(whitePieces.size()-1);
 		
 		// delete after, testing purposes
-		//board[3][5] = new Piece(KING, false);
-		//board[3][5] = new Piece(ROOK, true);
-		board[5][1] = new Piece(KING, false);
-		//board[5][1] = new Piece(QUEEN, true);
-		board[4][5] = new Piece(ROOK, false);
-		//board[2][2] = new Piece(BISHOP, false);
+//		//board[3][5] = new Piece(KING, false);
+//		//board[3][5] = new Piece(ROOK, true);
+//		board[5][1] = new Piece(KING, false);
+//		//board[5][1] = new Piece(QUEEN, true);
+//		board[4][5] = new Piece(ROOK, false);
+//		//board[2][2] = new Piece(BISHOP, false);
 	
 	}
 	

@@ -18,6 +18,7 @@ public class Main {
     	boolean valid = false;
     	Board board = new Board();
     	board.printBoard();
+   
     	
     	// *Note add this into another class
     	

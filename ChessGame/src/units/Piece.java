@@ -7,10 +7,16 @@ public class Piece implements Constants {
 	
 	public byte type;	// for the type of piece
 	public boolean isWhite;
+	public boolean canCastle;
 	
 	public Piece(byte type, boolean white) {
 		isWhite = white;
 		this.type = type;
+		if(type == ROOK){
+			this.canCastle = true;
+		} else {
+			this.canCastle = false;
+		}
 	}
 	
 	
