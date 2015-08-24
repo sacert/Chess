@@ -141,7 +141,7 @@ public class Board implements Constants {
 			}
 		} 
 
-		System.out.print(" | undo" );
+		System.out.print(" | " + undoPieceSelectionPrompt);
 		
 		while(!valid) {
 			// get the position of the user's input in the form of y and then x
