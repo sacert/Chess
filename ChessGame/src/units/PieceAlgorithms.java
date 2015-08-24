@@ -60,29 +60,80 @@ public class PieceAlgorithms {
 				}
 				}
 
-//				if(!(outOfBounds || (c == y && r == x))){ // if not the case that it's out of bounds or in the original position, then...
-//					if(board[c][r] == null){ // if empty, move there.
-//						if(Board.checkTrue) {
-//							if(!Board.whiteCheck(y, x, c, r, board)) {
-//								moves.add(new Move(y,x,c,r));
-//							}
-//						} else {
-//							moves.add(new Move(y,x,c,r));
-//						}
-//					} else {
-//						Boolean isOtherPieceWhite = board[c][r].isWhite;
-//						if(isMovingPieceWhite != isOtherPieceWhite){ // if the space is occupied by an enemy, we can go there, otherwise we can't
-//							if(Board.checkTrue) {
-//								if(!Board.whiteCheck(y, x, c, r, board)) {
-//									moves.add(new Move(y,x,c,r));
-//								}
-//							} else {
-//								moves.add(new Move(y,x,c,r));
-//							}
-//						}								
-//					}	
-//				}	
+
+
+				
+				
 			}	
+		}
+		
+		
+		// white King castling options
+		boolean whiteKingIsInOriginalPosition = y == 7 && x == 4;
+		if(board[y][x].isWhite && whiteKingIsInOriginalPosition && board[y][x].canCastle){
+			
+			// check left rook
+			
+			boolean whiteLeftSpacesFreeFromCheck = !(Board.whiteCheck(4, 7, 4, 7, board) && Board.whiteCheck(4, 7, 3, 7, board) && Board.whiteCheck(4, 7, 2, 7, board)); // format: Board.whiteCheck(4, 7, x2, y2, board)
+			if(board[7][0] != null){
+				if(board[7][0].canCastle && board[7][0].isWhite && whiteLeftSpacesFreeFromCheck){
+
+					// if spaces in between are empty
+					if(board[7][1] ==  null && board[7][2] == null && board[7][3] == null){
+						moves.add(new Move(y,x,7,2));
+					}
+
+				}
+			}
+			
+			// check right rook
+
+			boolean whiteRightSpacesFreeFromCheck = !(Board.whiteCheck(4, 7, 4, 7, board) && Board.whiteCheck(4, 7, 5, 7, board) && Board.whiteCheck(4, 7, 6, 7, board)); // format: Board.whiteCheck(4, 7, x2, y2, board)
+			if(board[7][7] != null){
+				if(board[7][7].canCastle && board[7][7].isWhite && whiteRightSpacesFreeFromCheck){
+
+					// if spaces in between are empty
+					if(board[7][5] ==  null && board[7][6] == null){
+						moves.add(new Move(y,x,7,6));
+					}
+
+				}
+			}
+		}
+		
+		
+		// black King castling options
+		boolean blackKingIsInOriginalPosition = y == 0 && x == 4;
+		if(!board[y][x].isWhite && blackKingIsInOriginalPosition && board[y][x].canCastle){
+			
+			// check left rook
+
+			//whiteCheck(int x1, int y1, int x2, int y2,
+			boolean blackLeftSpacesFreeFromCheck = !(Board.blackCheck(4, 0, 4, 0, board) && Board.blackCheck(4, 0, 3, 0, board) && Board.blackCheck(4, 0, 2, 0, board)); // format: Board.blackCheck(4, 0, x2, y2, board)
+			if(board[0][0] != null){
+				if(board[0][0].canCastle && !board[0][0].isWhite && blackLeftSpacesFreeFromCheck){
+
+					// if spaces in between are empty
+					if(board[0][1] ==  null && board[0][2] == null && board[0][3] == null){
+						moves.add(new Move(y,x,0,2));
+					}
+
+				}
+			}
+			
+			// check right rook
+			boolean blackRightSpacesFreeFromCheck = !(Board.blackCheck(4, 0, 4, 0, board) && Board.blackCheck(4, 0, 5, 0, board) && Board.blackCheck(4, 0, 6, 0, board)); // format: Board.whiteCheck(4, 7, x2, y2, board)
+			
+			if(board[0][7] != null){
+				if(board[0][7].canCastle && !board[0][7].isWhite && blackRightSpacesFreeFromCheck){
+
+					// if spaces in between are empty
+					if(board[0][5] ==  null && board[0][6] == null){
+						moves.add(new Move(y,x,0,6));
+					}
+
+				}
+			}
 		}
 		
 		return moves;

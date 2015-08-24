@@ -53,20 +53,20 @@ public class Board implements Constants {
 		board[0][7] = blackPieces.get(blackPieces.size()-1);
 		
 
-		blackPieces.add(new Piece(KNIGHT, false));
-		board[0][1] = blackPieces.get(blackPieces.size()-1);
-		blackPieces.add(new Piece(KNIGHT, false));
-		board[0][6] = blackPieces.get(blackPieces.size()-1);
-
-		
-		blackPieces.add(new Piece(BISHOP, false));
-		board[0][2] = blackPieces.get(blackPieces.size()-1);
-		blackPieces.add(new Piece(BISHOP, false));
-		board[0][5] = blackPieces.get(blackPieces.size()-1);
-
-		
-		blackPieces.add(new Piece(QUEEN, false));
-		board[0][3] = blackPieces.get(blackPieces.size()-1);
+//		blackPieces.add(new Piece(KNIGHT, false));
+//		board[0][1] = blackPieces.get(blackPieces.size()-1);
+//		blackPieces.add(new Piece(KNIGHT, false));
+//		board[0][6] = blackPieces.get(blackPieces.size()-1);
+//
+//		
+//		blackPieces.add(new Piece(BISHOP, false));
+//		board[0][2] = blackPieces.get(blackPieces.size()-1);
+//		blackPieces.add(new Piece(BISHOP, false));
+//		board[0][5] = blackPieces.get(blackPieces.size()-1);
+//
+//		
+//		blackPieces.add(new Piece(QUEEN, false));
+//		board[0][3] = blackPieces.get(blackPieces.size()-1);
 		
 		
 		blackPieces.add(new Piece(KING, false));
@@ -81,27 +81,30 @@ public class Board implements Constants {
 		whitePieces.add(new Piece(ROOK, true));
 		board[7][7] = whitePieces.get(whitePieces.size()-1);
 
-		whitePieces.add(new Piece(KNIGHT, true));
-		board[7][1] = whitePieces.get(whitePieces.size()-1);
-		
-		whitePieces.add(new Piece(KNIGHT, true));
-		board[7][6] = whitePieces.get(whitePieces.size()-1);
-		
-		
-		whitePieces.add(new Piece(BISHOP, true));
-		board[7][2] = whitePieces.get(whitePieces.size()-1);
-		
-
-		whitePieces.add(new Piece(BISHOP, true));
-		board[7][5] = whitePieces.get(whitePieces.size()-1);
-		
-		
-		
-		whitePieces.add(new Piece(QUEEN, true));
-		board[7][3] = whitePieces.get(whitePieces.size()-1);
+//		whitePieces.add(new Piece(KNIGHT, true));
+//		board[7][1] = whitePieces.get(whitePieces.size()-1);
+//		
+//		whitePieces.add(new Piece(KNIGHT, true));
+//		board[7][6] = whitePieces.get(whitePieces.size()-1);
+//		
+//		
+//		whitePieces.add(new Piece(BISHOP, true));
+//		board[7][2] = whitePieces.get(whitePieces.size()-1);
+//		
+//
+//		whitePieces.add(new Piece(BISHOP, true));
+//		board[7][5] = whitePieces.get(whitePieces.size()-1);
+//		
+//		
+//		
+//		whitePieces.add(new Piece(QUEEN, true));
+//		board[7][3] = whitePieces.get(whitePieces.size()-1);
 		
 		whitePieces.add(new Piece(KING, true));
 		board[7][4] = whitePieces.get(whitePieces.size()-1);
+		
+		
+		
 		
 		// delete after, testing purposes
 //		//board[3][5] = new Piece(KING, false);
@@ -265,8 +268,60 @@ public class Board implements Constants {
 		}
 		if(valid) {
 			// if the move is in the set of possible moves, perform that move
+			board[y][x].canCastle = false;
+
 			mm = (Move) moves.elementAt(validInt);
+			
+
+			// if a castling move
+			if(board[y][x] != null){
+				if(board[y][x].type == KING){
+					
+					// white King
+					boolean whiteKingIsInOriginalPosition = y == 7 && x == 4;
+					if(board[y][x].isWhite && whiteKingIsInOriginalPosition){
+						
+						// Move left rook to appropriate spot
+						if(mm.y2 == 7 & mm.x2 == 2){
+							board[7][3] = board[7][0];
+							board[7][0] = null;
+						}
+						
+						// Move right rook to appropriate spot
+						if(mm.y2 == 7 & mm.x2 == 6){
+							board[7][5] = board[7][7];
+							board[7][7] = null;
+							
+						}
+					}
+					
+					// black King
+					boolean blackKingIsInOriginalPosition = y == 0 && x == 4;
+					if(!board[y][x].isWhite && blackKingIsInOriginalPosition){
+						
+						// Move left rook to appropriate spot
+						if(mm.y2 == 0 & mm.x2 == 2){
+							board[0][3] = board[0][0];
+							board[0][0] = null;
+						}
+						
+						// Move right rook to appropriate spot
+						if(mm.y2 == 0 & mm.x2 == 6){
+							board[0][5] = board[0][7];
+							board[0][7] = null;
+							
+						}
+					}
+					
+					
+
+				}
+			}
+			
+			
 			mm.movePiece(board);
+			
+
 		}
 		
 		printBoard();

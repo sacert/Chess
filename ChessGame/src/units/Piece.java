@@ -12,7 +12,7 @@ public class Piece implements Constants {
 	public Piece(byte type, boolean white) {
 		isWhite = white;
 		this.type = type;
-		if(type == ROOK){
+		if(type == ROOK || type == KING){
 			this.canCastle = true;
 		} else {
 			this.canCastle = false;
