@@ -26,7 +26,8 @@ public class GameStart {
     	// *NOTE: create a king checker, if either one has died, game is over
     	// so check both kings and determine winner
     	while(!gameOver) {
-    		Board.checkTrue = Board.isCheck();
+    		Board.checkTrueWhite = Board.isCheckWhite();
+    		Board.checkTrueBlack = Board.isCheckBlack();
     		//getTurn(isWhiteTurn);
     		valid = false;
 	    	// get user input on which piece to move

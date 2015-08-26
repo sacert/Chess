@@ -117,7 +117,12 @@ public class FXController implements Initializable, Constants {
 				String rowString = "Row: " + row;
 				System.out.println(columnString + ", " + rowString);
 
-				Board.checkTrue = Board.isCheck();
+				Board.checkTrueWhite = Board.isCheckWhite();
+				Board.checkTrueBlack = Board.isCheckBlack();
+				
+				System.out.println("------");
+				System.out.println(Board.checkTrueWhite);
+				System.out.println(Board.checkTrueBlack);
 				//getTurn(isWhiteTurn);
 				boolean valid = false;
 

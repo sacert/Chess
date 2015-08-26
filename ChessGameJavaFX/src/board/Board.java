@@ -16,7 +16,8 @@ import units.PieceAlgorithms;
 public class Board implements Constants {
 
 	public static Piece[][]board; // the board
-	public static boolean checkTrue = false;
+	public static boolean checkTrueWhite = false;
+	public static boolean checkTrueBlack = false;
 	private static final String undoPieceSelectionPrompt = "undo";
 
 	public byte x1;
@@ -398,7 +399,7 @@ public class Board implements Constants {
 	}
 	
 	// determine whether the king is in check
-	public static boolean isCheck() {
+	public static boolean isCheckBlack() {
 		GameStart getTurn = new GameStart();
 		Vector moves = new Vector();
 		Move mm;
@@ -446,45 +447,55 @@ public class Board implements Constants {
 				}
 			}
 		//} else {
-			for(int i = 0; i < 8; i++) {
-				for(int j = 0; j < 8; j++) {
-					// test
-					if(board[i][j] != null && !board[i][j].isWhite) {
-						switch(board[i][j].type){
-						case PAWN:
-							moves = PieceAlgorithms.pawn(board,i,j);
-							break;
-						case ROOK:
-							moves = PieceAlgorithms.rook(board,i,j);
-							break;
-						case BISHOP:
-							moves = PieceAlgorithms.bishop(board,i,j);
-							break;
-						case QUEEN:
-							moves = PieceAlgorithms.queen(board,i,j);
-							break;
-						case KING:
-							moves = PieceAlgorithms.king(board,i,j);
-							break;
-						case KNIGHT:
-							moves = PieceAlgorithms.knight(board,i,j);
-							break;
-						}
-						
-						// check if the possible moves are a king
-						for( int k = 0; k < moves.size(); k++) {
-							mm = (Move) moves.elementAt(k);
-							//System.out.println(mm.type);
-							//System.out.println(i + " " + j);
-							if((board[mm.y2][mm.x2] != null && board[mm.y2][mm.x2].type == 5) && board[mm.y2][mm.x2].isWhite == true) {
-								System.out.println("White in check");
-								check = true;
-							}
+			
+		//}
+		return check;
+	}
+	
+	public static boolean isCheckWhite() {
+		GameStart getTurn = new GameStart();
+		Vector moves = new Vector();
+		Move mm;
+		boolean check = false;
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				// test
+				if(board[i][j] != null && !board[i][j].isWhite) {
+					switch(board[i][j].type){
+					case PAWN:
+						moves = PieceAlgorithms.pawn(board,i,j);
+						break;
+					case ROOK:
+						moves = PieceAlgorithms.rook(board,i,j);
+						break;
+					case BISHOP:
+						moves = PieceAlgorithms.bishop(board,i,j);
+						break;
+					case QUEEN:
+						moves = PieceAlgorithms.queen(board,i,j);
+						break;
+					case KING:
+						moves = PieceAlgorithms.king(board,i,j);
+						break;
+					case KNIGHT:
+						moves = PieceAlgorithms.knight(board,i,j);
+						break;
+					}
+					
+					// check if the possible moves are a king
+					for( int k = 0; k < moves.size(); k++) {
+						mm = (Move) moves.elementAt(k);
+						//System.out.println(mm.type);
+						//System.out.println(i + " " + j);
+						if((board[mm.y2][mm.x2] != null && board[mm.y2][mm.x2].type == 5) && board[mm.y2][mm.x2].isWhite == true) {
+							System.out.println("White in check");
+							check = true;
 						}
 					}
 				}
 			}
-		//}
+		}
+		
 		return check;
 	}
 	
