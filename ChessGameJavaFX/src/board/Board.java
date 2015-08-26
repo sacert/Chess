@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
+import application.FXController;
 import constants.Constants;
 import units.Piece;
 import units.PieceAlgorithms;
@@ -527,8 +528,9 @@ public class Board implements Constants {
 		boardCopy[x2][y2] = board[x1][y1];
 		boardCopy[x1][y1] = null;
 		
+		
 		// check if the move will cause the player to be in check
-		if(getTurn.isWhiteTurn == true) {
+		if(FXController.isWhiteTurn == true) {
 			for(int i = 0; i < 8; i++) {
 				for(int j = 0; j < 8; j++) {
 					if(boardCopy[i][j] != null && !boardCopy[i][j].isWhite) {
@@ -558,6 +560,7 @@ public class Board implements Constants {
 							mm = (Move) moves.elementAt(k);
 							if(boardCopy[mm.y2][mm.x2] != null && boardCopy[mm.y2][mm.x2].type == 5) {
 								check = true;
+								System.out.println("white wtf");
 							}
 						}
 					}
@@ -591,8 +594,11 @@ public class Board implements Constants {
 		boardCopy[x2][y2] = board[x1][y1];
 		boardCopy[x1][y1] = null;
 		
+		System.out.println("WHITE TURN:" + getTurn.isWhiteTurn);
+	
 		// check if the move will cause the player to be in check
-		if(getTurn.isWhiteTurn == false) {
+		if(FXController.isWhiteTurn == false) {
+			System.out.println("black wtf123");
 			for(int i = 0; i < 8; i++) {
 				for(int j = 0; j < 8; j++) {
 					if(boardCopy[i][j] != null && boardCopy[i][j].isWhite) {
@@ -622,6 +628,7 @@ public class Board implements Constants {
 							mm = (Move) moves.elementAt(k);
 							if(boardCopy[mm.y2][mm.x2] != null && boardCopy[mm.y2][mm.x2].type == 5) {
 								check = true;
+								System.out.println("black wtf");
 							}
 						}
 					}
