@@ -750,7 +750,7 @@ public class PieceAlgorithms {
 					}
 				}
 				if(x-1 >= 0) { // check if it can move to the left
-					if(board[y+2][x+1] == null || (board[y+2][x-1] != null && board[y+2][x-1].isWhite)) {
+					if(board[y+2][x-1] == null || (board[y+2][x-1] != null && board[y+2][x-1].isWhite)) {
 						if(Board.checkTrue)	{
 							if(!Board.blackCheck(y, x, y+2, x-1, board)) {
 								moves.add(new Move(y,x,y+2,x-1));
