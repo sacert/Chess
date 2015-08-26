@@ -142,6 +142,9 @@ public class FXController implements Initializable, Constants {
 								valid = true;
 								
 								// highlight piece clicked
+								selectedPieceX = row;
+								selectedPieceY = col;
+								System.out.println("SELECTED y is : " + selectedPieceY + " and x is : " + selectedPieceX); 
 								pieceSuccessfullySelected(col, row, true);
 								moves = board.getMoves();
 								
@@ -164,6 +167,9 @@ public class FXController implements Initializable, Constants {
 								valid = true;
 								
 								// highlight piece clicked
+								selectedPieceX = row;
+								selectedPieceY = col;
+								System.out.println("SELECTED y is : " + selectedPieceY + " and x is : " + selectedPieceX); 
 								pieceSuccessfullySelected(col, row,true);
 								moves = board.getMoves();
 								
@@ -193,7 +199,10 @@ public class FXController implements Initializable, Constants {
 			}
 
 			public void pieceSuccessfullySelected(int col, int row, boolean originalSpot) {
-	
+
+
+				
+				
 				// put the child in here 
 				Node results = null;
 				
@@ -221,8 +230,6 @@ public class FXController implements Initializable, Constants {
 					}
 				}
 				
-				selectedPieceX = row;
-				selectedPieceY = col;
 				selectingPiece = false;
 			}
 		});

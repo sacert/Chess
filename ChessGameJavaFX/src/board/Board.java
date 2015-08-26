@@ -225,8 +225,8 @@ public class Board implements Constants {
 			return false;
 		}
 		
-		int y = selectedPieceY;
-		int x = selectedPieceX;
+		int x = selectedPieceY;
+		int y = selectedPieceX;
 		// if the move is in the set of possible moves, perform that move
 		
 //		// pawn promotion
@@ -258,9 +258,10 @@ public class Board implements Constants {
 //		}
 		
 		// NOTE* MAY BE AN ISSUE WITH THIS
-		if(board[y][x] != null) {
-			board[y][x].canCastle = false; // a piece that moves has zero chance of castling. eg a King that moved from its orig position
-		}
+//		if(board[y][x] != null) {
+		System.out.println("y is : " + y + " and x is : " + x); 
+//			board[y][x].canCastle = false; // a piece that moves has zero chance of castling. eg a King that moved from its orig position
+//		}
 		mm = (Move) moves.elementAt(validInt);
 
 
@@ -272,6 +273,8 @@ public class Board implements Constants {
 				boolean whiteKingIsInOriginalPosition = y == 7 && x == 4;
 				if(board[y][x].isWhite && whiteKingIsInOriginalPosition){
 
+
+					System.out.println("wtf"); 
 					// Move left rook to appropriate spot
 					if(mm.y2 == 7 & mm.x2 == 2){
 						board[7][3] = board[7][0];
