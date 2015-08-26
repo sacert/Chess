@@ -85,9 +85,7 @@ public class FXController implements Initializable, Constants {
 				} else {
 					color = color2;
 				}
-				if(square.getStyleClass().add("panel")) {
-					System.out.println("asdasd");
-				};
+				square.getStyleClass().add("panel");
 				square.setStyle("-fx-background-color: " + color + ";");
 				//square.setStyle("-fx-border-radius: 100;");
 				//square.setStyle("bordered-titled-title;");
@@ -107,28 +105,17 @@ public class FXController implements Initializable, Constants {
 //		System.out.println(c.getClass());
 //		c.setStyle("-fx-background-color:yellow;");
 	}
-	
-	
-		
-	// Input: column and row of gridpane. Output: gridpane cell at specified col & row
-	private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-	    return gridPane.getChildren().get(row+row+1+(16*col));
-	}
-	
 
 	// The mouse click listener is used for selecting and moving pieces on the grid.
 	private void chessGridMouseClickEvents(Board board) {
 		chessGrid.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
 				
-				
 				int row = (int)(e.getY()/squareSize);
 				int col = (int)(e.getX()/squareSize);
 				String columnString = "Column: " + col;
 				String rowString = "Row: " + row;
 				System.out.println(columnString + ", " + rowString);
-
-
 
 				Board.checkTrue = Board.isCheck();
 				//getTurn(isWhiteTurn);
@@ -153,6 +140,8 @@ public class FXController implements Initializable, Constants {
 								}
 								
 								valid = true;
+								
+								// highlight piece clicked
 								pieceSuccessfullySelected(col, row, true);
 								moves = board.getMoves();
 								
@@ -173,6 +162,8 @@ public class FXController implements Initializable, Constants {
 								}
 
 								valid = true;
+								
+								// highlight piece clicked
 								pieceSuccessfullySelected(col, row,true);
 								moves = board.getMoves();
 								
@@ -202,12 +193,7 @@ public class FXController implements Initializable, Constants {
 			}
 
 			public void pieceSuccessfullySelected(int col, int row, boolean originalSpot) {
-
-				//System.out.println("k lets ee: " + row + " " + col);
-				//chessGrid.getChildren().get(row+row+1+(16*col)).setStyle("-fx-background-color:yellow;");
-				
-				//chessGrid.getColumnIndex((Node) test.get(col)
-				
+	
 				// put the child in here 
 				Node results = null;
 				
@@ -224,6 +210,7 @@ public class FXController implements Initializable, Constants {
 								// once you find the child within the gridpane that matches the selected piece, highlight it
 								if(chessGrid.getRowIndex(node) == row && chessGrid.getColumnIndex(node) == col ) {
 									results = node;
+									
 									if(originalSpot) 
 										results.setStyle("-fx-background-color: #8AACB8;");
 									else
@@ -234,8 +221,6 @@ public class FXController implements Initializable, Constants {
 					}
 				}
 				
-//				Node c = getNodeFromGridPane(chessGrid, row, col);
-//				c.setStyle("-fx-background-color:yellow;");
 				selectedPieceX = row;
 				selectedPieceY = col;
 				selectingPiece = false;
