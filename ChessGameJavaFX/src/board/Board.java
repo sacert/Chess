@@ -175,33 +175,6 @@ public class Board implements Constants {
 	}
 
 	public Vector<Move> getMoves() {
-//		Vector moves = new Vector();
-//		int xCoord;
-//		int yCoord;
-//		boolean valid = false;
-//		int validInt = 0;
-//			
-//		switch(board[y][x].type){
-//		case PAWN:
-//			moves = PieceAlgorithms.pawn(board,y,x);
-//			break;
-//		case ROOK:
-//			moves = PieceAlgorithms.rook(board,y,x);
-//			break;
-//		case BISHOP:
-//			moves = PieceAlgorithms.bishop(board,y,x);
-//			break;
-//		case QUEEN:
-//			moves = PieceAlgorithms.queen(board,y,x);
-//			break;
-//		case KING:
-//			moves = PieceAlgorithms.king(board,y,x);
-//			break;
-//		case KNIGHT:
-//			moves = PieceAlgorithms.knight(board,y,x);
-//			break;
-//		}
-
 		Move mm;
 		
 		// print out the piece's possible moves
@@ -227,12 +200,12 @@ public class Board implements Constants {
 			}
 		} 
 
-		System.out.print(" | " + undoPieceSelectionPrompt);
+		System.out.print(" | " + undoPieceSelectionPrompt + "\n");
 		return moves;
 	}
 	
 	
-	public static boolean movePiece(int yCoord, int xCoord, Vector moves){
+	public static boolean movePiece(int yCoord, int xCoord, int selectedPieceY, int selectedPieceX, Vector moves){
 		boolean valid = false;
 		int validInt = 0;
 		
@@ -252,49 +225,39 @@ public class Board implements Constants {
 			return false;
 		}
 		
-		
-//		
-//			System.out.print("\nMove to: ");
-//
-//
-//			// pawn promotion
-//			if(board[y][x].isWhite && board[y][x].type == PAWN) {
-//				if(yCoord == 0) {
-//					System.out.println("PAWN PROMOTION: Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
-//					System.out.print(":");
-//					input =  user_input.nextLine();
-//					while(stringToByte(input) == -1) {
-//						System.out.println("INVALID! Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
-//						System.out.print(":");
-//						input =  user_input.nextLine();
-//					}
-//					board[y][x].type = stringToByte(input);
-//				}
-//			}
-//			else if (!board[y][x].isWhite && board[y][x].type == PAWN) {
-//				if(yCoord == 7) {
-//					System.out.println("PAWN PROMOTION: Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
-//					System.out.print(":");
-//					input =  user_input.nextLine();
-//					while(stringToByte(input) == -1) {
-//						System.out.println("INVALID! Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
-//						System.out.print(":");
-//						input =  user_input.nextLine();
-//					}
-//					board[y][x].type = stringToByte(input);
-//				}
-//			}
-
-		
-		
-		
-		
-
-
-		int y = yCoord;
-		int x = xCoord;
+		int y = selectedPieceY;
+		int x = selectedPieceX;
 		// if the move is in the set of possible moves, perform that move
-//		board[y][x].canCastle = false; // crashes?
+		
+//		// pawn promotion
+//		if(board[y][x].isWhite && board[y][x].type == PAWN) {
+//			if(yCoord == 0) {
+//				System.out.println("PAWN PROMOTION: Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
+//				System.out.print(":");
+//				input =  user_input.nextLine();
+//				while(stringToByte(input) == -1) {
+//					System.out.println("INVALID! Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
+//					System.out.print(":");
+//					input =  user_input.nextLine();
+//				}
+//				board[y][x].type = stringToByte(input);
+//			}
+//		}
+//		else if (!board[y][x].isWhite && board[y][x].type == PAWN) {
+//			if(yCoord == 7) {
+//				System.out.println("PAWN PROMOTION: Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
+//				System.out.print(":");
+//				input =  user_input.nextLine();
+//				while(stringToByte(input) == -1) {
+//					System.out.println("INVALID! Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
+//					System.out.print(":");
+//					input =  user_input.nextLine();
+//				}
+//				board[y][x].type = stringToByte(input);
+//			}
+//		}
+		
+		board[y][x].canCastle = false; // a piece that moves has zero chance of castling. eg a King that moved from its orig position
 
 		mm = (Move) moves.elementAt(validInt);
 

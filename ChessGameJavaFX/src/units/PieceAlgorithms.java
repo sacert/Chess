@@ -178,8 +178,9 @@ public class PieceAlgorithms {
 								moves.add(new Move(y,x,y-1,x));
 						}
 					} else {
-						if(board[y-1][x] == null)
+						if(board[y-1][x] == null){
 							moves.add(new Move(y,x,y-1,x));
+						}
 					}
 				}
 			//}
@@ -216,8 +217,9 @@ public class PieceAlgorithms {
 								moves.add(new Move(y,x,y+1,x));
 						}
 					} else {
-						if(board[y+1][x] == null)
+						if(board[y+1][x] == null){
 							moves.add(new Move(y,x,y+1,x));
+						}
 					}	
 				}
 			}
