@@ -30,8 +30,13 @@ public class Board implements Constants {
 	public List<Piece> blackPieces = new ArrayList<Piece>();
 	
 	
+	private Vector<Move> moves;
+	
+	
 	public Board() {
 
+		
+		moves = new Vector<Move>();
 		
 		
 		board = new Piece[8][8]; // initialize the size
@@ -127,12 +132,12 @@ public class Board implements Constants {
 		System.out.println("  -----------------");
 	}
 	
-	public Boolean movePiece(int y, int x) {
+	public Boolean selectPiece(int y, int x) {
 		if(board[y][x] == null) {
 			return false;
 		}
 		Scanner user_input = new Scanner(System.in);
-		Vector moves = new Vector();
+		moves = new Vector<Move>();
 		int xCoord;
 		int yCoord;
 		boolean valid = false;
@@ -166,7 +171,38 @@ public class Board implements Constants {
 			return false;
 		}
 		
-		
+		return true;
+	}
+
+	public Vector<Move> getMoves() {
+//		Vector moves = new Vector();
+//		int xCoord;
+//		int yCoord;
+//		boolean valid = false;
+//		int validInt = 0;
+//			
+//		switch(board[y][x].type){
+//		case PAWN:
+//			moves = PieceAlgorithms.pawn(board,y,x);
+//			break;
+//		case ROOK:
+//			moves = PieceAlgorithms.rook(board,y,x);
+//			break;
+//		case BISHOP:
+//			moves = PieceAlgorithms.bishop(board,y,x);
+//			break;
+//		case QUEEN:
+//			moves = PieceAlgorithms.queen(board,y,x);
+//			break;
+//		case KING:
+//			moves = PieceAlgorithms.king(board,y,x);
+//			break;
+//		case KNIGHT:
+//			moves = PieceAlgorithms.knight(board,y,x);
+//			break;
+//		}
+
+		Move mm;
 		
 		// print out the piece's possible moves
 		System.out.print("Options: ");
@@ -192,131 +228,136 @@ public class Board implements Constants {
 		} 
 
 		System.out.print(" | " + undoPieceSelectionPrompt);
+		return moves;
+	}
+	
+	
+	public static boolean movePiece(int yCoord, int xCoord, Vector moves){
+		boolean valid = false;
+		int validInt = 0;
 		
-		while(!valid) {
-			// get the position of the user's input in the form of y and then x
-			// NOTE * can swap these to make it in the format of x and y
-			System.out.print("\nMove to: ");
-			
-			
-
-	    	String input =  user_input.nextLine();
-	    	
-	    	if(input.equals(undoPieceSelectionPrompt)){
-	    		return false;
-	    	}
-	    	
-			Point point = Point.convertStringToPoint(input);
-	    	yCoord = point.getY();
-	    	xCoord = point.getX();
-			
-			
-//			yCoord = user_input.nextInt();
-//			xCoord = user_input.nextInt();
-	    	
-	    	
-			// find if that move the user is requesting is part of the possible moves
-			for( int i = 0; i < moves.size(); i++) {
-				mm = (Move) moves.elementAt(i);
-				if(xCoord == mm.x2 && yCoord == mm.y2) {
-					valid = true;
-					validInt = i;
-					break;
-				}
+		Move mm;
+		
+		// is the square we're trying to move to within the valid set of moves?
+		for( int i = 0; i < moves.size(); i++) {
+			mm = (Move) moves.elementAt(i);
+			if(xCoord == mm.x2 && yCoord == mm.y2) {
+				valid = true;
+				validInt = i;
+				break;
 			}
-			
-			// pawn promotion
-			if(board[y][x].isWhite && board[y][x].type == PAWN) {
-				if(yCoord == 0) {
-					System.out.println("PAWN PROMOTION: Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
-					System.out.print(":");
-					input =  user_input.nextLine();
-					while(stringToByte(input) == -1) {
-						System.out.println("INVALID! Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
-						System.out.print(":");
-						input =  user_input.nextLine();
-					}
-					board[y][x].type = stringToByte(input);
-				}
-			}
-			else if (!board[y][x].isWhite && board[y][x].type == PAWN) {
-				if(yCoord == 7) {
-					System.out.println("PAWN PROMOTION: Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
-					System.out.print(":");
-					input =  user_input.nextLine();
-					while(stringToByte(input) == -1) {
-						System.out.println("INVALID! Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
-						System.out.print(":");
-						input =  user_input.nextLine();
-					}
-					board[y][x].type = stringToByte(input);
-				}
-			}
-			// if not, display an error message and let them try again
-			if(!valid)
-				System.out.println("Invalid!");
-		}
-		if(valid) {
-			// if the move is in the set of possible moves, perform that move
-			board[y][x].canCastle = false;
-
-			mm = (Move) moves.elementAt(validInt);
-			
-
-			// if a castling move
-			if(board[y][x] != null){
-				if(board[y][x].type == KING){
-					
-					// white King
-					boolean whiteKingIsInOriginalPosition = y == 7 && x == 4;
-					if(board[y][x].isWhite && whiteKingIsInOriginalPosition){
-						
-						// Move left rook to appropriate spot
-						if(mm.y2 == 7 & mm.x2 == 2){
-							board[7][3] = board[7][0];
-							board[7][0] = null;
-						}
-						
-						// Move right rook to appropriate spot
-						if(mm.y2 == 7 & mm.x2 == 6){
-							board[7][5] = board[7][7];
-							board[7][7] = null;
-							
-						}
-					}
-					
-					// black King
-					boolean blackKingIsInOriginalPosition = y == 0 && x == 4;
-					if(!board[y][x].isWhite && blackKingIsInOriginalPosition){
-						
-						// Move left rook to appropriate spot
-						if(mm.y2 == 0 & mm.x2 == 2){
-							board[0][3] = board[0][0];
-							board[0][0] = null;
-						}
-						
-						// Move right rook to appropriate spot
-						if(mm.y2 == 0 & mm.x2 == 6){
-							board[0][5] = board[0][7];
-							board[0][7] = null;
-							
-						}
-					}
-					
-					
-
-				}
-			}
-			
-			
-			mm.movePiece(board);
-			
-
 		}
 		
-		printBoard();
+		if(!valid){
+			return false;
+		}
+		
+		
+//		
+//			System.out.print("\nMove to: ");
+//
+//
+//			// pawn promotion
+//			if(board[y][x].isWhite && board[y][x].type == PAWN) {
+//				if(yCoord == 0) {
+//					System.out.println("PAWN PROMOTION: Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
+//					System.out.print(":");
+//					input =  user_input.nextLine();
+//					while(stringToByte(input) == -1) {
+//						System.out.println("INVALID! Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
+//						System.out.print(":");
+//						input =  user_input.nextLine();
+//					}
+//					board[y][x].type = stringToByte(input);
+//				}
+//			}
+//			else if (!board[y][x].isWhite && board[y][x].type == PAWN) {
+//				if(yCoord == 7) {
+//					System.out.println("PAWN PROMOTION: Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
+//					System.out.print(":");
+//					input =  user_input.nextLine();
+//					while(stringToByte(input) == -1) {
+//						System.out.println("INVALID! Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
+//						System.out.print(":");
+//						input =  user_input.nextLine();
+//					}
+//					board[y][x].type = stringToByte(input);
+//				}
+//			}
+
+		
+		
+		
+		
+
+
+		int y = yCoord;
+		int x = xCoord;
+		// if the move is in the set of possible moves, perform that move
+//		board[y][x].canCastle = false; // crashes?
+
+		mm = (Move) moves.elementAt(validInt);
+
+
+		// if a castling move
+		if(board[y][x] != null){
+			if(board[y][x].type == KING){
+
+				// white King
+				boolean whiteKingIsInOriginalPosition = y == 7 && x == 4;
+				if(board[y][x].isWhite && whiteKingIsInOriginalPosition){
+
+					// Move left rook to appropriate spot
+					if(mm.y2 == 7 & mm.x2 == 2){
+						board[7][3] = board[7][0];
+						board[7][0] = null;
+					}
+
+					// Move right rook to appropriate spot
+					if(mm.y2 == 7 & mm.x2 == 6){
+						board[7][5] = board[7][7];
+						board[7][7] = null;
+
+					}
+				}
+
+				// black King
+				boolean blackKingIsInOriginalPosition = y == 0 && x == 4;
+				if(!board[y][x].isWhite && blackKingIsInOriginalPosition){
+
+					// Move left rook to appropriate spot
+					if(mm.y2 == 0 & mm.x2 == 2){
+						board[0][3] = board[0][0];
+						board[0][0] = null;
+					}
+
+					// Move right rook to appropriate spot
+					if(mm.y2 == 0 & mm.x2 == 6){
+						board[0][5] = board[0][7];
+						board[0][7] = null;
+
+					}
+				}
+
+
+
+			}
+		}
+
+
+		mm.movePiece(board);
+
+
 		return true;
 	}
+
+	
+	
+	
+	
+	
+	
+	
 	
 	private static void getBoardPiece(int y, int x, Piece[][] board) {
 		// black pieces

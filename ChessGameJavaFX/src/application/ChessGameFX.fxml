@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
@@ -49,5 +50,10 @@
           </Menu>
         </menus>
       </MenuBar>
+      <Text fx:id="turnText" layoutX="411.0" layoutY="882.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TURN:">
+         <font>
+            <Font name="Cambria" size="17.0" />
+         </font>
+      </Text>
    </children>
 </Pane>
