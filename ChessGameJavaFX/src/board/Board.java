@@ -257,8 +257,10 @@ public class Board implements Constants {
 //			}
 //		}
 		
-		board[y][x].canCastle = false; // a piece that moves has zero chance of castling. eg a King that moved from its orig position
-
+		// NOTE* MAY BE AN ISSUE WITH THIS
+		if(board[y][x] != null) {
+			board[y][x].canCastle = false; // a piece that moves has zero chance of castling. eg a King that moved from its orig position
+		}
 		mm = (Move) moves.elementAt(validInt);
 
 

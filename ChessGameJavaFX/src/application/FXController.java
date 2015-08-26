@@ -7,10 +7,13 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.Vector;
 
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -41,6 +44,8 @@ public class FXController implements Initializable, Constants {
 	
 	private Vector<Move> moves;
 	
+	boolean originalSpot = false;
+	
 	
 	private int selectedPieceY, selectedPieceX;
 
@@ -66,12 +71,11 @@ public class FXController implements Initializable, Constants {
 		turnText.setText("TURN:" + " " + color);
 	}
 
-
-
-
-
 	// Colors the board with the two specified colors (ie black/white) and puts all the pieces on from the board.
 	private void refreshBoard(Board board) {
+		Scene scene = new Scene(new Group());
+		// get the css file
+		
 		for (int col = 0; col < gridSize; col++) {
 			for (int row = 0; row < gridSize; row ++) {
 				StackPane square = new StackPane();
@@ -81,7 +85,12 @@ public class FXController implements Initializable, Constants {
 				} else {
 					color = color2;
 				}
+				if(square.getStyleClass().add("panel")) {
+					System.out.println("asdasd");
+				};
 				square.setStyle("-fx-background-color: " + color + ";");
+				//square.setStyle("-fx-border-radius: 100;");
+				//square.setStyle("bordered-titled-title;");
 				chessGrid.add(square, col, row);
 
 				Image piece = getPiece(row, col, board);
@@ -113,8 +122,8 @@ public class FXController implements Initializable, Constants {
 			public void handle(MouseEvent e) {
 				
 				
-				int col = (int)(e.getY()/squareSize);
-				int row = (int)(e.getX()/squareSize);
+				int row = (int)(e.getY()/squareSize);
+				int col = (int)(e.getX()/squareSize);
 				String columnString = "Column: " + col;
 				String rowString = "Row: " + row;
 				System.out.println(columnString + ", " + rowString);
@@ -125,8 +134,10 @@ public class FXController implements Initializable, Constants {
 				//getTurn(isWhiteTurn);
 				boolean valid = false;
 
-				int xCoord = row;
-				int yCoord = col;
+				int xCoord = col;
+				int yCoord = row;
+				
+				final Vector<Move> moves;
 
 				if(selectingPiece){ // if we are SELECTING a piece
 
@@ -140,9 +151,15 @@ public class FXController implements Initializable, Constants {
 									System.out.println("***Select a new piece***");
 									return;
 								}
-
+								
 								valid = true;
-								pieceSuccessfullySelected(col, row);
+								pieceSuccessfullySelected(col, row, true);
+								moves = board.getMoves();
+								
+								// highlight all possible moves
+								for(int i = 0; i < moves.size(); i++) {
+									pieceSuccessfullySelected(moves.elementAt(i).x2, moves.elementAt(i).y2, false);
+								}
 							}
 							else {
 								System.out.println("Invalid!");
@@ -156,7 +173,13 @@ public class FXController implements Initializable, Constants {
 								}
 
 								valid = true;
-								pieceSuccessfullySelected(col, row);
+								pieceSuccessfullySelected(col, row,true);
+								moves = board.getMoves();
+								
+								// highlight all possible moves
+								for(int i = 0; i < moves.size(); i++) {
+									pieceSuccessfullySelected(moves.elementAt(i).x2, moves.elementAt(i).y2,false);
+								}
 							}
 							else {
 								System.out.println("Invalid!");
@@ -164,11 +187,8 @@ public class FXController implements Initializable, Constants {
 						}
 					}
 				} else { // if we are MOVING a piece.
-					
-					
-					final Vector<Move> moves = board.getMoves();
-
-					if(board.movePiece(yCoord, xCoord, selectedPieceY, selectedPieceX, moves)){ // the piece moved successfully
+					moves = board.getMoves();
+					if(Board.movePiece(yCoord, xCoord, selectedPieceY, selectedPieceX, moves)){ // the piece moved successfully
 //					if(board.movePiece(yCoord, xCoord, moves)){ // the piece moved successfully
 						selectingPiece = true;
 						isWhiteTurn = !isWhiteTurn;
@@ -181,9 +201,41 @@ public class FXController implements Initializable, Constants {
 				}
 			}
 
-			public void pieceSuccessfullySelected(int col, int row) {
-				Node c = getNodeFromGridPane(chessGrid, row, col);
-				c.setStyle("-fx-background-color:yellow;");
+			public void pieceSuccessfullySelected(int col, int row, boolean originalSpot) {
+
+				//System.out.println("k lets ee: " + row + " " + col);
+				//chessGrid.getChildren().get(row+row+1+(16*col)).setStyle("-fx-background-color:yellow;");
+				
+				//chessGrid.getColumnIndex((Node) test.get(col)
+				
+				// put the child in here 
+				Node results = null;
+				
+				// find where on the gridpane does the piece selected lie
+				// get all children
+				ObservableList<Node> children = chessGrid.getChildren();
+				if(children != null && chessGrid != null)
+				{
+					for(Node node : children) {
+						if(node != null)
+						{
+							if(chessGrid.getRowIndex(node) != null && chessGrid.getColumnIndex(node) != null) {
+								
+								// once you find the child within the gridpane that matches the selected piece, highlight it
+								if(chessGrid.getRowIndex(node) == row && chessGrid.getColumnIndex(node) == col ) {
+									results = node;
+									if(originalSpot) 
+										results.setStyle("-fx-background-color: #8AACB8;");
+									else
+										results.setStyle("-fx-background-color: #ADD8E6;");
+								}
+							}
+						}
+					}
+				}
+				
+//				Node c = getNodeFromGridPane(chessGrid, row, col);
+//				c.setStyle("-fx-background-color:yellow;");
 				selectedPieceX = row;
 				selectedPieceY = col;
 				selectingPiece = false;

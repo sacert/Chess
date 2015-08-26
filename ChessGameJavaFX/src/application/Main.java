@@ -1,5 +1,6 @@
 package application;
 import java.awt.Image;
+import java.io.File;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -20,6 +21,9 @@ public class Main extends Application {
 			Parent root = (Parent) FXMLLoader.load(getClass().getResource("/application/ChessGameFX.fxml"));
 
 			Scene scene = new Scene(root);
+			
+			String css = this.getClass().getResource("/application/Styles.css").toExternalForm();
+			scene.getStylesheets().add(css);
 
 			stage.setTitle("Chess");
 			stage.setScene(scene);

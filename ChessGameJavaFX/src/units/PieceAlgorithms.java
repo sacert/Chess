@@ -146,82 +146,78 @@ public class PieceAlgorithms {
 		Vector<Move> moves = new Vector<Move>(); // store the possible moves in here
 		// for white pieces moving
 		if(board[y][x].isWhite) {
-			//if(board[y-1][x] == null) {  // check if the piece above it is free
-				if(y == 6) { // if it is in the starting position, can move 1 or 2 spaces
-					if(board[y-2][x] == null) {
-						if(Board.checkTrue) {
-							if(!Board.whiteCheck(y, x, y-2, x, board)) {
-								if(board[y-2][x] == null)
-									moves.add(new Move(y,x,y-2,x));
-							}
-						} else {
+			if(y == 6) { // if it is in the starting position, can move 1 or 2 spaces
+				if(board[y-2][x] == null) {
+					if(Board.checkTrue) {
+						if(!Board.whiteCheck(y, x, y-2, x, board)) {
 							if(board[y-2][x] == null)
 								moves.add(new Move(y,x,y-2,x));
 						}
-					}
-					if(board[y-1][x] == null) {
-						if(Board.checkTrue) {
-							if(!Board.whiteCheck(y, x, y-1, x, board)) {
-								if(board[y-1][x] == null)
-									moves.add(new Move(y,x,y-1,x));
-							}
-						} else {
-							if(board[y-1][x] == null)
-								moves.add(new Move(y,x,y-1,x));
-						}
+					} else {
+						if(board[y-2][x] == null)
+							moves.add(new Move(y,x,y-2,x));
 					}
 				}
-				else { // else only move one
+				if(board[y-1][x] == null) {
 					if(Board.checkTrue) {
 						if(!Board.whiteCheck(y, x, y-1, x, board)) {
 							if(board[y-1][x] == null)
 								moves.add(new Move(y,x,y-1,x));
 						}
 					} else {
-						if(board[y-1][x] == null){
+						if(board[y-1][x] == null)
 							moves.add(new Move(y,x,y-1,x));
-						}
 					}
 				}
-			//}
+			}
+			else { // else only move one
+				if(Board.checkTrue) {
+					if(!Board.whiteCheck(y, x, y-1, x, board)) {
+						if(board[y-1][x] == null)
+							moves.add(new Move(y,x,y-1,x));
+					}
+				} else {
+					if(board[y-1][x] == null){
+						moves.add(new Move(y,x,y-1,x));
+					}
+				}
+			}
 		}
 		else { // for black pieces moving
-			//if(board[y+1][x] == null) { // check if the piece above it is free
-				if(y == 1) { // if it is in the starting position, can move 1 or 2 spaces
-						if(board[y+2][x] == null) {
-							if(Board.checkTrue) {
-								if(!Board.blackCheck(y, x, y+2, x, board)) {
-									if(board[y+2][x] == null)
-										moves.add(new Move(y,x,y+2,x));
-								}
-							} else {
+			if(y == 1) { // if it is in the starting position, can move 1 or 2 spaces
+					if(board[y+2][x] == null) {
+						if(Board.checkTrue) {
+							if(!Board.blackCheck(y, x, y+2, x, board)) {
 								if(board[y+2][x] == null)
 									moves.add(new Move(y,x,y+2,x));
 							}
+						} else {
+							if(board[y+2][x] == null)
+								moves.add(new Move(y,x,y+2,x));
 						}
-						if(board[y+1][x] == null) {
-							if(Board.checkTrue) {
-								if(!Board.blackCheck(y, x, y+1, x, board)) {
-									if(board[y+1][x] == null)
-										moves.add(new Move(y,x,y+1,x));
-								}
-							} else {
+					}
+					if(board[y+1][x] == null) {
+						if(Board.checkTrue) {
+							if(!Board.blackCheck(y, x, y+1, x, board)) {
 								if(board[y+1][x] == null)
 									moves.add(new Move(y,x,y+1,x));
 							}
-				}
-				else { // else only move one
-					if(Board.checkTrue) {
-						if(!Board.blackCheck(y, x, y+1, x, board)) {
+						} else {
 							if(board[y+1][x] == null)
 								moves.add(new Move(y,x,y+1,x));
 						}
-					} else {
-						if(board[y+1][x] == null){
+					}
+			} else { // else only move one
+				if(Board.checkTrue) {
+					if(!Board.blackCheck(y, x, y+1, x, board)) {
+						if(board[y+1][x] == null)
 							moves.add(new Move(y,x,y+1,x));
-						}
-					}	
-				}
+					}
+				} else {
+					if(board[y+1][x] == null){
+						moves.add(new Move(y,x,y+1,x));
+					}
+				}	
 			}
 		}
 		
