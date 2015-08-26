@@ -1,5 +1,6 @@
 package board;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,29 +47,27 @@ public class Board implements Constants {
 		// black pieces
 		blackPieces.add(new Piece(ROOK, false));
 		board[0][0] = blackPieces.get(blackPieces.size()-1);
+		
 		blackPieces.add(new Piece(ROOK, false));
 		board[0][7] = blackPieces.get(blackPieces.size()-1);
+	
+		blackPieces.add(new Piece(KNIGHT, false));
+		board[0][1] = blackPieces.get(blackPieces.size()-1);
 		
+		blackPieces.add(new Piece(KNIGHT, false));
+		board[0][6] = blackPieces.get(blackPieces.size()-1);
 
-//		blackPieces.add(new Piece(KNIGHT, false));
-//		board[0][1] = blackPieces.get(blackPieces.size()-1);
-//		blackPieces.add(new Piece(KNIGHT, false));
-//		board[0][6] = blackPieces.get(blackPieces.size()-1);
-//
-//		
-//		blackPieces.add(new Piece(BISHOP, false));
-//		board[0][2] = blackPieces.get(blackPieces.size()-1);
-//		blackPieces.add(new Piece(BISHOP, false));
-//		board[0][5] = blackPieces.get(blackPieces.size()-1);
-//
-//		
-//		blackPieces.add(new Piece(QUEEN, false));
-//		board[0][3] = blackPieces.get(blackPieces.size()-1);
+		blackPieces.add(new Piece(BISHOP, false));
+		board[0][2] = blackPieces.get(blackPieces.size()-1);
 		
+		blackPieces.add(new Piece(BISHOP, false));
+		board[0][5] = blackPieces.get(blackPieces.size()-1);
+
+		blackPieces.add(new Piece(QUEEN, false));
+		board[0][3] = blackPieces.get(blackPieces.size()-1);
 		
 		blackPieces.add(new Piece(KING, false));
 		board[0][4] = blackPieces.get(blackPieces.size()-1);
-		
 		
 		
 		// white pieces
@@ -78,30 +77,23 @@ public class Board implements Constants {
 		whitePieces.add(new Piece(ROOK, true));
 		board[7][7] = whitePieces.get(whitePieces.size()-1);
 
-//		whitePieces.add(new Piece(KNIGHT, true));
-//		board[7][1] = whitePieces.get(whitePieces.size()-1);
-//		
-//		whitePieces.add(new Piece(KNIGHT, true));
-//		board[7][6] = whitePieces.get(whitePieces.size()-1);
-//		
-//		
-//		whitePieces.add(new Piece(BISHOP, true));
-//		board[7][2] = whitePieces.get(whitePieces.size()-1);
-//		
-//
-//		whitePieces.add(new Piece(BISHOP, true));
-//		board[7][5] = whitePieces.get(whitePieces.size()-1);
-//		
-//		
-//		
-//		whitePieces.add(new Piece(QUEEN, true));
-//		board[7][3] = whitePieces.get(whitePieces.size()-1);
+		whitePieces.add(new Piece(KNIGHT, true));
+		board[7][1] = whitePieces.get(whitePieces.size()-1);
+		
+		whitePieces.add(new Piece(KNIGHT, true));
+		board[7][6] = whitePieces.get(whitePieces.size()-1);
+		
+		whitePieces.add(new Piece(BISHOP, true));
+		board[7][2] = whitePieces.get(whitePieces.size()-1);
+	
+		whitePieces.add(new Piece(BISHOP, true));
+		board[7][5] = whitePieces.get(whitePieces.size()-1);
+		
+		whitePieces.add(new Piece(QUEEN, true));
+		board[7][3] = whitePieces.get(whitePieces.size()-1);
 		
 		whitePieces.add(new Piece(KING, true));
 		board[7][4] = whitePieces.get(whitePieces.size()-1);
-		
-		
-		
 		
 		// delete after, testing purposes
 //		//board[3][5] = new Piece(KING, false);
@@ -425,9 +417,9 @@ public class Board implements Constants {
 						case QUEEN:
 							moves = PieceAlgorithms.queen(board,i,j);
 							break;
-						//case KING:
-							//moves = PieceAlgorithms.king(board,i,j);
-							//break;
+						case KING:
+							moves = PieceAlgorithms.king(board,i,j);
+							break;
 						case KNIGHT:
 							moves = PieceAlgorithms.knight(board,i,j);
 							break;
@@ -464,9 +456,9 @@ public class Board implements Constants {
 						case QUEEN:
 							moves = PieceAlgorithms.queen(board,i,j);
 							break;
-						//case KING:
-							//moves = PieceAlgorithms.king(board,i,j);
-							//break;
+						case KING:
+							moves = PieceAlgorithms.king(board,i,j);
+							break;
 						case KNIGHT:
 							moves = PieceAlgorithms.knight(board,i,j);
 							break;
@@ -532,9 +524,9 @@ public class Board implements Constants {
 						case QUEEN:
 							moves = PieceAlgorithms.queen(boardCopy,i,j);
 							break;
-						//case KING:
-							//moves = PieceAlgorithms.king(boardCopy,i,j);
-							//break;
+						case KING:
+							moves = PieceAlgorithms.king(boardCopy,i,j);
+							break;
 						case KNIGHT:
 							moves = PieceAlgorithms.knight(boardCopy,i,j);
 							break;
@@ -596,9 +588,9 @@ public class Board implements Constants {
 						case QUEEN:
 							moves = PieceAlgorithms.queen(boardCopy,i,j);
 							break;
-						//case KING:
-							//moves = PieceAlgorithms.king(boardCopy,i,j);
-							//break;
+						case KING:
+							moves = PieceAlgorithms.king(boardCopy,i,j);
+							break;
 						case KNIGHT:
 							moves = PieceAlgorithms.knight(boardCopy,i,j);
 							break;
