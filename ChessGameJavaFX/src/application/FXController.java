@@ -197,7 +197,8 @@ public class FXController implements Initializable, Constants {
 						refreshBoard(board);
 						printWhoseTurn();
 					} else {
-						selectingPiece = false;
+						selectingPiece = true;
+						refreshBoard(board);
 						printWhoseTurn();
 					}
 				}
