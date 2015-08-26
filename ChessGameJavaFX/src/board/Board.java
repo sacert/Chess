@@ -1,5 +1,7 @@
 package board;
 
+import gameStart.GameStart;
+
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +9,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
-import main.Main;
 import constants.Constants;
 import units.Piece;
 import units.PieceAlgorithms;
@@ -392,7 +393,7 @@ public class Board implements Constants {
 	
 	// determine whether the king is in check
 	public static boolean isCheck() {
-		Main getTurn = new Main();
+		GameStart getTurn = new GameStart();
 		Vector moves = new Vector();
 		Move mm;
 		boolean check = false;
@@ -484,7 +485,7 @@ public class Board implements Constants {
 	// determine if the move will cause the player to be in check
 	// output options that will remove the player from being in check
 	public static boolean whiteCheck(int x1, int y1, int x2, int y2, Piece[][] board) {
-		Main getTurn = new Main();
+		GameStart getTurn = new GameStart();
 		Vector moves = new Vector();
 		Move mm;
 		boolean check = false;
@@ -550,7 +551,7 @@ public class Board implements Constants {
 	// determine if the move will cause the player to be in check
 	// output options that will remove the player from being in check
 	public static boolean blackCheck(int x1, int y1, int x2, int y2, Piece[][] board) {
-		Main getTurn = new Main();
+		GameStart getTurn = new GameStart();
 		Vector moves = new Vector();
 		Move mm;
 		boolean check = false;
