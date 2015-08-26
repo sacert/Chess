@@ -7,9 +7,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -53,6 +56,15 @@ public class FXController implements Initializable, Constants {
 				chessGrid.add(imagePiece, col, row);
 			}
 		}
+		
+		// *NOTE: Switch the "/100" as it is static, want to have to relative to the board size
+		// determines the location of the board in terms of a 8x8 array
+		chessGrid.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent e) {
+				System.out.println("Column: " + (int)(e.getX()/100));
+				System.out.println("Row: " + (int)(e.getY()/100));
+			}
+		});
 	}
 	
 	//private (row, col, board)
