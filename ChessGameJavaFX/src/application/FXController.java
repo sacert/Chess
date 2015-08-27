@@ -507,22 +507,22 @@ public class FXController implements Initializable, Constants {
 
 			switch(Board.board[y][x].type){
 			case PAWN:
-				piece = ("P");
+				piece = ("Pawn");
 				break;
 			case ROOK:
-				piece = ("R");
+				piece = ("Rook");
 				break;
 			case BISHOP:
-				piece = ("B");
+				piece = ("Bishop");
 				break;
 			case QUEEN:
-				piece = ("Q");
+				piece = ("Queen");
 				break;
 			case KING:
-				piece = ("K");
+				piece = ("King");
 				break;
 			case KNIGHT:
-				piece = ("N");
+				piece = ("Knight");
 				break;
 			}
 		}
