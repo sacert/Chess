@@ -329,7 +329,7 @@ public class Board implements Constants {
 	
 	
 	
-	private static void getBoardPiece(int y, int x, Piece[][] board) {
+	public static void getBoardPiece(int y, int x, Piece[][] board) {
 		// black pieces
 		if(!board[y][x].isWhite) {
 			switch(board[y][x].type){

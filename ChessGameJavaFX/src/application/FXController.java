@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.Vector;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,12 +15,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import units.Piece;
 import board.Board;
 import board.Move;
 import board.Point;
@@ -32,6 +36,8 @@ public class FXController implements Initializable, Constants {
 	private boolean gameOver = false;
 	@FXML private GridPane chessGrid;
 	@FXML private Text turnText;
+	@FXML private ListView<String> movesList;
+
 
 	private final int gridSize = 8;
 	private double squareSize;
@@ -46,6 +52,8 @@ public class FXController implements Initializable, Constants {
 	
 	boolean originalSpot = false;
 	
+	private int counter = 1;
+	ObservableList<String> movesListString = FXCollections.observableArrayList("#   Piece   Pos1   Pos2   Type");
 	
 	private int selectedPieceY, selectedPieceX;
 
@@ -58,9 +66,20 @@ public class FXController implements Initializable, Constants {
 		Board board = new Board();
 		refreshBoard(board);
 		chessGridMouseClickEvents(board);
+		movesList.getStyleClass().add("list");
+		
+		movesList.setItems(movesListString);
 		
 //		GameStart game = new GameStart();
 //		start(board);
+		
+		// prevents the user in selecting a cell in the table view
+		movesList.addEventFilter(MouseEvent.ANY, new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent mouseEvent) {
+				mouseEvent.consume();
+			}
+			
+		});
 	}
 
 
@@ -147,9 +166,10 @@ public class FXController implements Initializable, Constants {
 								valid = true;
 								
 								// highlight piece clicked
-								selectedPieceX = row;
-								selectedPieceY = col;
+								selectedPieceX = col;
+								selectedPieceY = row;
 								System.out.println("SELECTED y is : " + selectedPieceY + " and x is : " + selectedPieceX); 
+
 								pieceSuccessfullySelected(col, row, true);
 								moves = board.getMoves();
 								
@@ -157,6 +177,7 @@ public class FXController implements Initializable, Constants {
 								for(int i = 0; i < moves.size(); i++) {
 									pieceSuccessfullySelected(moves.elementAt(i).x2, moves.elementAt(i).y2, false);
 								}
+								
 							}
 							else {
 								System.out.println("Invalid!");
@@ -172,8 +193,8 @@ public class FXController implements Initializable, Constants {
 								valid = true;
 								
 								// highlight piece clicked
-								selectedPieceX = row;
-								selectedPieceY = col;
+								selectedPieceX = col;
+								selectedPieceY = row;
 								System.out.println("SELECTED y is : " + selectedPieceY + " and x is : " + selectedPieceX); 
 								pieceSuccessfullySelected(col, row,true);
 								moves = board.getMoves();
@@ -192,6 +213,29 @@ public class FXController implements Initializable, Constants {
 					moves = board.getMoves();
 					if(Board.movePiece(yCoord, xCoord, selectedPieceY, selectedPieceX, moves)){ // the piece moved successfully
 //					if(board.movePiece(yCoord, xCoord, moves)){ // the piece moved successfully
+						
+						// get the type of turn it is
+						String whoseTurn = null;
+						if(isWhiteTurn)
+							whoseTurn = "W";
+						else
+							whoseTurn = "B";
+						
+						// determine the string of the piece that has moved (ex. board[0][0] = a7)
+						Point p1 = new Point(selectedPieceY, selectedPieceX);
+						String boardPiece = getBoardPieceLetter(row, col);
+						Point p = new Point(row, col);
+						
+						// determine string format that will be place in the list view
+						String moveListAddition = String.format("%s. %5s%10s%10s%10s", counter, boardPiece,Point.convertPointToString(p1),Point.convertPointToString(p),whoseTurn); 
+											
+						// add the created string into the list and insert it into the list view
+						movesListString.add(moveListAddition);
+						movesList.setItems(movesListString);
+						
+						// increment counter for next list view slot
+						counter++;
+						
 						selectingPiece = true;
 						isWhiteTurn = !isWhiteTurn;
 						refreshBoard(board);
@@ -311,6 +355,33 @@ public class FXController implements Initializable, Constants {
 			System.out.println("Black's turn");
 			setTurnText("BLACK");
 		}
+	}
+	
+	private String getBoardPieceLetter(int y, int x) {
+
+		String piece = null;
+		
+		switch(Board.board[y][x].type){
+		case PAWN:
+			piece = ("P");
+			break;
+		case ROOK:
+			piece = ("R");
+			break;
+		case BISHOP:
+			piece = ("B");
+			break;
+		case QUEEN:
+			piece = ("Q");
+			break;
+		case KING:
+			piece = ("K");
+			break;
+		case KNIGHT:
+			piece = ("N");
+			break;
+		}
+		return piece;
 	}
 
 

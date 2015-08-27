@@ -8,3 +8,18 @@
 	-fx-border-color: black;
 }
 
+.list {
+	-fx-background-color: black;
+	-fx-border-radius: 10;
+	-fx-border-width: 3;
+	-fx-background-radius: 10;
+}
+
+.list-cell {
+	-fx-background-color: black;
+	-fx-border-width: 0 0 1 0;
+	-fx-border-color: white;
+	-fx-font-weight: bold;
+	-fx-text-fill: white;
+}
+

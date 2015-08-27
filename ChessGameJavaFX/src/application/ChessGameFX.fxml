@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.effect.*?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<Pane prefHeight="640.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXController">
+<Pane prefHeight="640.0" prefWidth="815.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXController">
    <children>
       <GridPane fx:id="chessGrid" alignment="CENTER" gridLinesVisible="true" layoutX="41.0" layoutY="103.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0">
         <columnConstraints>
@@ -34,7 +35,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <MenuBar prefHeight="25.0" prefWidth="580.0">
+      <MenuBar prefHeight="25.0" prefWidth="815.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -186,6 +187,15 @@
          <font>
             <Font name="System Bold" size="13.0" />
          </font></Text>
-      <Line endX="180.0" layoutX="400.0" layoutY="65.0" startX="-400.0" stroke="WHITE" strokeWidth="2.0" />
+      <Line endX="415.0" layoutX="400.0" layoutY="65.0" startX="-400.0" stroke="WHITE" strokeWidth="2.0" />
+      <ListView fx:id="movesList" layoutX="587.0" layoutY="105.0" prefHeight="500.0" prefWidth="203.0" styleClass="List" stylesheets="@Styles.css">
+         <opaqueInsets>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </opaqueInsets></ListView>
+      <Text fill="WHITE" layoutX="593.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Past Moves:">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Text>
    </children>
 </Pane>
