@@ -232,6 +232,12 @@ public class FXController implements Initializable, Constants {
 				} else { // if we are MOVING a piece.
 					moves = board.getMoves();
 					byte moveCode = Board.movePiece(yCoord, xCoord, selectedPieceY, selectedPieceX, moves);
+					
+
+					boolean whitePawnPromotion = moveCode == 2;
+					boolean blackPawnPromotion = moveCode == 3;
+					boolean pawnPromotion = whitePawnPromotion || blackPawnPromotion;
+					
 					if(moveCode > 0){ // the piece moved successfully
 		
 						// get the type of turn it is
@@ -243,7 +249,14 @@ public class FXController implements Initializable, Constants {
 
 						// determine the string of the piece that has moved (ex. board[0][0] = a7)
 						Point p1 = new Point(selectedPieceY, selectedPieceX);
-						String boardPiece = getBoardPieceLetter(row, col);
+
+						String boardPiece;
+						if(pawnPromotion)
+							boardPiece = getBoardPieceLetter(selectedPieceY, selectedPieceX);
+						else
+							boardPiece = getBoardPieceLetter(row, col);
+						
+						
 						Point p = new Point(row, col);
 
 						// determine string format that will be place in the list view
@@ -265,9 +278,6 @@ public class FXController implements Initializable, Constants {
 
 						final double pawnPromotionSquareSize = squareSize/1.5;	
 
-						boolean whitePawnPromotion = moveCode == 2;
-						boolean blackPawnPromotion = moveCode == 3;
-						boolean pawnPromotion = whitePawnPromotion || blackPawnPromotion;
 						if(pawnPromotion){
 
 							PopOver pawnPromotionPopOver = new PopOver();
