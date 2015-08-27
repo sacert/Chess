@@ -23,4 +23,42 @@
 	-fx-text-fill: white;
 	-fx-font-family: "Courier New", monospace;
 }
+.list .scroll-pane {
+  -fx-background-color: transparent;
+}
 
+.list .scroll-bar .increment-button {
+  visibility: hidden;
+}
+
+.list .scroll-bar .decrement-button {
+  visibility: hidden;
+}
+
+.list .scroll-bar:vertical {
+  -fx-background-color: transparent;
+}
+
+.list .scroll-bar:vertical .track-background {
+  visibility: hidden;
+}
+
+.list .scroll-bar:vertical .track {
+  visibility: hidden;
+}
+
+.list .hide-thumb .scroll-bar:vertical .thumb {
+  -fx-background-color: transparent;
+}
+
+.list .scroll-bar:vertical .thumb {
+  -fx-background-color:derive(black,90%);
+  -fx-background-insets: 2, 0, 0;
+  -fx-background-radius: 2;
+}
+
+.list .scroll-bar .increment-arrow,
+.list .scroll-bar .decrement-arrow {
+	-fx-shape: " ";
+	-fx-padding:0;
+}
