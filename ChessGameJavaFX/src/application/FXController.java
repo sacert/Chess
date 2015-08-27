@@ -53,13 +53,14 @@ public class FXController implements Initializable, Constants {
 	boolean originalSpot = false;
 	
 	private int counter = 1;
-	ObservableList<String> movesListString = FXCollections.observableArrayList("#   Piece   Pos1   Pos2   Type");
+	ObservableList<String> movesListStringEmpty = FXCollections.observableArrayList("");
+	ObservableList<String> movesListString = FXCollections.observableArrayList();
 	
 	private int selectedPieceY, selectedPieceX;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-//		
+		
 		setTurnText("WHITE");
 		squareSize = chessGrid.getPrefHeight()/gridSize;
 		
@@ -68,7 +69,7 @@ public class FXController implements Initializable, Constants {
 		chessGridMouseClickEvents(board);
 		movesList.getStyleClass().add("list");
 		
-		movesList.setItems(movesListString);
+		movesList.setItems(movesListStringEmpty);
 		
 //		GameStart game = new GameStart();
 //		start(board);
@@ -227,8 +228,12 @@ public class FXController implements Initializable, Constants {
 						Point p = new Point(row, col);
 						
 						// determine string format that will be place in the list view
-						String moveListAddition = String.format("%s. %5s%10s%10s%10s", counter, boardPiece,Point.convertPointToString(p1),Point.convertPointToString(p),whoseTurn); 
-											
+						String moveListAddition = null;
+						if(counter < 10) 
+							 moveListAddition = String.format("%s. %6s %s->%s     %s", counter, boardPiece,Point.convertPointToString(p1),Point.convertPointToString(p),whoseTurn); 
+						else
+							 moveListAddition = String.format("%s.%6s %s->%s     %s", counter, boardPiece,Point.convertPointToString(p1),Point.convertPointToString(p),whoseTurn); 
+						
 						// add the created string into the list and insert it into the list view
 						movesListString.add(moveListAddition);
 						movesList.setItems(movesListString);
@@ -363,22 +368,22 @@ public class FXController implements Initializable, Constants {
 		
 		switch(Board.board[y][x].type){
 		case PAWN:
-			piece = ("P");
+			piece = ("Pawn");
 			break;
 		case ROOK:
-			piece = ("R");
+			piece = ("Rook");
 			break;
 		case BISHOP:
-			piece = ("B");
+			piece = ("Bishop");
 			break;
 		case QUEEN:
-			piece = ("Q");
+			piece = ("Queen");
 			break;
 		case KING:
-			piece = ("K");
+			piece = ("King");
 			break;
 		case KNIGHT:
-			piece = ("N");
+			piece = ("Knight");
 			break;
 		}
 		return piece;
