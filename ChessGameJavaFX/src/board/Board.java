@@ -45,11 +45,11 @@ public class Board implements Constants {
 		
 		// set both the white and black pawns
 		for(int i = 0; i < 8; i++) {
-			whitePieces.add(new Piece(PAWN,false));
-			board[1][i] = whitePieces.get(whitePieces.size()-1); 	// for the black side
+			blackPieces.add(new Piece(PAWN,false));
+			board[1][i] = blackPieces.get(blackPieces.size()-1); 	// for the black side
 			
-			blackPieces.add(new Piece(PAWN,true));
-			board[6][i] = blackPieces.get(blackPieces.size()-1); 	// for the black side
+			whitePieces.add(new Piece(PAWN,true));
+			board[6][i] = whitePieces.get(whitePieces.size()-1); 	// for the white side
 		}
 		
 		// black pieces
@@ -109,7 +109,8 @@ public class Board implements Constants {
 //		board[5][1] = new Piece(KING, false);
 //		//board[5][1] = new Piece(QUEEN, true);
 //		board[4][5] = new Piece(ROOK, false);
-//		//board[2][2] = new Piece(BISHOP, false);
+		board[1][2] = new Piece(PAWN, true); // for pawn promotion testing
+		board[6][2] = new Piece(PAWN, false); // for pawn promotion testing
 	
 	}
 	
@@ -207,7 +208,7 @@ public class Board implements Constants {
 	}
 	
 	
-	public static boolean movePiece(int yCoord, int xCoord, int selectedPieceY, int selectedPieceX, Vector moves){
+	public static byte movePiece(int yCoord, int xCoord, int selectedPieceY, int selectedPieceX, Vector moves){
 		boolean valid = false;
 		int validInt = 0;
 		
@@ -224,45 +225,32 @@ public class Board implements Constants {
 		}
 		
 		if(!valid){
-			return false;
+//			return false;
+			return -1;
 		}
 		
-		int x = selectedPieceY;
-		int y = selectedPieceX;
+		int y = selectedPieceY;
+		int x = selectedPieceX;
 		// if the move is in the set of possible moves, perform that move
 		
 //		// pawn promotion
-//		if(board[y][x].isWhite && board[y][x].type == PAWN) {
-//			if(yCoord == 0) {
-//				System.out.println("PAWN PROMOTION: Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
-//				System.out.print(":");
-//				input =  user_input.nextLine();
-//				while(stringToByte(input) == -1) {
-//					System.out.println("INVALID! Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
-//					System.out.print(":");
-//					input =  user_input.nextLine();
-//				}
-//				board[y][x].type = stringToByte(input);
-//			}
-//		}
-//		else if (!board[y][x].isWhite && board[y][x].type == PAWN) {
-//			if(yCoord == 7) {
-//				System.out.println("PAWN PROMOTION: Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
-//				System.out.print(":");
-//				input =  user_input.nextLine();
-//				while(stringToByte(input) == -1) {
-//					System.out.println("INVALID! Type [QUEEN] [KNIGHT] [ROOK] [BISHOP]");
-//					System.out.print(":");
-//					input =  user_input.nextLine();
-//				}
-//				board[y][x].type = stringToByte(input);
-//			}
-//		}
+		if(board[y][x].isWhite && board[y][x].type == PAWN) {
+			if(yCoord == 0) {
+				System.out.println("WHITE PAWN PROMOTION!");
+				return 2; // 3 is code for WHITE pawn promotion
+			}
+		}
+		else if (!board[y][x].isWhite && board[y][x].type == PAWN) {
+			if(yCoord == 7) {
+				System.out.println("BLACK PAWN PROMOTION!");
+				return 3; // 3 is code for BLACK pawn promotion
+			}
+		}
 		
 		// NOTE* MAY BE AN ISSUE WITH THIS
 //		if(board[y][x] != null) {
-		System.out.println("y is : " + y + " and x is : " + x); 
-//			board[y][x].canCastle = false; // a piece that moves has zero chance of castling. eg a King that moved from its orig position
+//		System.out.println("y is : " + y + " and x is : " + x); 
+			board[y][x].canCastle = false; // a piece that moves has zero chance of castling. eg a King that moved from its orig position
 //		}
 		mm = (Move) moves.elementAt(validInt);
 
@@ -318,7 +306,7 @@ public class Board implements Constants {
 		mm.movePiece(board);
 
 
-		return true;
+		return 1;
 	}
 
 	
