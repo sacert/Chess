@@ -32,6 +32,8 @@ public class Board implements Constants {
 	public List<Piece> blackPieces = new ArrayList<Piece>();
 	
 	
+	
+	
 	private Vector<Move> moves;
 	
 	
@@ -234,16 +236,18 @@ public class Board implements Constants {
 		// if the move is in the set of possible moves, perform that move
 		
 //		// pawn promotion
-		if(board[y][x].isWhite && board[y][x].type == PAWN) {
-			if(yCoord == 0) {
-				System.out.println("WHITE PAWN PROMOTION!");
-				return 2; // 3 is code for WHITE pawn promotion
+		if(board[y][x] != null){
+			if(board[y][x].isWhite && board[y][x].type == PAWN) {
+				if(yCoord == 0) {
+					System.out.println("WHITE PAWN PROMOTION!");
+					return 2; // 3 is code for WHITE pawn promotion
+				}
 			}
-		}
-		else if (!board[y][x].isWhite && board[y][x].type == PAWN) {
-			if(yCoord == 7) {
-				System.out.println("BLACK PAWN PROMOTION!");
-				return 3; // 3 is code for BLACK pawn promotion
+			else if (!board[y][x].isWhite && board[y][x].type == PAWN) {
+				if(yCoord == 7) {
+					System.out.println("BLACK PAWN PROMOTION!");
+					return 3; // 3 is code for BLACK pawn promotion
+				}
 			}
 		}
 		
