@@ -6,6 +6,10 @@ import board.Move;
 import board.Board;
 
 public class PieceAlgorithms {
+	
+	// determines whether the user wants to only see available legal moves
+	// DEFAULT: TRUE
+	static boolean assistedAid = false;
 
 	public PieceAlgorithms() {
 		// TODO Auto-generated constructor stub
@@ -31,16 +35,16 @@ public class PieceAlgorithms {
 				
 				if(board[y][x].isWhite) {
 					if(!outOfBounds) {
-					if((board[c][r] == null || !board[c][r].isWhite)) {  // check if the piece above it is free
-						if(!(c == y && r == x))	{
-							if(Board.checkTrueWhite) {
+						if((board[c][r] == null || !board[c][r].isWhite)) {  // check if the piece above it is free
+							if(!(c == y && r == x))	{
+								if(assistedAid) {
 									if(!Board.whiteCheck(y, x, c, r, board)) {
 										moves.add(new Move(y,x,c,r));
 									}
 								} else {
 									moves.add(new Move(y,x,c,r));
 								}
-						}
+							}
 						}
 					}
 				}
@@ -48,22 +52,17 @@ public class PieceAlgorithms {
 					if(!outOfBounds) {
 						if((board[c][r] == null || board[c][r].isWhite)) {  // check if the piece above it is free
 							if(!(c == y && r == x))	{
-								if(Board.checkTrueBlack) {
+								if(assistedAid) {
 										if(!Board.blackCheck(y, x, c, r, board)) {
 											moves.add(new Move(y,x,c,r));
 										}
-									} else {
-										moves.add(new Move(y,x,c,r));
-									}
+								} else {
+									moves.add(new Move(y,x,c,r));
+								}
 							}
+						}
 					}
-				}
-				}
-
-
-
-				
-				
+				}	
 			}	
 		}
 		
@@ -147,8 +146,8 @@ public class PieceAlgorithms {
 		// for white pieces moving
 		if(board[y][x].isWhite) {
 			if(y == 6) { // if it is in the starting position, can move 1 or 2 spaces
-				if(board[y-2][x] == null) {
-					if(Board.checkTrueWhite) {
+				if(board[y-2][x] == null && board[y-1][x] == null) {
+					if(assistedAid) {
 						if(!Board.whiteCheck(y, x, y-2, x, board)) {
 							if(board[y-2][x] == null)
 								moves.add(new Move(y,x,y-2,x));
@@ -159,7 +158,7 @@ public class PieceAlgorithms {
 					}
 				}
 				if(board[y-1][x] == null) {
-					if(Board.checkTrueWhite) {
+					if(assistedAid) {
 						if(!Board.whiteCheck(y, x, y-1, x, board)) {
 							if(board[y-1][x] == null)
 								moves.add(new Move(y,x,y-1,x));
@@ -171,7 +170,7 @@ public class PieceAlgorithms {
 				}
 			}
 			else { // else only move one
-				if(Board.checkTrueWhite) {
+				if(assistedAid) {
 					if(!Board.whiteCheck(y, x, y-1, x, board)) {
 						if(board[y-1][x] == null)
 							moves.add(new Move(y,x,y-1,x));
@@ -185,8 +184,8 @@ public class PieceAlgorithms {
 		}
 		else { // for black pieces moving
 			if(y == 1) { // if it is in the starting position, can move 1 or 2 spaces
-					if(board[y+2][x] == null) {
-						if(Board.checkTrueBlack) {
+					if(board[y+2][x] == null && board[y+1][x] == null) {
+						if(assistedAid) {
 							if(!Board.blackCheck(y, x, y+2, x, board)) {
 								if(board[y+2][x] == null)
 									moves.add(new Move(y,x,y+2,x));
@@ -197,7 +196,7 @@ public class PieceAlgorithms {
 						}
 					}
 					if(board[y+1][x] == null) {
-						if(Board.checkTrueBlack) {
+						if(assistedAid) {
 							if(!Board.blackCheck(y, x, y+1, x, board)) {
 								if(board[y+1][x] == null)
 									moves.add(new Move(y,x,y+1,x));
@@ -208,7 +207,7 @@ public class PieceAlgorithms {
 						}
 					}
 			} else { // else only move one
-				if(Board.checkTrueBlack) {
+				if(assistedAid) {
 					if(!Board.blackCheck(y, x, y+1, x, board)) {
 						if(board[y+1][x] == null)
 							moves.add(new Move(y,x,y+1,x));
@@ -225,7 +224,7 @@ public class PieceAlgorithms {
 		if(board[y][x].isWhite) {
 			if((x+1) <= 7 ) { // for all pieces up until the end of the board, check upper right
 				if(board[y-1][x+1] != null && !board[y-1][x+1].isWhite) // check if space is occupied by black
-					if(Board.checkTrueWhite)	{
+					if(assistedAid) {
 						System.out.println("THE WHITE IS IN CHECK");
 						if(!Board.whiteCheck(y, x, y-1, x+1, board)) {
 							moves.add(new Move(y,x,y-1,x+1));
@@ -236,8 +235,7 @@ public class PieceAlgorithms {
 			}
 			if((x-1) >= 0 ) { // for all pieces up until the end of the board, check upper left
 				if(board[y-1][x-1] != null && !board[y-1][x-1].isWhite) // check if space is occupied by black
-					if(Board.checkTrueWhite)	{
-						System.out.println("THE WHITE IS NOT IN CHECK");
+					if(assistedAid) {
 						if(!Board.whiteCheck(y, x, y-1, x-1, board)){
 							moves.add(new Move(y,x,y-1,x-1));
 						}
@@ -249,7 +247,7 @@ public class PieceAlgorithms {
 		else { // for black pieces attacking
 			if((x+1) <= 7 ) { // for all pieces up until the end of the board, check upper right
 				if(board[y+1][x+1] != null && board[y+1][x+1].isWhite) { // check if space is occupied by white
-					if(Board.checkTrueBlack) {
+					if(assistedAid) {
 						if(!Board.blackCheck(y, x, y+1, x+1, board)) {
 							moves.add(new Move(y,x,y+1,x+1));
 						}
@@ -260,7 +258,7 @@ public class PieceAlgorithms {
 			}
 			if((x-1) >= 0 ) { // for all pieces up until the end of the board, check upper left
 				if(board[y+1][x-1] != null && board[y+1][x-1].isWhite) { // check if space is occupied by white
-					if(Board.checkTrueBlack) {
+					if(assistedAid) {
 						if(!Board.blackCheck(y, x, y+1, x-1, board)) {
 							moves.add(new Move(y,x,y+1,x-1));
 						}
@@ -287,7 +285,7 @@ public class PieceAlgorithms {
 				if(board[y-counter][x] != null && board[y-counter][x].isWhite) {  // if it gets to a white piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueWhite)	{
+				if(assistedAid) {
 					if(!Board.whiteCheck(y, x, y-counter, x, board)) {
 						moves.add(new Move(y,x,y-counter,x)); // add all moves
 					}
@@ -305,7 +303,7 @@ public class PieceAlgorithms {
 				if(board[y-counter][x] != null && !board[y-counter][x].isWhite) {  // if it gets to a black piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueBlack)	{
+				if(assistedAid) {
 					if(!Board.blackCheck(y, x, y-counter, x, board)) {
 						moves.add(new Move(y,x,y-counter,x)); // add all moves
 					}
@@ -326,7 +324,7 @@ public class PieceAlgorithms {
 				if(board[y+counter][x] != null && board[y+counter][x].isWhite) {  // if it gets to a white piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueWhite)	{
+				if(assistedAid) {
 					if(!Board.whiteCheck(y, x, y+counter, x, board)) {
 						moves.add(new Move(y,x,y+counter,x)); // add all moves
 					}
@@ -344,7 +342,7 @@ public class PieceAlgorithms {
 				if(board[y+counter][x] != null && !board[y+counter][x].isWhite) {  // if it gets to a black piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueBlack)	{
+				if(assistedAid) {
 					if(!Board.blackCheck(y, x, y+counter, x, board)) {
 						moves.add(new Move(y,x,y+counter,x)); // add all moves
 					}
@@ -365,7 +363,7 @@ public class PieceAlgorithms {
 				if(board[y][x+counter] != null && board[y][x+counter].isWhite) {  // if it gets to a white piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueWhite)	{
+				if(assistedAid) {
 					if(!Board.whiteCheck(y, x, y, x+counter, board)) {
 						moves.add(new Move(y,x,y,x+counter)); // add all moves
 					}
@@ -383,7 +381,7 @@ public class PieceAlgorithms {
 				if(board[y][x+counter] != null && !board[y][x+counter].isWhite) {  // if it gets to a black piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueBlack)	{
+				if(assistedAid) {
 					if(!Board.blackCheck(y, x, y, x+counter, board)) {
 						moves.add(new Move(y,x,y,x+counter)); // add all moves
 					}
@@ -404,7 +402,7 @@ public class PieceAlgorithms {
 				if(board[y][x-counter] != null && board[y][x-counter].isWhite) {  // if it gets to a white piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueWhite)	{
+				if(assistedAid) {
 					if(!Board.whiteCheck(y, x, y, x-counter, board)) {
 						moves.add(new Move(y,x,y,x-counter)); // add all moves
 					}
@@ -422,7 +420,7 @@ public class PieceAlgorithms {
 				if(board[y][x-counter] != null && !board[y][x-counter].isWhite) {  // if it gets to a black piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueBlack)	{
+				if(assistedAid) {
 					if(!Board.blackCheck(y, x, y, x-counter, board)) {
 						moves.add(new Move(y,x,y,x-counter)); // add all moves
 					}
@@ -453,7 +451,7 @@ public class PieceAlgorithms {
 				if(board[y-counter][x-counter] != null && board[y-counter][x-counter].isWhite) {  // if it gets to a white piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueWhite)	{
+				if(assistedAid) {
 					if(!Board.whiteCheck(y, x, y-counter, x-counter, board)) {
 						moves.add(new Move(y,x,y-counter,x-counter)); // add all moves
 					}
@@ -471,7 +469,7 @@ public class PieceAlgorithms {
 				if(board[y-counter][x-counter] != null && !board[y-counter][x-counter].isWhite) {  // if it gets to a black piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueBlack)	{
+				if(assistedAid) {
 					if(!Board.blackCheck(y, x, y-counter, x-counter, board)) {
 						moves.add(new Move(y,x,y-counter,x-counter)); // add all moves
 					}
@@ -492,7 +490,7 @@ public class PieceAlgorithms {
 				if(board[y+counter][x+counter] != null && board[y+counter][x+counter].isWhite) {  // if it gets to a white piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueWhite)	{
+				if(assistedAid) {
 					if(!Board.whiteCheck(y, x, y+counter, x+counter, board)) {
 						moves.add(new Move(y,x,y+counter,x+counter)); // add all moves 
 					}
@@ -510,7 +508,7 @@ public class PieceAlgorithms {
 				if(board[y+counter][x+counter] != null && !board[y+counter][x+counter].isWhite) {  // if it gets to a black piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueBlack)	{
+				if(assistedAid) {
 					if(!Board.blackCheck(y, x, y+counter, x+counter, board)) {
 						moves.add(new Move(y,x,y+counter,x+counter)); // add all moves 
 					}
@@ -531,7 +529,7 @@ public class PieceAlgorithms {
 				if(board[y-counter][x+counter] != null && board[y-counter][x+counter].isWhite) {  // if it gets to a white piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueWhite)	{
+				if(assistedAid) {
 					if(!Board.whiteCheck(y, x, y-counter, x+counter, board)) {
 						moves.add(new Move(y,x,y-counter,x+counter)); // add all moves 
 					}
@@ -549,7 +547,7 @@ public class PieceAlgorithms {
 				if(board[y-counter][x+counter] != null && !board[y-counter][x+counter].isWhite) {  // if it gets to a black piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueBlack)	{
+				if(assistedAid) {
 					if(!Board.blackCheck(y, x, y-counter, x+counter, board)) {
 						moves.add(new Move(y,x,y-counter,x+counter)); // add all moves 
 					}
@@ -570,7 +568,7 @@ public class PieceAlgorithms {
 				if(board[y+counter][x-counter] != null && board[y+counter][x-counter].isWhite) {  // if it gets to a white piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueWhite)	{
+				if(assistedAid) {
 					if(!Board.whiteCheck(y, x, y+counter, x-counter, board)) {
 						moves.add(new Move(y,x,y+counter,x-counter)); // add all moves 
 					}
@@ -588,7 +586,7 @@ public class PieceAlgorithms {
 				if(board[y+counter][x-counter] != null && !board[y+counter][x-counter].isWhite) {  // if it gets to a black piece, leave the while loop
 					break;
 				}
-				if(Board.checkTrueBlack)	{
+				if(assistedAid) {
 					if(!Board.blackCheck(y, x, y+counter, x-counter, board)) {
 						moves.add(new Move(y,x,y+counter,x-counter)); // add all moves 
 					}
@@ -641,7 +639,7 @@ public class PieceAlgorithms {
 			if(y+2 <= 7) {  // check if it can move down on the board
 				if(x+1 <= 7) { // check if it can move to the right
 					if(board[y+2][x+1] == null || (board[y+2][x+1] != null && !board[y+2][x+1].isWhite)) {
-						if(Board.checkTrueWhite)	{
+						if(assistedAid) {
 							if(!Board.whiteCheck(y, x, y+2, x+1, board)) {
 								moves.add(new Move(y,x,y+2,x+1));
 							}
@@ -651,8 +649,8 @@ public class PieceAlgorithms {
 					}
 				}
 				if(x-1 >= 0) { // check if it can move to the left
-					if(board[y+2][x+1] == null || (board[y+2][x-1] != null && !board[y+2][x-1].isWhite)) {
-						if(Board.checkTrueWhite)	{
+					if(board[y+2][x-1] == null || (board[y+2][x-1] != null && !board[y+2][x-1].isWhite)) {
+						if(assistedAid) {
 							if(!Board.whiteCheck(y, x, y+2, x-1, board)) {
 								moves.add(new Move(y,x,y+2,x-1));
 							}
@@ -666,7 +664,7 @@ public class PieceAlgorithms {
 			if(y-2 >= 0) {  // check if it can move down on the board
 				if(x+1 <= 7) { // check if it can move to the right
 					if(board[y-2][x+1] == null || (board[y-2][x+1] != null && !board[y-2][x+1].isWhite)) {
-						if(Board.checkTrueWhite)	{
+						if(assistedAid) {
 							if(!Board.whiteCheck(y, x, y-2, x+1, board)) {
 								moves.add(new Move(y,x,y-2,x+1));
 							}
@@ -677,7 +675,7 @@ public class PieceAlgorithms {
 				}
 				if(x-1 >= 0) { // check if it can move to the left
 					if(board[y-2][x-1] == null || (board[y-2][x-1] != null && !board[y-2][x-1].isWhite)) {
-						if(Board.checkTrueWhite)	{
+						if(assistedAid) {
 							if(!Board.whiteCheck(y, x, y-2, x-1, board)) {
 								moves.add(new Move(y,x,y-2,x-1));
 							}
@@ -691,7 +689,7 @@ public class PieceAlgorithms {
 			if(x-2 >= 0) {  // check if it can move down on the board
 				if(y+1 <= 7) { // check if it can move to the right
 					if(board[y+1][x-2] == null || (board[y+1][x-2] != null && !board[y+1][x-2].isWhite)) {
-						if(Board.checkTrueWhite)	{
+						if(assistedAid) {
 							if(!Board.whiteCheck(y, x, y+1, x-2, board)) {
 								moves.add(new Move(y,x,y+1,x-2));
 							}
@@ -702,7 +700,7 @@ public class PieceAlgorithms {
 				}
 				if(y-1 >= 0) { // check if it can move to the left
 					if(board[y-1][x-2] == null || (board[y-1][x-2] != null && !board[y-1][x-2].isWhite)) {
-						if(Board.checkTrueWhite)	{
+						if(assistedAid) {
 							if(!Board.whiteCheck(y, x, y-1, x-2, board)) {
 								moves.add(new Move(y,x,y-1,x-2));
 							}
@@ -716,7 +714,7 @@ public class PieceAlgorithms {
 			if(x+2 <= 7) {  // check if it can move down on the board
 				if(y+1 <= 7) { // check if it can move to the right
 					if(board[y+1][x+2] == null || (board[y+1][x+2] != null && !board[y+1][x+2].isWhite)) {
-						if(Board.checkTrueWhite)	{
+						if(assistedAid) {
 							if(!Board.whiteCheck(y, x, y+1, x+2, board)) {
 								moves.add(new Move(y,x,y+1,x+2));
 							}
@@ -727,7 +725,7 @@ public class PieceAlgorithms {
 				}
 				if(y-1 >= 0) { // check if it can move to the left
 					if(board[y-1][x+2] == null || (board[y-1][x+2] != null && !board[y-1][x+2].isWhite)) {
-						if(Board.checkTrueWhite)	{
+						if(assistedAid) {
 							if(!Board.whiteCheck(y, x, y-1, x+2, board)) {
 								moves.add(new Move(y,x,y-1,x+2));
 							}
@@ -742,7 +740,7 @@ public class PieceAlgorithms {
 			if(y+2 <= 7) {  // check if it can move down on the board
 				if(x+1 <= 7) { // check if it can move to the right
 					if(board[y+2][x+1] == null || (board[y+2][x+1] != null && board[y+2][x+1].isWhite)) {
-						if(Board.checkTrueBlack)	{
+						if(assistedAid) {
 							if(!Board.blackCheck(y, x, y+2, x+1, board)) {
 								moves.add(new Move(y,x,y+2,x+1));
 							}
@@ -753,7 +751,7 @@ public class PieceAlgorithms {
 				}
 				if(x-1 >= 0) { // check if it can move to the left
 					if(board[y+2][x-1] == null || (board[y+2][x-1] != null && board[y+2][x-1].isWhite)) {
-						if(Board.checkTrueBlack)	{
+						if(assistedAid) {
 							if(!Board.blackCheck(y, x, y+2, x-1, board)) {
 								moves.add(new Move(y,x,y+2,x-1));
 							}
@@ -767,7 +765,7 @@ public class PieceAlgorithms {
 			if(y-2 >= 0) {  // check if it can move down on the board
 				if(x+1 <= 7) { // check if it can move to the right
 					if(board[y-2][x+1] == null || (board[y-2][x+1] != null && board[y-2][x+1].isWhite)) {
-						if(Board.checkTrueBlack)	{
+						if(assistedAid) {
 							if(!Board.blackCheck(y, x, y-2, x+1, board)) {
 								moves.add(new Move(y,x,y-2,x+1));
 							}
@@ -778,7 +776,7 @@ public class PieceAlgorithms {
 				}
 				if(x-1 >= 0) { // check if it can move to the left
 					if(board[y-2][x-1] == null || (board[y-2][x-1] != null && board[y-2][x-1].isWhite)) {
-						if(Board.checkTrueBlack)	{
+						if(assistedAid) {
 							if(!Board.blackCheck(y, x, y-2, x-1, board)) {
 								moves.add(new Move(y,x,y-2,x-1));
 							}
@@ -792,7 +790,7 @@ public class PieceAlgorithms {
 			if(x-2 >= 0) {  // check if it can move down on the board
 				if(y+1 <= 7) { // check if it can move to the right
 					if(board[y+1][x-2] == null || (board[y+1][x-2] != null && board[y+1][x-2].isWhite)) {
-						if(Board.checkTrueBlack)	{
+						if(assistedAid) {
 							if(!Board.blackCheck(y, x, y+1, x-2, board)) {
 								moves.add(new Move(y,x,y+1,x-2));
 							}
@@ -803,7 +801,7 @@ public class PieceAlgorithms {
 				}
 				if(y-1 >= 0) { // check if it can move to the left
 					if(board[y-1][x-2] == null || (board[y-1][x-2] != null && board[y-1][x-2].isWhite)) {
-						if(Board.checkTrueBlack)	{
+						if(assistedAid) {
 							if(!Board.blackCheck(y, x, y-1, x-2, board)) {
 								moves.add(new Move(y,x,y-1,x-2));
 							}
@@ -817,7 +815,7 @@ public class PieceAlgorithms {
 			if(x+2 <= 7) {  // check if it can move down on the board
 				if(y+1 <= 7) { // check if it can move to the right
 					if(board[y+1][x+2] == null || (board[y+1][x+2] != null && board[y+1][x+2].isWhite)) {
-						if(Board.checkTrueBlack)	{
+						if(assistedAid) {
 							if(!Board.blackCheck(y, x, y+1, x+2, board)) {
 								moves.add(new Move(y,x,y+1,x+2));
 							}
@@ -828,7 +826,7 @@ public class PieceAlgorithms {
 				}
 				if(y-1 >= 0) { // check if it can move to the left
 					if(board[y-1][x+2] == null || (board[y-1][x+2] != null && board[y-1][x+2].isWhite)) {
-						if(Board.checkTrueBlack)	{
+						if(assistedAid) {
 							if(!Board.blackCheck(y, x, y-1, x+2, board)) {
 								moves.add(new Move(y,x,y-1,x+2));
 							}

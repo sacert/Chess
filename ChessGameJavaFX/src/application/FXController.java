@@ -263,7 +263,7 @@ public class FXController implements Initializable, Constants {
 				if ((col + row) % 2 == 0) {
 					color = color1;
 				} else {
-					color = color2;
+					color = "linear-gradient(to bottom right, grey, silver)";
 				}
 				square.getStyleClass().add("panel");
 				square.setStyle("-fx-background-color: " + color + ";");
@@ -429,9 +429,9 @@ public class FXController implements Initializable, Constants {
 						// determine string format that will be place in the list view
 						String moveListAddition = null;
 						if(counter < 10) 
-							moveListAddition = String.format("%s. %6s %s->%s     %s", counter, boardPiece,Point.convertPointToString(p1),Point.convertPointToString(p),whoseTurn); 
+							moveListAddition = String.format("%s. %6s %s-%s    %s", counter, boardPiece,Point.convertPointToString(p1),Point.convertPointToString(p),whoseTurn); 
 						else
-							moveListAddition = String.format("%s.%6s %s->%s     %s", counter, boardPiece,Point.convertPointToString(p1),Point.convertPointToString(p),whoseTurn); 
+							moveListAddition = String.format("%s.%6s %s-%s    %s", counter, boardPiece,Point.convertPointToString(p1),Point.convertPointToString(p),whoseTurn); 
 
 						// add the created string into the list and insert it into the list view
 						movesListString.add(moveListAddition);

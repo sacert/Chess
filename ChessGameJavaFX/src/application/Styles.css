@@ -4,6 +4,23 @@
 	-fx-background-color:black;
 }
 
+.panel{
+	-fx-border-color: black;
+}
+
+.deadpiece-window {
+	-fx-background-color: linear-gradient( grey, silver, grey);
+	-fx-background-radius: 5;
+}
+
+.window {
+	
+}
+
+.sidebar {
+	/* will be used for the sidebar looks, mainly background color and border
+	to be implemented at a later date*/
+}
 
 .pane{
 	-fx-text-fill: white;
@@ -11,22 +28,14 @@
 	-fx-font-family: "Courier New", monospace;
 	-fx-padding: 5;
 	-fx-border-radius : 5;
-  	-fx-background-radius: 5;
+  	-fx-background-radius: 6;
 	
 	
 	-fx-border-color: black;
 	-fx-border-insets: 3;
 	-fx-border-width: 3;
 	-fx-border-style: dotted;
-	-fx-background-color: grey;
-	
-}
-
-.panel{
-	-fx-border-color: black;
-}
-
-.window {
+	-fx-background-color: transparent;
 	
 }
 
@@ -46,11 +55,11 @@
 	-fx-border-insets: 3;
 	-fx-border-width: 3;
 	-fx-border-style: dotted;
-	-fx-background-color: grey;
+	-fx-background-color: linear-gradient( grey, silver, grey);
 }
 
 .list-cell {
-	-fx-background-color: grey;
+	-fx-background-color: transparent;
 	-fx-border-width: 0 0 1 0;
 	-fx-border-color: black;
 	-fx-font-weight: bold;
@@ -93,7 +102,7 @@
 }
 
 .list .scroll-bar:vertical .thumb {
-  -fx-background-color:derive(black,90%);
+  -fx-background-color:derive(white,90%);
   -fx-background-insets: 2, 0, 0;
   -fx-background-radius: 2;
 }
