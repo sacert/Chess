@@ -188,14 +188,11 @@
             <Font name="System Bold" size="13.0" />
          </font></Text>
       <Line endX="415.0" layoutX="400.0" layoutY="65.0" startX="-400.0" stroke="WHITE" strokeWidth="2.0" />
-      <ListView fx:id="movesList" layoutX="587.0" layoutY="105.0" prefHeight="500.0" prefWidth="203.0" styleClass="List" stylesheets="@Styles.css">
+      <ListView fx:id="movesList" layoutX="584.0" layoutY="304.0" prefHeight="301.0" prefWidth="203.0" styleClass="List" stylesheets="@Styles.css">
          <opaqueInsets>
             <Insets />
          </opaqueInsets></ListView>
-      <Text fill="WHITE" layoutX="593.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Past Moves:">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Text>
+      <BorderPane fx:id="blackPiecesPane" layoutX="584.0" layoutY="101.0" prefHeight="80.0" prefWidth="203.0" styleClass="pane" />
+      <BorderPane fx:id="whitePiecesPane" layoutX="584.0" layoutY="189.0" prefHeight="80.0" prefWidth="203.0" styleClass="pane" />
    </children>
 </Pane>

@@ -4,6 +4,24 @@
 	-fx-background-color:black;
 }
 
+
+.pane{
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-family: "Courier New", monospace;
+	-fx-padding: 5;
+	-fx-border-radius : 5;
+  	-fx-background-radius: 5;
+	
+	
+	-fx-border-color: black;
+	-fx-border-insets: 3;
+	-fx-border-width: 3;
+	-fx-border-style: dotted;
+	-fx-background-color: grey;
+	
+}
+
 .panel{
 	-fx-border-color: black;
 }
@@ -14,18 +32,37 @@
 
 .list {
 	-fx-background-color: black;
-	-fx-border-radius: 10;
+	
+	-fx-border-color: white;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-family: "Courier New", monospace;
+	-fx-padding: 5;
+	-fx-border-radius : 5;
+  	-fx-background-radius: 5;
+	
+	
+	-fx-border-color: black;
+	-fx-border-insets: 3;
 	-fx-border-width: 3;
-	-fx-background-radius: 10;
+	-fx-border-style: dotted;
+	-fx-background-color: grey;
 }
 
 .list-cell {
-	-fx-background-color: black;
+	-fx-background-color: grey;
 	-fx-border-width: 0 0 1 0;
-	-fx-border-color: white;
+	-fx-border-color: black;
 	-fx-font-weight: bold;
 	-fx-text-fill: white;
 	-fx-font-family: "Courier New", monospace;
+	
+	
+	-fx-border-color: black;
+	-fx-border-insets: 3;
+	-fx-border-width: 0 0 2 0;
+	-fx-border-style: dotted;
+	
 }
 .list .scroll-pane {
   -fx-background-color: transparent;

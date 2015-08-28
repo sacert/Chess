@@ -3,6 +3,8 @@ package application;
 import gameStart.GameStart;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.Vector;
@@ -14,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -23,8 +26,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import units.Piece;
 import board.Board;
@@ -37,9 +43,13 @@ public class FXController implements Initializable, Constants {
 
 	public static boolean isWhiteTurn = true;
 	private boolean gameOver = false;
+	
 	@FXML private GridPane chessGrid;
 	@FXML private Text turnText;
 	@FXML private ListView<String> movesList;
+	@FXML private BorderPane blackPiecesPane;
+	@FXML private BorderPane whitePiecesPane;
+	
 
 
 	private final int gridSize = 8;
@@ -75,6 +85,18 @@ public class FXController implements Initializable, Constants {
 
 	private Vector<Move> moves;
 
+//	private List<Piece> deadWhitePieces = new ArrayList<Piece>();
+//	private List<Piece> deadBlackPieces = new ArrayList<Piece>();
+	
+	
+	private int[][] whiteDeadPiecesTally = new int[2][3];
+	private int[][] blackDeadPiecesTally = new int[2][3];
+
+	private int whiteDeadPiecesTallySum;
+	private int blackDeadPiecesTallySum;
+	
+	
+	
 	boolean originalSpot = false;
 
 	private int counter = 1;
@@ -91,6 +113,9 @@ public class FXController implements Initializable, Constants {
 
 		Board board = new Board();
 		refreshBoard(board);
+		initializeDeadPiecePanes();
+		
+		
 		chessGridMouseClickEvents(board);
 		movesList.getStyleClass().add("list");
 
@@ -106,6 +131,116 @@ public class FXController implements Initializable, Constants {
 			}
 
 		});
+	}
+
+
+
+
+
+	private void initializeDeadPiecePanes() {
+
+		
+		final double spacing = 37.5; // TINKER with this one. 
+		final double size = 30;
+		final double deadOpacity = 0.25;
+		final double aliveOpacity = 1;
+		final String[] whitePieces = {wKingImg, wQueenImg, wRookImg, wPawnImg, wBishopImg, wKnightImg};
+		final String[] blackPieces = {bKingImg, bQueenImg, bRookImg, bPawnImg, bBishopImg, bKnightImg};
+		
+		
+
+		GridPane whiteDeadPieces = new GridPane();
+		GridPane blackDeadPieces = new GridPane();
+		
+		Insets x = new Insets(0, 15, 0, 15);
+		
+		whiteDeadPieces.setPadding(x);
+		blackDeadPieces.setPadding(x);
+		
+		
+		ColumnConstraints column1 = new ColumnConstraints();
+	     column1.setPercentWidth(spacing);
+	     ColumnConstraints column2 = new ColumnConstraints();
+	     column2.setPercentWidth(spacing);
+	     
+	     
+	     whiteDeadPieces.getColumnConstraints().addAll(column1, column2);
+	     blackDeadPieces.getColumnConstraints().addAll(column1, column2);
+	     
+	     
+		Text t = new Text("Dead white pieces: " + whiteDeadPiecesTallySum);
+		t.setFill(Color.WHITE);
+		whitePiecesPane.setTop(t);
+		
+		int i = 0;
+		ImageView w,b;
+		Text tally;
+		
+		for(int r = 0; r < 2; r++){
+			for(int c = 0; c < 3; c++){
+
+				w = new ImageView(new Image(whitePieces[i]));
+				w.setFitHeight(size);
+				w.setFitWidth(size);
+				
+				if(whiteDeadPiecesTally[r][c] > 0){
+					w.setStyle("-fx-opacity: " + aliveOpacity + ";");
+
+				} else {
+					w.setStyle("-fx-opacity: " + deadOpacity + ";");
+				}
+				
+				tally = new Text("");
+//				tally.setText("   x");
+				tally.setText("   x" + whiteDeadPiecesTally[r][c]);
+
+				whiteDeadPieces.add(w, c, r);
+				whiteDeadPieces.add(tally, c, r);
+				
+				
+
+				b = new ImageView(new Image(blackPieces[i]));
+				b.setFitHeight(size);
+				b.setFitWidth(size);
+				if(blackDeadPiecesTally[r][c] > 0){
+					b.setStyle("-fx-opacity: " + aliveOpacity + ";");
+
+				} else {
+					b.setStyle("-fx-opacity: " + deadOpacity + ";");
+				}
+				
+
+				tally = new Text("");
+//				tally.setText("   x0");
+				tally.setText("   x" + blackDeadPiecesTally[r][c]);
+				
+				
+				blackDeadPieces.add(b, c, r);
+				blackDeadPieces.add(tally, c, r);
+				
+				i++;
+			}
+		}
+
+
+		whitePiecesPane.setCenter(whiteDeadPieces);
+		blackPiecesPane.setCenter(blackDeadPieces);
+
+
+
+
+		Text bt = new Text("Dead black pieces: " + blackDeadPiecesTallySum);
+		bt.setFill(Color.WHITE);
+		blackPiecesPane.setTop(bt);
+
+
+
+
+		Text n = new Text("Dead black pieces:");
+		bt.setFill(Color.WHITE);
+		blackPiecesPane.setTop(bt);
+		//blackDeadPieces.add(bt, 0, 0);
+
 	}
 
 
@@ -142,6 +277,9 @@ public class FXController implements Initializable, Constants {
 				chessGrid.add(imagePiece, col, row);
 			}
 		}
+		initializeDeadPiecePanes();
+		
+		
 
 	}
 
@@ -171,7 +309,6 @@ public class FXController implements Initializable, Constants {
 				final Vector<Move> moves;
 
 				if(selectingPiece){ // if we are SELECTING a piece
-
 					if(!valid) {
 						printWhoseTurn();
 
@@ -230,6 +367,20 @@ public class FXController implements Initializable, Constants {
 						}
 					}
 				} else { // if we are MOVING a piece.
+					
+					boolean killTakingPlace = false;
+					
+//					Piece squareBeingMovedTo = new Piece((byte) 0, false);
+					Piece squareBeingMovedTo = board.board[yCoord][xCoord];
+//					squareBeingMovedTo = board.board[yCoord][xCoord];
+					
+					if(squareBeingMovedTo != null){
+						killTakingPlace = true;
+					}
+					
+					
+					
+					
 					moves = board.getMoves();
 					byte moveCode = Board.movePiece(yCoord, xCoord, selectedPieceY, selectedPieceX, moves);
 					
@@ -239,7 +390,23 @@ public class FXController implements Initializable, Constants {
 					boolean pawnPromotion = whitePawnPromotion || blackPawnPromotion;
 					
 					if(moveCode > 0){ // the piece moved successfully
-		
+
+						
+						if(killTakingPlace){
+							if(squareBeingMovedTo.isWhite){
+								System.out.println("WHITE DIED: " + squareBeingMovedTo.type );
+//								deadWhitePieces.add(squareBeingMovedTo);
+								whiteDeadPiecesTallySum++;
+
+							}
+							else{
+								System.out.println("BLACK DIED: " + squareBeingMovedTo.type );
+//								deadBlackPieces.add(squareBeingMovedTo);
+								blackDeadPiecesTallySum++;
+							}
+							tallyDeadPieces(squareBeingMovedTo);
+						}
+						
 						// get the type of turn it is
 						String whoseTurn = null;
 						if(isWhiteTurn)
@@ -345,7 +512,9 @@ public class FXController implements Initializable, Constants {
 									refreshBoard(board);
 									pawnPromotionPopOver.hide();
 									isWhiteTurn = !isWhiteTurn;
+									selectingPiece = true;
 									printWhoseTurn();
+									return;
 								}
 							});
 						}
@@ -361,6 +530,7 @@ public class FXController implements Initializable, Constants {
 							printWhoseTurn();
 						}
 					} else {
+						// if piece can't move to square that was clicked on...
 						selectingPiece = true;
 						refreshBoard(board);
 						printWhoseTurn();
@@ -538,8 +708,37 @@ public class FXController implements Initializable, Constants {
 		}
 		return piece;
 	}
+	
+	private void addToDeadPieces(int col, int row, Piece piece){
+		if(piece.isWhite)
+			whiteDeadPiecesTally[row][col]++;
+		else
+			blackDeadPiecesTally[row][col]++;
+	}
 
-
+	private void tallyDeadPieces(Piece piece){
+		byte type = piece.type;
+		switch(type){
+		case PAWN:
+			addToDeadPieces(0, 1, piece);
+			break;
+		case ROOK:
+			addToDeadPieces(2, 0, piece);
+			break;
+		case BISHOP:
+			addToDeadPieces(1, 1, piece);
+			break;
+		case QUEEN:
+			addToDeadPieces(1, 0, piece);
+			break;
+		case KING:
+			addToDeadPieces(0, 0, piece);
+			break;
+		case KNIGHT:
+			addToDeadPieces(2, 1, piece);
+			break;
+		}
+	}
 
 
 }
