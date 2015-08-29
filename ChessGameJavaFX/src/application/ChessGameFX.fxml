@@ -54,7 +54,18 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Pane layoutX="575.0" layoutY="66.0" prefHeight="574.0" prefWidth="240.0" styleClass="sidebar" stylesheets="@Styles.css" />
+      <Pane layoutX="575.0" layoutY="66.0" prefHeight="574.0" prefWidth="240.0" styleClass="sidebar" stylesheets="@Styles.css">
+         <children>
+            <Pane layoutX="8.0" layoutY="36.0" prefHeight="143.0" prefWidth="215.0" styleClass="deadpiece-window" stylesheets="@Styles.css">
+               <children>
+                  <BorderPane fx:id="blackTimerPane" layoutY="9.0" prefHeight="62.0" prefWidth="203.0" styleClass="pane" />
+                  <BorderPane fx:id="whiteTimerPane" layoutY="74.0" prefHeight="62.0" prefWidth="203.0" styleClass="pane" />
+               </children>
+            </Pane>
+            <Pane layoutX="8.0" layoutY="185.0" prefHeight="189.0" prefWidth="215.0" styleClass="deadpiece-window" stylesheets="@Styles.css" />
+            <BorderPane fx:id="blackPiecesPane" layoutX="9.0" layoutY="188.0" prefHeight="80.0" prefWidth="203.0" styleClass="pane" />
+            <BorderPane fx:id="whitePiecesPane" layoutX="9.0" layoutY="276.0" prefHeight="80.0" prefWidth="203.0" styleClass="pane" />
+         </children></Pane>
       <Text fx:id="turnText" fill="WHITE" layoutX="242.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TURN:">
          <font>
             <Font name="System Bold" size="13.0" />
@@ -189,12 +200,9 @@
             <Font name="System Bold" size="13.0" />
          </font></Text>
       <Line endX="415.0" layoutX="400.0" layoutY="65.0" startX="-400.0" stroke="WHITE" strokeWidth="2.0" />
-      <ListView fx:id="movesList" layoutX="585.0" layoutY="303.0" prefHeight="301.0" prefWidth="212.0" styleClass="List" stylesheets="@Styles.css">
+      <ListView fx:id="movesList" layoutX="585.0" layoutY="447.0" prefHeight="157.0" prefWidth="212.0" styleClass="List" stylesheets="@Styles.css">
          <opaqueInsets>
             <Insets />
          </opaqueInsets></ListView>
-      <Pane layoutX="583.0" layoutY="98.0" prefHeight="189.0" prefWidth="215.0" styleClass="deadpiece-window" stylesheets="@Styles.css" />
-      <BorderPane fx:id="blackPiecesPane" layoutX="584.0" layoutY="101.0" prefHeight="80.0" prefWidth="203.0" styleClass="pane" />
-      <BorderPane fx:id="whitePiecesPane" layoutX="584.0" layoutY="189.0" prefHeight="80.0" prefWidth="203.0" styleClass="pane" />
    </children>
 </Pane>

@@ -2,15 +2,24 @@ package application;
 
 import gameStart.GameStart;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.Vector;
 
+import javax.swing.Timer;
+
 import org.controlsfx.control.PopOver;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -32,6 +41,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import units.Piece;
 import board.Board;
 import board.Move;
@@ -49,7 +59,8 @@ public class FXController implements Initializable, Constants {
 	@FXML private ListView<String> movesList;
 	@FXML private BorderPane blackPiecesPane;
 	@FXML private BorderPane whitePiecesPane;
-	
+	@FXML private BorderPane blackTimerPane;
+	@FXML private BorderPane whiteTimerPane;
 
 
 	private final int gridSize = 8;
@@ -97,7 +108,9 @@ public class FXController implements Initializable, Constants {
 	private int blackDeadPiecesTallySum;
 	
 	private boolean killTakingPlace;
-	
+
+	private final int timerInitialValue = 300;
+	private int timerInSeconds = timerInitialValue;
 	
 	boolean originalSpot = false;
 
@@ -116,13 +129,22 @@ public class FXController implements Initializable, Constants {
 		Board board = new Board();
 		refreshBoard(board);
 		initializeDeadPiecePanes();
-		
+		initializeTimerPanes();
 		
 		chessGridMouseClickEvents(board);
 		movesList.getStyleClass().add("list");
 
 		movesList.setItems(movesListStringEmpty);
 
+		
+		
+		Timeline timeline = new Timeline(new KeyFrame(
+		        Duration.millis(1000),
+		        ae -> refreshTimers()));
+		timeline.setCycleCount(Animation.INDEFINITE);
+		timeline.play();
+		
+		
 		//		GameStart game = new GameStart();
 		//		start(board);
 
@@ -136,6 +158,80 @@ public class FXController implements Initializable, Constants {
 	}
 
 
+
+	private void initializeTimerPanes() {
+
+		String timerTextFontStyle = "-fx-font-size: 25;";
+		Text whiteTimerText = null;
+		Text blackTimerText = null;
+
+		blackTimerText = new Text("0:00");
+		blackTimerText.setFill(Color.WHITE);
+		blackTimerText.setStyle(timerTextFontStyle);
+
+		whiteTimerText = new Text("0:00");			
+		whiteTimerText.setFill(Color.WHITE);
+		whiteTimerText.setStyle(timerTextFontStyle);
+		
+		blackTimerPane.setRight(blackTimerText);
+		whiteTimerPane.setRight(whiteTimerText);
+
+		refreshTimerPanes();
+
+	}
+
+
+
+	private void refreshTimerPanes(){
+		Text blackText = new Text("Black");
+		blackText.setFill(Color.WHITE);
+		
+
+		Text whiteText = new Text("White");
+		whiteText.setFill(Color.WHITE);
+		
+		if(isWhiteTurn){
+			whiteText.underlineProperty().setValue(true);
+		} else {
+			blackText.underlineProperty().setValue(true);
+		}
+		
+		blackTimerPane.setTop(blackText);
+		whiteTimerPane.setTop(whiteText);
+		
+	}
+
+
+	private void refreshTimers() {		
+		timerInSeconds--;
+
+		String timerTextFontStyle = "-fx-font-size: 25;";
+		Text whiteTimerText = null;
+		Text blackTimerText = null;
+		if(isWhiteTurn){
+			whiteTimerText = new Text("" + timerInSeconds/60 + ":" + timerInSeconds % 60);
+			
+			whiteTimerText.setFill(Color.WHITE);
+			whiteTimerText.setStyle(timerTextFontStyle);
+			
+			blackTimerText = new Text("0:00");
+			blackTimerText.setFill(Color.WHITE);
+			blackTimerText.setStyle(timerTextFontStyle);
+
+
+		} else{
+			blackTimerText = new Text("" + timerInSeconds/60 + ":" + timerInSeconds % 60);
+			blackTimerText.setFill(Color.WHITE);
+			blackTimerText.setStyle(timerTextFontStyle);
+			
+			whiteTimerText = new Text("0:00");
+			whiteTimerText.setFill(Color.WHITE);
+			whiteTimerText.setStyle(timerTextFontStyle);
+		}
+
+		blackTimerPane.setRight(blackTimerText);
+		whiteTimerPane.setRight(whiteTimerText);
+	}
 
 
 
@@ -280,7 +376,7 @@ public class FXController implements Initializable, Constants {
 			}
 		}
 		initializeDeadPiecePanes();
-		
+		refreshTimerPanes();
 		
 
 	}
@@ -544,6 +640,7 @@ public class FXController implements Initializable, Constants {
 									refreshBoard(board);
 									pawnPromotionPopOver.hide();
 									isWhiteTurn = !isWhiteTurn;
+									timerInSeconds = timerInitialValue;
 									selectingPiece = true;
 									printWhoseTurn();
 									return;
@@ -558,6 +655,7 @@ public class FXController implements Initializable, Constants {
 						if(!pawnPromotion){
 							selectingPiece = true;
 							isWhiteTurn = !isWhiteTurn;
+							timerInSeconds = timerInitialValue;
 							refreshBoard(board);
 							printWhoseTurn();
 						}
