@@ -165,11 +165,18 @@ public class FXController implements Initializable, Constants {
 		Text whiteTimerText = null;
 		Text blackTimerText = null;
 
-		blackTimerText = new Text("0:00");
+		if(isWhiteTurn){
+			blackTimerText = new Text("0:00");
+			whiteTimerText = new Text("5:00");	
+		} else {
+			blackTimerText = new Text("5:00");
+			whiteTimerText = new Text("0:00");	
+		}
+			
+			
 		blackTimerText.setFill(Color.WHITE);
 		blackTimerText.setStyle(timerTextFontStyle);
-
-		whiteTimerText = new Text("0:00");			
+		
 		whiteTimerText.setFill(Color.WHITE);
 		whiteTimerText.setStyle(timerTextFontStyle);
 		
@@ -641,7 +648,7 @@ public class FXController implements Initializable, Constants {
 									pawnPromotionPopOver.hide();
 									isWhiteTurn = !isWhiteTurn;
 									timerInSeconds = timerInitialValue;
-									refreshTimerPanes();
+									initializeTimerPanes();
 									selectingPiece = true;
 									printWhoseTurn();
 									return;
@@ -657,7 +664,7 @@ public class FXController implements Initializable, Constants {
 							selectingPiece = true;
 							isWhiteTurn = !isWhiteTurn;
 							timerInSeconds = timerInitialValue;
-							refreshTimerPanes();
+							initializeTimerPanes();
 							refreshBoard(board);
 							printWhoseTurn();
 						}
