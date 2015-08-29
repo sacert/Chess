@@ -83,6 +83,7 @@ public class FXController implements Initializable, Constants {
 	private static final String[] blackPawnPromotionOptionsImgs = {bQueenImg, bKnightImg, bBishopImg, bRookImg};
 
 
+	private String moveListAddition;
 	private Vector<Move> moves;
 
 //	private List<Piece> deadWhitePieces = new ArrayList<Piece>();
@@ -95,6 +96,7 @@ public class FXController implements Initializable, Constants {
 	private int whiteDeadPiecesTallySum;
 	private int blackDeadPiecesTallySum;
 	
+	private boolean killTakingPlace;
 	
 	
 	boolean originalSpot = false;
@@ -368,7 +370,7 @@ public class FXController implements Initializable, Constants {
 					}
 				} else { // if we are MOVING a piece.
 					
-					boolean killTakingPlace = false;
+					killTakingPlace = false;
 					
 //					Piece squareBeingMovedTo = new Piece((byte) 0, false);
 					Piece squareBeingMovedTo = board.board[yCoord][xCoord];
@@ -391,20 +393,21 @@ public class FXController implements Initializable, Constants {
 					
 					if(moveCode > 0){ // the piece moved successfully
 
-						
-						if(killTakingPlace){
-							if(squareBeingMovedTo.isWhite){
-								System.out.println("WHITE DIED: " + squareBeingMovedTo.type );
-//								deadWhitePieces.add(squareBeingMovedTo);
-								whiteDeadPiecesTallySum++;
+						if(!pawnPromotion){
+							if(killTakingPlace){
+								if(squareBeingMovedTo.isWhite){
+									System.out.println("WHITE DIED: " + squareBeingMovedTo.type );
+									//								deadWhitePieces.add(squareBeingMovedTo);
+									whiteDeadPiecesTallySum++;
 
+								}
+								else{
+									System.out.println("BLACK DIED: " + squareBeingMovedTo.type );
+									//								deadBlackPieces.add(squareBeingMovedTo);
+									blackDeadPiecesTallySum++;
+								}
+								tallyDeadPieces(squareBeingMovedTo);
 							}
-							else{
-								System.out.println("BLACK DIED: " + squareBeingMovedTo.type );
-//								deadBlackPieces.add(squareBeingMovedTo);
-								blackDeadPiecesTallySum++;
-							}
-							tallyDeadPieces(squareBeingMovedTo);
 						}
 						
 						// get the type of turn it is
@@ -427,15 +430,21 @@ public class FXController implements Initializable, Constants {
 						Point p = new Point(row, col);
 
 						// determine string format that will be place in the list view
-						String moveListAddition = null;
-						if(counter < 10) 
-							moveListAddition = String.format("%s. %6s %s-%s    %s", counter, boardPiece,Point.convertPointToString(p1),Point.convertPointToString(p),whoseTurn); 
-						else
-							moveListAddition = String.format("%s.%6s %s-%s    %s", counter, boardPiece,Point.convertPointToString(p1),Point.convertPointToString(p),whoseTurn); 
-
+//						String moveListAddition = null;
+						moveListAddition = null;
+						
+							if(counter < 10) 
+								moveListAddition = String.format("%s. %6s %s-%s    %s", counter, boardPiece,Point.convertPointToString(p1),Point.convertPointToString(p),whoseTurn); 
+							else
+								moveListAddition = String.format("%s.%6s %s-%s    %s", counter, boardPiece,Point.convertPointToString(p1),Point.convertPointToString(p),whoseTurn); 
+						
 						// add the created string into the list and insert it into the list view
-						movesListString.add(moveListAddition);
-						movesList.setItems(movesListString);
+							if(!pawnPromotion)
+								movesListString.add(moveListAddition);
+
+						
+							movesList.setItems(movesListString);
+						
 
 						// increment counter for next list view slot
 						counter++;
@@ -507,7 +516,30 @@ public class FXController implements Initializable, Constants {
 										board.board[row][col] = (new Piece(ROOK, isWhiteTurn));
 										break;
 									}
+									
+									///////
 
+
+									
+									if(killTakingPlace){
+										if(squareBeingMovedTo.isWhite){
+											System.out.println("WHITE DIED: " + squareBeingMovedTo.type );
+											//								deadWhitePieces.add(squareBeingMovedTo);
+											whiteDeadPiecesTallySum++;
+
+										}
+										else{
+											System.out.println("BLACK DIED: " + squareBeingMovedTo.type );
+											//								deadBlackPieces.add(squareBeingMovedTo);
+											blackDeadPiecesTallySum++;
+										}
+										tallyDeadPieces(squareBeingMovedTo);
+									}
+									
+									
+									movesListString.add(moveListAddition);							
+								movesList.setItems(movesListString);
+									
 									board.board[selectedPieceY][selectedPieceX] = null;
 									refreshBoard(board);
 									pawnPromotionPopOver.hide();
