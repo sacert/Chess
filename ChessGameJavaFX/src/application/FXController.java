@@ -641,6 +641,7 @@ public class FXController implements Initializable, Constants {
 									pawnPromotionPopOver.hide();
 									isWhiteTurn = !isWhiteTurn;
 									timerInSeconds = timerInitialValue;
+									refreshTimerPanes();
 									selectingPiece = true;
 									printWhoseTurn();
 									return;
@@ -656,6 +657,7 @@ public class FXController implements Initializable, Constants {
 							selectingPiece = true;
 							isWhiteTurn = !isWhiteTurn;
 							timerInSeconds = timerInitialValue;
+							refreshTimerPanes();
 							refreshBoard(board);
 							printWhoseTurn();
 						}
