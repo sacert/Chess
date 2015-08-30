@@ -10,12 +10,9 @@
 
 .deadpiece-window {
 	-fx-background-image: url("/images/bars.jpg");
-	-fx-border-style:solid;
-	-fx-border-width:2;
-	-fx-padding: 5;
-	-fx-border-radius: 5;
-	-fx-background-radius: 5;
-	
+	-fx-border-style: solid;
+	-fx-border-width: 4;
+	-fx-border-color: black;
 
 }
 
@@ -41,6 +38,9 @@
 	-fx-background-image: url("/images/sidebar.png");
 	-fx-background-position: bottom right;
 	-fx-background-repeat: stretch;
+	-fx-border-style: solid;
+	-fx-border-width: 6 6 6 0;
+	-fx-border-color: #654321;
 }
 
 .pane{
@@ -49,33 +49,29 @@
 	-fx-font-family: "Courier New", monospace;
 	-fx-padding: 5;
 	-fx-border-radius : 5;
-  	-fx-background-radius: 6;
+  	-fx-background-radius: 5;
+  	-fx-border-width: 0.0 4 0;
 	
 	
-	-fx-border-color: black;
 	-fx-border-insets: 3;
 	-fx-border-width: 3;
-	-fx-border-style: dotted;
 	-fx-background-color: transparent;
 	
 }
 
 .list {
-	-fx-background-color: black;
 	
 	-fx-border-color: white;
 	-fx-text-fill: white;
 	-fx-font-weight: bold;
 	-fx-font-family: "Courier New", monospace;
 	-fx-padding: 5;
-	-fx-border-radius : 5;
-  	-fx-background-radius: 5;
 	
 	
 	-fx-border-color: black;
-	-fx-border-insets: 3;
-	-fx-border-width: 3;
-	-fx-border-style: dotted;
+	-fx-border-insets: -1;
+	-fx-border-width: 4;
+	-fx-border-style: solid;
 	-fx-background-color: linear-gradient( grey, silver, grey);
 	
 	-fx-background-image: url("/images/bars.jpg");
@@ -91,7 +87,6 @@
 	
 	
 	-fx-border-color: black;
-	-fx-border-insets: 3;
 	-fx-border-width: 0 0 2 0;
 	-fx-border-style: dotted;
 	
