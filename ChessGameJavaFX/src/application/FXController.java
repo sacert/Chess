@@ -353,7 +353,7 @@ public class FXController implements Initializable, Constants {
 
 
 	private void setTurnText(String color) {
-		turnText.setText("TURN:" + " " + color);
+		//turnText.setText("TURN:" + " " + color);
 	}
 
 	// Colors the board with the two specified colors (ie black/white) and puts all the pieces on from the board.
@@ -366,12 +366,12 @@ public class FXController implements Initializable, Constants {
 				StackPane square = new StackPane();
 				String color;
 				if ((col + row) % 2 == 0) {
-					color = color1;
+					color = "url(\"images/tile-texture-light.jpg\")";
 				} else {
-					color = "linear-gradient(to bottom right, grey, silver)";
+					color = "url(\"images/tile-texture-dark.jpg\")";
 				}
 				square.getStyleClass().add("panel");
-				square.setStyle("-fx-background-color: " + color + ";");
+				square.setStyle("-fx-background-image: " + color + ";");
 				chessGrid.add(square, col, row);
 
 				Image piece = getPiece(row, col, board);
@@ -730,17 +730,18 @@ public class FXController implements Initializable, Constants {
 								// once you find the child within the gridpane that matches the selected piece, highlight it
 								if(chessGrid.getRowIndex(node) == row && chessGrid.getColumnIndex(node) == col ) {
 									results = node;
-
-									if(originalSpot) 
+									
+									if(originalSpot) {
 										results.setStyle("-fx-background-color: #8AACB8;");
-									else
+									} else {
 										results.setStyle("-fx-background-color: #ADD8E6;");
+									}
+
 								}
 							}
 						}
 					}
 				}
-
 				selectingPiece = false;
 			}
 		});
