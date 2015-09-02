@@ -56,6 +56,7 @@ public class FXController implements Initializable, Constants {
 	private boolean gameOver = false;
 	
 	@FXML private GridPane chessGrid;
+	@FXML private GridPane staticChessGrid;
 	@FXML private Text turnText;
 	@FXML private ListView<String> movesList;
 	@FXML private BorderPane blackPiecesPane;
@@ -132,6 +133,7 @@ public class FXController implements Initializable, Constants {
 		squareSize = chessGrid.getPrefHeight()/gridSize;
 
 		Board board = new Board();
+		initializeStaticBoard(board);
 		refreshBoard(board);
 		initializeDeadPiecePanes();
 		initializeTimerPanes();
@@ -160,6 +162,44 @@ public class FXController implements Initializable, Constants {
 			}
 
 		});
+	}
+
+
+
+	private void initializeStaticBoard(Board board) {
+		Scene scene = new Scene(new Group());
+		// get the css file
+
+		for (int col = 0; col < gridSize; col++) {
+			for (int row = 0; row < gridSize; row ++) {
+				StackPane square = new StackPane();
+				String color;
+				if ((col + row) % 2 == 0) {
+					color = "url(\"images/tile-texture-light.jpg\")";
+				} else {
+					color = "url(\"images/tile-texture-dark.jpg\")";
+				}
+				
+//				-fx-background-color: rgba(255,255,255,0.4);";
+//				square.setStyle("-fx-background-color: rgba(255,255,255,0.4);");
+				
+				
+				
+				square.getStyleClass().add("panel");
+				square.setStyle("-fx-background-image: " + color + ";");
+				staticChessGrid.add(square, col, row);
+
+				Image piece = getPiece(row, col, board);
+				ImageView imagePiece = new ImageView(piece);
+
+				imagePiece.setFitHeight(squareSize);
+				imagePiece.setFitWidth(squareSize);
+				staticChessGrid.add(imagePiece, col, row);
+			}
+		}
+		
+
+		
 	}
 
 
@@ -263,9 +303,18 @@ public class FXController implements Initializable, Constants {
 
 	private void initializeDeadPiecePanes() {
 
+		// spacing = 37.5 and size = 30 is a combo in proper scale.
 		
+		
+//		final double spacing = 37.5; // TINKER with this one. 
+//		final double size = 30;
+		
+
 		final double spacing = 37.5; // TINKER with this one. 
-		final double size = 30;
+		final double size = 35;
+		
+		
+		
 		final double deadOpacity = 0.25;
 		final double aliveOpacity = 1;
 		final String[] whitePieces = {wKingImg, wQueenImg, wRookImg, wPawnImg, wBishopImg, wKnightImg};
@@ -379,6 +428,7 @@ public class FXController implements Initializable, Constants {
 
 	// Colors the board with the two specified colors (ie black/white) and puts all the pieces on from the board.
 	private void refreshBoard(Board board) {
+		chessGrid.getChildren().clear();
 		Scene scene = new Scene(new Group());
 		// get the css file
 
@@ -391,6 +441,12 @@ public class FXController implements Initializable, Constants {
 				} else {
 					color = "url(\"images/tile-texture-dark.jpg\")";
 				}
+				
+//				-fx-background-color: rgba(255,255,255,0.4);";
+//				square.setStyle("-fx-background-color: rgba(255,255,255,0.4);");
+				
+				
+				
 				square.getStyleClass().add("panel");
 				square.setStyle("-fx-background-image: " + color + ";");
 				chessGrid.add(square, col, row);
@@ -586,12 +642,7 @@ public class FXController implements Initializable, Constants {
 							promotionPane.setOpacity(1);
 							promotionPane.setPrefHeight(pawnPromotionSquareSize);
 							promotionPane.setPrefWidth(pawnPromotionSquareSize*4);
-							final String css = "-fx-border-color: black;\n"
-									+ "-fx-border-insets: 3;\n"
-									+ "-fx-border-width: 3;\n"
-									+ "-fx-border-style: dotted;\n"
-									+ "-fx-background-color: grey;";
-							promotionPane.setStyle(css);
+							promotionPane.getStyleClass().add("pawnPromotion");
 							promotionPane.setCenter(promotionOptions);
 							pawnPromotionPopOver.setContentNode(promotionPane);
 
@@ -702,6 +753,8 @@ public class FXController implements Initializable, Constants {
 
 
 			private Node findNode(int col, int row){
+
+				String opacityCss = "-fx-background-color: rgba(255,255,255,0.4);";
 				Node results = null;
 
 				// find where on the gridpane does the piece selected lie
@@ -717,11 +770,6 @@ public class FXController implements Initializable, Constants {
 								// once you find the child within the gridpane that matches the selected piece, highlight it
 								if(chessGrid.getRowIndex(node) == row && chessGrid.getColumnIndex(node) == col ) {
 									results = node;
-
-									if(originalSpot) 
-										results.setStyle("-fx-background-color: #8AACB8;");
-									else
-										results.setStyle("-fx-background-color: #ADD8E6;");
 								}
 							}
 						}
@@ -734,7 +782,7 @@ public class FXController implements Initializable, Constants {
 
 
 
-
+				String opacityCss = "-fx-background-color: rgba(255,255,255,0.4);";
 				// put the child in here 
 				Node results = null;
 
@@ -751,12 +799,32 @@ public class FXController implements Initializable, Constants {
 								// once you find the child within the gridpane that matches the selected piece, highlight it
 								if(chessGrid.getRowIndex(node) == row && chessGrid.getColumnIndex(node) == col ) {
 									results = node;
+									String backgroundTile = null;
 									
-									if(originalSpot) {
-										results.setStyle("-fx-background-color: #8AACB8;");
+									
+									
+									if ((col + row) % 2 == 0) {
+										backgroundTile = "-fx-background-image: url(\"images/tile-texture-light.jpg\");";
+										backgroundTile = "-fx-background-image: url" + "(\"images/tile-texture-light.jpg\");";
 									} else {
-										results.setStyle("-fx-background-color: #ADD8E6;");
+										backgroundTile = "-fx-background-image: url(\"images/tile-texture-dark.jpg\");";
+										backgroundTile = "-fx-background-image: url" + "(\"images/tile-texture-dark.jpg\");";
 									}
+									
+									
+									if(originalSpot){
+										results.setStyle(opacityCss);
+									}else{
+										results.setStyle(opacityCss);
+									}
+									
+									
+									
+
+								
+									
+									
+									
 
 								}
 							}

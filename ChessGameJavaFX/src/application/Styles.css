@@ -27,6 +27,15 @@
 	-fx-border-color: #654321;
 }
 
+.pawnPromotion {
+	-fx-background-image: url("../images/wood-ipad-background.jpg");
+	-fx-border-insets: 0;
+	-fx-border-style: solid;
+	-fx-border-width: 3;
+}
+
+
+
 .chessgrid {
 	-fx-border-style: solid;
 	-fx-border-width: 3;
