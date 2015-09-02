@@ -40,6 +40,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import units.Piece;
@@ -61,6 +62,8 @@ public class FXController implements Initializable, Constants {
 	@FXML private BorderPane whitePiecesPane;
 	@FXML private BorderPane blackTimerPane;
 	@FXML private BorderPane whiteTimerPane;
+	@FXML private Rectangle whiteTurnRect;
+	@FXML private Rectangle blackTurnRect;
 
 
 	private final int gridSize = 8;
@@ -192,6 +195,7 @@ public class FXController implements Initializable, Constants {
 
 
 	private void refreshTimerPanes(){
+		String timerTextFontStyle = "-fx-font-size: 20;";
 		Text blackText = new Text("Black");
 		blackText.setFill(Color.WHITE);
 		
@@ -200,13 +204,18 @@ public class FXController implements Initializable, Constants {
 		whiteText.setFill(Color.WHITE);
 		
 		if(isWhiteTurn){
-			whiteText.underlineProperty().setValue(true);
+			blackTurnRect.setVisible(false);
+			whiteTurnRect.setVisible(true);
 		} else {
-			blackText.underlineProperty().setValue(true);
+			whiteTurnRect.setVisible(false);
+			blackTurnRect.setVisible(true);
 		}
-		
-		blackTimerPane.setTop(blackText);
-		whiteTimerPane.setTop(whiteText);
+
+		blackText.setStyle(timerTextFontStyle);
+		whiteText.setStyle(timerTextFontStyle);
+				
+		blackTimerPane.setLeft(blackText);
+		whiteTimerPane.setLeft(whiteText);
 		
 	}
 
@@ -214,30 +223,13 @@ public class FXController implements Initializable, Constants {
 	private void refreshTimers() {		
 		timerInSeconds--;
 
-		String timerTextFontStyle = "-fx-font-size: 25;";
+		String timerTextFontStyle = "-fx-font-size: 35;";
 		Text whiteTimerText = null;
 		Text blackTimerText = null;
 		if(isWhiteTurn){
 			whiteTimerInSeconds--;
-//			whiteTimerText = new Text("" + timerInSeconds/60 + ":" + timerInSeconds % 60);
-//			
-//			whiteTimerText.setFill(Color.WHITE);
-//			whiteTimerText.setStyle(timerTextFontStyle);
-//			
-//			blackTimerText = new Text("0:00");
-//			blackTimerText.setFill(Color.WHITE);
-//			blackTimerText.setStyle(timerTextFontStyle);
-
-
 		} else{
 			blackTimerInSeconds--;
-//			blackTimerText = new Text("" + timerInSeconds/60 + ":" + timerInSeconds % 60);
-//			blackTimerText.setFill(Color.WHITE);
-//			blackTimerText.setStyle(timerTextFontStyle);
-//			
-//			whiteTimerText = new Text("0:00");
-//			whiteTimerText.setFill(Color.WHITE);
-//			whiteTimerText.setStyle(timerTextFontStyle);
 		}
 		if(whiteTimerInSeconds % 60 < 10){
 			whiteTimerText = new Text("" + whiteTimerInSeconds/60 + ":0" + whiteTimerInSeconds % 60);

@@ -61,6 +61,8 @@
                <children>
                   <BorderPane fx:id="blackTimerPane" layoutX="13.0" layoutY="9.0" prefHeight="62.0" prefWidth="199.0" styleClass="pane" stylesheets="@Styles.css" />
                   <BorderPane fx:id="whiteTimerPane" layoutX="13.0" layoutY="74.0" prefHeight="62.0" prefWidth="199.0" styleClass="pane" stylesheets="@Styles.css" />
+                  <Rectangle fx:id="blackTurnRect" arcHeight="5.0" arcWidth="5.0" fill="#ffffff59" height="70.0" layoutX="1.0" layoutY="1.0" stroke="TRANSPARENT" strokeType="INSIDE" visible="false" width="225.0" />
+                  <Rectangle fx:id="whiteTurnRect" arcHeight="5.0" arcWidth="5.0" fill="#ffffff59" height="70.0" layoutX="-1.0" layoutY="74.0" stroke="TRANSPARENT" strokeType="INSIDE" visible="false" width="225.0" />
                </children>
             </Pane>
             <Pane layoutX="6.0" layoutY="164.0" prefHeight="189.0" prefWidth="225.0" styleClass="deadpiece-window" stylesheets="@Styles.css">
