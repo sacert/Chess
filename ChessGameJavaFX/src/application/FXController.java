@@ -111,6 +111,8 @@ public class FXController implements Initializable, Constants {
 
 	private final int timerInitialValue = 300;
 	private int timerInSeconds = timerInitialValue;
+	private int whiteTimerInSeconds = timerInitialValue;
+	private int blackTimerInSeconds = timerInitialValue;
 	
 	boolean originalSpot = false;
 
@@ -161,27 +163,27 @@ public class FXController implements Initializable, Constants {
 
 	private void initializeTimerPanes() {
 
-		String timerTextFontStyle = "-fx-font-size: 25;";
-		Text whiteTimerText = null;
-		Text blackTimerText = null;
-
-		if(isWhiteTurn){
-			blackTimerText = new Text("0:00");
-			whiteTimerText = new Text("5:00");	
-		} else {
-			blackTimerText = new Text("5:00");
-			whiteTimerText = new Text("0:00");	
-		}
-			
-			
-		blackTimerText.setFill(Color.WHITE);
-		blackTimerText.setStyle(timerTextFontStyle);
-		
-		whiteTimerText.setFill(Color.WHITE);
-		whiteTimerText.setStyle(timerTextFontStyle);
-		
-		blackTimerPane.setRight(blackTimerText);
-		whiteTimerPane.setRight(whiteTimerText);
+//		String timerTextFontStyle = "-fx-font-size: 25;";
+//		Text whiteTimerText = null;
+//		Text blackTimerText = null;
+//
+//		if(isWhiteTurn){
+//			blackTimerText = new Text("0:00");
+//			whiteTimerText = new Text("5:00");	
+//		} else {
+//			blackTimerText = new Text("5:00");
+//			whiteTimerText = new Text("0:00");	
+//		}
+//			
+//			
+//		blackTimerText.setFill(Color.WHITE);
+//		blackTimerText.setStyle(timerTextFontStyle);
+//		
+//		whiteTimerText.setFill(Color.WHITE);
+//		whiteTimerText.setStyle(timerTextFontStyle);
+//		
+//		blackTimerPane.setRight(blackTimerText);
+//		whiteTimerPane.setRight(whiteTimerText);
 
 		refreshTimerPanes();
 
@@ -216,25 +218,50 @@ public class FXController implements Initializable, Constants {
 		Text whiteTimerText = null;
 		Text blackTimerText = null;
 		if(isWhiteTurn){
-			whiteTimerText = new Text("" + timerInSeconds/60 + ":" + timerInSeconds % 60);
-			
-			whiteTimerText.setFill(Color.WHITE);
-			whiteTimerText.setStyle(timerTextFontStyle);
-			
-			blackTimerText = new Text("0:00");
-			blackTimerText.setFill(Color.WHITE);
-			blackTimerText.setStyle(timerTextFontStyle);
+			whiteTimerInSeconds--;
+//			whiteTimerText = new Text("" + timerInSeconds/60 + ":" + timerInSeconds % 60);
+//			
+//			whiteTimerText.setFill(Color.WHITE);
+//			whiteTimerText.setStyle(timerTextFontStyle);
+//			
+//			blackTimerText = new Text("0:00");
+//			blackTimerText.setFill(Color.WHITE);
+//			blackTimerText.setStyle(timerTextFontStyle);
 
 
 		} else{
-			blackTimerText = new Text("" + timerInSeconds/60 + ":" + timerInSeconds % 60);
-			blackTimerText.setFill(Color.WHITE);
-			blackTimerText.setStyle(timerTextFontStyle);
-			
-			whiteTimerText = new Text("0:00");
-			whiteTimerText.setFill(Color.WHITE);
-			whiteTimerText.setStyle(timerTextFontStyle);
+			blackTimerInSeconds--;
+//			blackTimerText = new Text("" + timerInSeconds/60 + ":" + timerInSeconds % 60);
+//			blackTimerText.setFill(Color.WHITE);
+//			blackTimerText.setStyle(timerTextFontStyle);
+//			
+//			whiteTimerText = new Text("0:00");
+//			whiteTimerText.setFill(Color.WHITE);
+//			whiteTimerText.setStyle(timerTextFontStyle);
 		}
+		if(whiteTimerInSeconds % 60 < 10){
+			whiteTimerText = new Text("" + whiteTimerInSeconds/60 + ":0" + whiteTimerInSeconds % 60);
+
+		} else {
+			whiteTimerText = new Text("" + whiteTimerInSeconds/60 + ":" + whiteTimerInSeconds % 60);
+		}
+		
+		whiteTimerText.setFill(Color.WHITE);
+		whiteTimerText.setStyle(timerTextFontStyle);
+		
+
+		if(blackTimerInSeconds % 60 < 10){
+		blackTimerText = new Text("" + blackTimerInSeconds/60 + ":0" + blackTimerInSeconds % 60);
+		} else {
+
+			blackTimerText = new Text("" + blackTimerInSeconds/60 + ":" + blackTimerInSeconds % 60);
+		}
+		
+		
+		blackTimerText.setFill(Color.WHITE);
+		blackTimerText.setStyle(timerTextFontStyle);
+		
+		
 
 		blackTimerPane.setRight(blackTimerText);
 		whiteTimerPane.setRight(whiteTimerText);
@@ -298,6 +325,7 @@ public class FXController implements Initializable, Constants {
 				tally = new Text("");
 //				tally.setText("   x");
 				tally.setText("   x" + whiteDeadPiecesTally[r][c]);
+				tally.setFill(Color.WHITE);
 
 				whiteDeadPieces.add(w, c, r);
 				whiteDeadPieces.add(tally, c, r);
@@ -318,6 +346,7 @@ public class FXController implements Initializable, Constants {
 				tally = new Text("");
 //				tally.setText("   x0");
 				tally.setText("   x" + blackDeadPiecesTally[r][c]);
+				tally.setFill(Color.WHITE);
 				
 				
 				blackDeadPieces.add(b, c, r);
