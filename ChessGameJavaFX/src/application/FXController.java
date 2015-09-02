@@ -180,21 +180,9 @@ public class FXController implements Initializable, Constants {
 					color = "url(\"images/tile-texture-dark.jpg\")";
 				}
 				
-//				-fx-background-color: rgba(255,255,255,0.4);";
-//				square.setStyle("-fx-background-color: rgba(255,255,255,0.4);");
-				
-				
-				
 				square.getStyleClass().add("panel");
 				square.setStyle("-fx-background-image: " + color + ";");
 				staticChessGrid.add(square, col, row);
-
-				Image piece = getPiece(row, col, board);
-				ImageView imagePiece = new ImageView(piece);
-
-				imagePiece.setFitHeight(squareSize);
-				imagePiece.setFitWidth(squareSize);
-				staticChessGrid.add(imagePiece, col, row);
 			}
 		}
 		
