@@ -9,7 +9,7 @@
 }
 
 .deadpiece-window {
-	-fx-background-image: url("/images/bars.jpg");
+	-fx-background-image: url("../images/bars.jpg");
 	-fx-border-style: solid;
 	-fx-border-width: 4;
 	-fx-border-color: black;
@@ -21,7 +21,7 @@
 }
 
 .chessboard {
-	-fx-background-image: url("/images/wood-ipad-background.jpg");
+	-fx-background-image: url("../images/wood-ipad-background.jpg");
 	-fx-border-style: solid;
 	-fx-border-width: 6;
 	-fx-border-color: #654321;
@@ -35,7 +35,7 @@
 .sidebar {
 	/* will be used for the sidebar looks, mainly background color and border
 	to be implemented at a later date*/
-	-fx-background-image: url("/images/sidebar.png");
+	-fx-background-image: url("../images/sidebar.png");
 	-fx-background-position: bottom right;
 	-fx-background-repeat: stretch;
 	-fx-border-style: solid;
@@ -74,7 +74,7 @@
 	-fx-border-style: solid;
 	-fx-background-color: linear-gradient( grey, silver, grey);
 	
-	-fx-background-image: url("/images/bars.jpg");
+	-fx-background-image: url("../images/bars.jpg");
 }
 
 .list-cell {
